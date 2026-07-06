@@ -52,7 +52,7 @@ export default function MaintenanceBillingPage({ darkMode: _darkMode }: Maintena
       </section>
 
       {/* Features */}
-      <section className="section-padding bg-neutral-50">
+      <section className="section-padding bg-greenish-50">
         <div className="container-custom">
           <motion.h2
             initial={{ opacity: 0, y: 24 }}
@@ -153,7 +153,7 @@ export default function MaintenanceBillingPage({ darkMode: _darkMode }: Maintena
       </section>
 
       {/* FAQ */}
-      <section className="section-padding bg-neutral-50">
+      <section className="section-padding bg-greenish-50">
         <div className="container-custom">
           <motion.h2
             initial={{ opacity: 0, y: 24 }}

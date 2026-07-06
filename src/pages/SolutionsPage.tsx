@@ -231,7 +231,7 @@ export default function SolutionsPage({ darkMode: _darkMode }: SolutionsPageProp
       </section>
 
       {/* Solutions Detail */}
-      <section className="section-padding bg-neutral-50">
+      <section className="section-padding bg-greenish-50">
         <div className="container-custom">
           <div className="space-y-32">
             {solutions.map((solution, index) => (

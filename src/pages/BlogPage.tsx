@@ -105,7 +105,7 @@ export default function BlogPage({ darkMode: _darkMode }: BlogPageProps) {
     <div>
       <SEO title="Blog — AiraNexus Community Management" description="Insights, tips, and stories about community management, technology, and residential living from the AiraNexus team." path="/blog" />
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 bg-neutral-50 overflow-hidden">
+      <section className="relative pt-32 pb-20 bg-greenish-50 overflow-hidden">
         <div className="blob w-[400px] h-[400px] bg-primary-500 -top-20 -right-20 animate-float" />
         <div className="blob w-[350px] h-[350px] bg-lime-500 -bottom-20 -left-20 animate-float-delayed" />
         <div className="container-custom text-center relative z-10">
@@ -179,7 +179,7 @@ export default function BlogPage({ darkMode: _darkMode }: BlogPageProps) {
 
       {/* Featured Post */}
       {activeCategory === 'All' && !searchQuery && (
-        <section className="section-padding bg-neutral-50">
+        <section className="section-padding bg-greenish-50">
           <div className="container-custom">
             <motion.div
               initial={{ opacity: 0, y: 24 }}
@@ -237,7 +237,7 @@ export default function BlogPage({ darkMode: _darkMode }: BlogPageProps) {
       )}
 
       {/* Blog Grid */}
-      <section className="section-padding bg-neutral-50">
+      <section className="section-padding bg-greenish-50">
         <div className="container-custom">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredPosts.map((post, index) => (

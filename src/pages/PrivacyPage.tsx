@@ -11,7 +11,7 @@ export default function PrivacyPage({ darkMode: _darkMode }: PrivacyPageProps) {
     <div>
       <SEO title="Privacy Policy — AiraNexus" description="Read the AiraNexus privacy policy. We respect your privacy and are committed to protecting your personal data." path="/privacy" />
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 bg-neutral-50 overflow-hidden">
+      <section className="relative pt-32 pb-20 bg-greenish-50 overflow-hidden">
         <div className="blob w-[400px] h-[400px] bg-primary-500 -top-20 -right-20 animate-float" />
         <div className="blob w-[350px] h-[350px] bg-lime-500 -bottom-20 -left-20 animate-float-delayed" />
         <div className="container-custom text-center relative z-10">

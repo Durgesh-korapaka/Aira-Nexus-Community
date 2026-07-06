@@ -106,7 +106,7 @@ export default function ContactPage({ darkMode: _darkMode }: ContactPageProps) {
       </section>
 
       {/* Contact Section */}
-      <section className="section-padding bg-neutral-50">
+      <section className="section-padding bg-greenish-50">
         <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Contact Form */}

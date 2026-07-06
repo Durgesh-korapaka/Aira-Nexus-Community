@@ -100,7 +100,7 @@ export default function FAQPage({ darkMode: _darkMode }: FAQPageProps) {
         jsonLd={faqJsonLd}
       />
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 bg-neutral-50 overflow-hidden">
+      <section className="relative pt-32 pb-20 bg-greenish-50 overflow-hidden">
         <div className="blob w-[400px] h-[400px] bg-primary-500 -top-20 -right-20 animate-float" />
         <div className="blob w-[350px] h-[350px] bg-cyan-500 -bottom-20 -left-20 animate-float-delayed" />
         <div className="container-custom text-center relative z-10">
@@ -173,7 +173,7 @@ export default function FAQPage({ darkMode: _darkMode }: FAQPageProps) {
       )}
 
       {/* FAQs */}
-      <section className="section-padding bg-neutral-50">
+      <section className="section-padding bg-greenish-50">
         <div className="container-custom">
           <div className="max-w-3xl mx-auto space-y-4">
             {filteredFaqs.map((faq, index) => (

@@ -203,7 +203,7 @@ export default function PricingPage({ darkMode: _darkMode }: PricingPageProps) {
       </section>
 
       {/* FAQ */}
-      <section className="bg-neutral-50 section-padding">
+      <section className="bg-greenish-50 section-padding">
         <div className="container-custom max-w-3xl">
           <div className="text-center mb-12">
             <span className="text-sm font-semibold text-primary-500 uppercase tracking-wider">FAQ</span>

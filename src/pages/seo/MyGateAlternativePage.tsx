@@ -50,7 +50,7 @@ export default function MyGateAlternativePage({ darkMode: _darkMode }: MyGateAlt
       </section>
 
       {/* Why Switch */}
-      <section className="section-padding bg-neutral-50">
+      <section className="section-padding bg-greenish-50">
         <div className="container-custom">
           <motion.h2
             initial={{ opacity: 0, y: 24 }}
@@ -150,7 +150,7 @@ export default function MyGateAlternativePage({ darkMode: _darkMode }: MyGateAlt
       </section>
 
       {/* Testimonials */}
-      <section className="section-padding bg-neutral-50">
+      <section className="section-padding bg-greenish-50">
         <div className="container-custom">
           <motion.h2
             initial={{ opacity: 0, y: 24 }}

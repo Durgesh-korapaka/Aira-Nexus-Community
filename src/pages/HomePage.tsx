@@ -166,7 +166,7 @@ export default function HomePage({ darkMode: _darkMode }: HomePageProps) {
       </section>
 
       {/* ── Stats Bar ── */}
-      <section className="bg-neutral-50 py-16">
+      <section className="bg-greenish-50 py-16">
         <div className="container-custom">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {stats.map((stat, i) => (
@@ -217,7 +217,7 @@ export default function HomePage({ darkMode: _darkMode }: HomePageProps) {
       </section>
 
       {/* ── Pricing Preview ── */}
-      <section className="bg-neutral-50 section-padding">
+      <section className="bg-greenish-50 section-padding">
         <div className="container-custom">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <span className="text-sm font-semibold text-primary-500 uppercase tracking-wider">Pricing</span>

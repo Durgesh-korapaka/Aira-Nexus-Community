@@ -54,7 +54,7 @@ export default function ApartmentManagementPage({ darkMode: _darkMode }: Apartme
       </section>
 
       {/* Features */}
-      <section className="section-padding bg-neutral-50">
+      <section className="section-padding bg-greenish-50">
         <div className="container-custom">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
@@ -157,7 +157,7 @@ export default function ApartmentManagementPage({ darkMode: _darkMode }: Apartme
       </section>
 
       {/* FAQ */}
-      <section className="section-padding bg-neutral-50">
+      <section className="section-padding bg-greenish-50">
         <div className="container-custom">
           <motion.h2
             initial={{ opacity: 0, y: 24 }}

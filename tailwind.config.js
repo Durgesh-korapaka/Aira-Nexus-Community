@@ -5,6 +5,12 @@ export default {
   theme: {
     extend: {
       colors: {
+        greenish: {
+          50: '#f5fbf6',
+          100: '#eef9f0',
+          200: '#dcf3e0',
+          300: '#c2e8ca',
+        },
         primary: {
           50: '#edfaf9',
           100: '#d0f3f1',
@@ -89,7 +95,9 @@ export default {
         'brand-gradient': 'linear-gradient(135deg, #1FA7A0 0%, #7AC51D 100%)',
         'brand-gradient-r': 'linear-gradient(225deg, #1FA7A0 0%, #7AC51D 100%)',
         'cyan-gradient': 'linear-gradient(135deg, #14C8D4 0%, #1FA7A0 100%)',
-        'hero-gradient': 'linear-gradient(135deg, #edfaf9 0%, #f4fbea 100%)',
+        'hero-gradient': 'linear-gradient(135deg, #edfaf9 0%, #f4fbea 50%, #eef9e8 100%)',
+        'green-tint': '#f5fbf6',
+        'green-tint-2': '#eef9f0',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-out',

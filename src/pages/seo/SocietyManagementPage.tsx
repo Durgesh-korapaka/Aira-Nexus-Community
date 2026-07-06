@@ -51,7 +51,7 @@ export default function SocietyManagementPage({ darkMode: _darkMode }: SocietyMa
       </section>
 
       {/* Features */}
-      <section className="section-padding bg-neutral-50">
+      <section className="section-padding bg-greenish-50">
         <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div

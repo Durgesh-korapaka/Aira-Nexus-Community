@@ -45,7 +45,7 @@ export default function LoginPage({ darkMode: _darkMode }: LoginPageProps) {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-neutral-50 px-4 py-32 overflow-hidden">
+    <div className="relative min-h-screen flex items-center justify-center bg-greenish-50 px-4 py-32 overflow-hidden">
       <SEO title="Login — AiraNexus" description="Sign in to your AiraNexus community management account." path="/login" />
       {/* Background blobs */}
       <div className="blob w-[400px] h-[400px] bg-primary-500 -top-20 -right-20 animate-float" />
