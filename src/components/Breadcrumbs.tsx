@@ -67,8 +67,7 @@ export default function Breadcrumbs() {
     document.head.appendChild(script);
 
     return () => {
-      const el = document.getElementById('breadcrumb-jsonld');
-      if (el) el.remove();
+      document.getElementById('breadcrumb-jsonld')?.remove();
     };
   }, [items]);
 
@@ -76,7 +75,7 @@ export default function Breadcrumbs() {
 
   return (
     <nav aria-label="Breadcrumb" className="container-custom pt-24 lg:pt-28 pb-0">
-      <ol className="flex items-center flex-wrap gap-1 text-sm text-neutral-500">
+      <ol className="flex items-center flex-wrap gap-1 text-sm text-charcoal-400">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
           return (
@@ -84,7 +83,7 @@ export default function Breadcrumbs() {
               {index === 0 ? (
                 <Link
                   to={item.path}
-                  className="flex items-center gap-1 hover:text-primary-500 transition-colors"
+                  className="flex items-center gap-1 hover:text-primary-600 transition-colors"
                   aria-label="Go to homepage"
                 >
                   <Home className="w-3.5 h-3.5" aria-hidden="true" />
@@ -95,11 +94,11 @@ export default function Breadcrumbs() {
                   {item.name}
                 </span>
               ) : (
-                <Link to={item.path} className="hover:text-primary-500 transition-colors">
+                <Link to={item.path} className="hover:text-primary-600 transition-colors">
                   {item.name}
                 </Link>
               )}
-              {!isLast && <ChevronRight className="w-3.5 h-3.5 text-neutral-300" aria-hidden="true" />}
+              {!isLast && <ChevronRight className="w-3.5 h-3.5 text-charcoal-300" aria-hidden="true" />}
             </li>
           );
         })}

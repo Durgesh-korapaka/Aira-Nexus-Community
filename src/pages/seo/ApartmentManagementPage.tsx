@@ -1,84 +1,144 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import {
-  Building,
   CreditCard,
   MessageSquare,
   Users,
   Shield,
   Smartphone,
+  Building,
   CheckCircle,
   ArrowRight,
   Star,
 } from 'lucide-react';
 import SEO from '../../components/SEO';
+import SectionHeading from '../../components/ui/SectionHeading';
+import FeatureCard from '../../components/ui/FeatureCard';
+import FAQAccordion from '../../components/ui/FAQAccordion';
+import CTABanner from '../../components/ui/CTABanner';
 
 interface ApartmentManagementPageProps {
   darkMode: boolean;
 }
 
+const features = [
+  { icon: CreditCard, title: 'Maintenance Billing', description: 'Automate invoices, send reminders, and collect payments online — all on autopilot with real-time tracking.' },
+  { icon: MessageSquare, title: 'Complaint Management', description: 'Route, prioritize, and resolve resident complaints with full transparency and status tracking.' },
+  { icon: Users, title: 'Resident Directory', description: 'Complete database with family details, vehicles, and contact information — always up to date.' },
+  { icon: Shield, title: 'Visitor Management', description: 'Pre-approved gate passes with QR codes. Secure, fast, and completely paperless.' },
+  { icon: Smartphone, title: 'Mobile App', description: 'Native iOS and Android apps for residents, staff, and committee members on the go.' },
+  { icon: Building, title: 'Reports & Analytics', description: 'Financial dashboards and performance metrics for audit-ready, data-driven decisions.' },
+];
+
+const benefits = [
+  '40% improvement in maintenance collections',
+  '60% faster complaint resolution time',
+  'Paperless operations — no more registers',
+  'Real-time financial transparency for committee members',
+  'WhatsApp integration for instant communication',
+  'Dedicated support for onboarding and training',
+];
+
+const faqs = [
+  { q: 'How quickly can we implement AiraNexus?', a: 'Most apartments go live within 24–48 hours. We handle data migration, staff training, and resident onboarding end-to-end.' },
+  { q: 'Can residents pay maintenance online?', a: 'Yes! Residents can pay via UPI, cards, net banking, or auto-debit. We integrate with all major payment gateways including Razorpay, PayU, and HDFC.' },
+  { q: 'Is there a mobile app for residents?', a: 'Yes, we have native iOS and Android apps. Residents can pay bills, raise complaints, and receive updates directly from their phones.' },
+  { q: 'Do you support WhatsApp notifications?', a: 'Yes! Growth and Enterprise plans include WhatsApp integration for automated reminders, alerts, and resident communication.' },
+];
+
+const avatarIds = [220453, 415829, 7640, 1043471];
+
 export default function ApartmentManagementPage({ darkMode: _darkMode }: ApartmentManagementPageProps) {
   return (
     <div>
-      <SEO title="Apartment Management Software — AiraNexus" description="Complete apartment management software with billing, complaints, visitor tracking, and resident communication." path="/apartment-management-software" />
+      <SEO
+        title="Apartment Management Software — AiraNexus"
+        description="Complete apartment management software with billing, complaints, visitor tracking, and resident communication."
+        path="/apartment-management-software"
+      />
+
       {/* Hero */}
-      <section className="relative pt-32 pb-16 bg-white overflow-hidden">
-        <div className="blob w-[400px] h-[400px] bg-primary-500 -top-20 -right-20 animate-float" />
-        <div className="blob w-[300px] h-[300px] bg-lime-500 -bottom-20 -left-20 animate-float" style={{ animationDelay: '2s' }} />
-        <div className="container-custom text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <span className="inline-block px-4 py-2 rounded-full bg-primary-50 text-primary-600 text-sm font-medium mb-6">
+      <section className="relative pt-28 lg:pt-36 pb-20 lg:pb-28 overflow-hidden bg-hero-gradient">
+        <div className="blob w-[500px] h-[500px] bg-primary-400 -top-32 -right-32 animate-float" />
+        <div className="blob w-[400px] h-[400px] bg-lime-400 -bottom-32 -left-32 animate-float-slow" />
+
+        <div className="container-custom relative z-10">
+          <div className="max-w-3xl mx-auto text-center">
+            <motion.span
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="badge badge-primary mb-6"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-primary-500 animate-pulse" />
               #1 Apartment Management Software
-            </span>
-            <h1 className="text-4xl md:text-5xl font-bold text-charcoal-900 mb-6">
-              Apartment Management <span className="text-gradient">Software</span>
-            </h1>
-            <p className="text-lg text-neutral-500 max-w-2xl mx-auto mb-8">
-              The complete solution for managing apartments, from maintenance billing to resident communication. Trusted by 100+ communities.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/request-demo" className="btn-primary">
-                Get Free Demo <ArrowRight className="w-5 h-5 ml-2" />
+            </motion.span>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.05 }}
+              className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-charcoal-900 text-balance"
+            >
+              Apartment management,{' '}
+              <span className="text-gradient">reimagined</span>.
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="mt-6 text-lg text-charcoal-500 max-w-2xl mx-auto text-pretty"
+            >
+              The complete solution for managing apartments — from maintenance billing to
+              resident communication. Trusted by 100+ communities across India.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="mt-8 flex flex-col sm:flex-row gap-3 justify-center"
+            >
+              <Link to="/request-demo" className="btn-primary text-base px-8 py-4">
+                Book a Free Demo
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </Link>
-              <Link to="/pricing" className="btn-secondary">
+              <Link to="/pricing" className="btn-secondary text-base px-8 py-4">
                 View Pricing
               </Link>
-            </div>
-          </motion.div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.25 }}
+              className="mt-8 flex items-center justify-center gap-6 text-sm text-charcoal-400"
+            >
+              <span className="flex items-center gap-1.5">
+                <CheckCircle className="w-4 h-4 text-primary-500" aria-hidden="true" />
+                No credit card required
+              </span>
+              <span className="flex items-center gap-1.5">
+                <CheckCircle className="w-4 h-4 text-primary-500" aria-hidden="true" />
+                14-day free trial
+              </span>
+            </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Features */}
       <section className="section-padding bg-greenish-50">
         <div className="container-custom">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { icon: CreditCard, title: 'Maintenance Billing', desc: 'Automate billing, send reminders, collect payments online' },
-              { icon: MessageSquare, title: 'Complaint Management', desc: 'Track, prioritize, and resolve issues efficiently' },
-              { icon: Users, title: 'Resident Directory', desc: 'Complete database with family details and contacts' },
-              { icon: Shield, title: 'Visitor Management', desc: 'Gate pass system with pre-approval workflow' },
-              { icon: Smartphone, title: 'Mobile App', desc: 'iOS and Android apps for residents and staff' },
-              { icon: Building, title: 'Reports & Analytics', desc: 'Financial dashboards and performance metrics' },
-            ].map((item, i) => (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="card p-6"
-              >
-                <div className="icon-circle-lg mb-4">
-                  <item.icon className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-lg font-bold mb-2 text-charcoal-900">{item.title}</h3>
-                <p className="text-sm text-neutral-500">{item.desc}</p>
-              </motion.div>
+          <SectionHeading
+            badge="Features"
+            title={<>Everything your apartment needs, <span className="text-gradient">in one place</span></>}
+            description="From billing to complaints to visitor management — AiraNexus handles it all so your committee can focus on what matters."
+          />
+          <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {features.map((feature, i) => (
+              <FeatureCard key={feature.title} {...feature} delay={i * 0.05} />
             ))}
           </div>
         </div>
@@ -87,35 +147,42 @@ export default function ApartmentManagementPage({ darkMode: _darkMode }: Apartme
       {/* Benefits */}
       <section className="section-padding bg-white">
         <div className="container-custom">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
-              <h2 className="text-3xl font-bold mb-6 text-charcoal-900">
-                Why Choose Aira Nexus for Apartment Management?
+              <span className="badge badge-lime mb-4">Why AiraNexus</span>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-charcoal-900 mb-6 text-balance">
+                Why choose AiraNexus for apartment management?
               </h2>
-              <div className="space-y-4">
-                {[
-                  '40% improvement in maintenance collections',
-                  '60% faster complaint resolution time',
-                  'Paperless operations - no more registers',
-                  'Real-time financial transparency for committee members',
-                  'WhatsApp integration for instant communication',
-                  'Dedicated support for onboarding and training',
-                ].map((benefit) => (
-                  <div key={benefit} className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-primary-500 mr-3 flex-shrink-0" />
-                    <span className="text-neutral-500">{benefit}</span>
-                  </div>
+              <p className="text-lg text-charcoal-500 mb-8 text-pretty">
+                Stop juggling spreadsheets, WhatsApp groups, and paper registers. AiraNexus
+                brings every aspect of apartment management into one elegant platform.
+              </p>
+              <ul className="space-y-4">
+                {benefits.map((benefit, i) => (
+                  <motion.li
+                    key={benefit}
+                    initial={{ opacity: 0, x: -16 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.06 }}
+                    className="flex items-start gap-3"
+                  >
+                    <CheckCircle className="w-5 h-5 text-primary-500 mt-0.5 flex-shrink-0" aria-hidden="true" />
+                    <span className="text-charcoal-600">{benefit}</span>
+                  </motion.li>
                 ))}
-              </div>
+              </ul>
               <Link to="/request-demo" className="btn-primary mt-8">
-                Schedule Demo <ArrowRight className="w-5 h-5 ml-2" />
+                Schedule Demo
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </Link>
             </motion.div>
+
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -125,7 +192,7 @@ export default function ApartmentManagementPage({ darkMode: _darkMode }: Apartme
             >
               <div className="flex items-center mb-6">
                 <div className="flex -space-x-3">
-                  {[220453, 415829, 7640, 1043471].map((id, i) => (
+                  {avatarIds.map((id, i) => (
                     <img
                       key={i}
                       src={`https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=2`}
@@ -139,18 +206,27 @@ export default function ApartmentManagementPage({ darkMode: _darkMode }: Apartme
                   ))}
                 </div>
                 <div className="ml-4">
-                  <div className="flex items-center">
-                    {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />)}
+                  <div className="flex items-center gap-0.5">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" aria-hidden="true" />
+                    ))}
                   </div>
-                  <p className="text-sm text-neutral-500">From 100+ reviews</p>
+                  <p className="text-sm text-charcoal-500">From 100+ reviews</p>
                 </div>
               </div>
-              <p className="mb-4 text-neutral-500">
-                "We switched from Excel sheets to Aira Nexus. Collections improved by 45% in the first quarter. The WhatsApp reminders are a game-changer."
-              </p>
-              <p className="font-semibold text-charcoal-900">
-                - Rajesh K., President, Green Valley Apartments
-              </p>
+              <blockquote className="text-charcoal-600 leading-relaxed mb-6">
+                &ldquo;We switched from Excel sheets to AiraNexus. Collections improved by 45%
+                in the first quarter. The WhatsApp reminders are a game-changer.&rdquo;
+              </blockquote>
+              <div className="flex items-center gap-3 pt-4 border-t border-charcoal-100">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-bold text-sm">
+                  R
+                </div>
+                <div>
+                  <p className="font-semibold text-sm text-charcoal-900">Rajesh K.</p>
+                  <p className="text-xs text-charcoal-500">President, Green Valley Apartments</p>
+                </div>
+              </div>
             </motion.div>
           </div>
         </div>
@@ -159,59 +235,25 @@ export default function ApartmentManagementPage({ darkMode: _darkMode }: Apartme
       {/* FAQ */}
       <section className="section-padding bg-greenish-50">
         <div className="container-custom">
-          <motion.h2
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-3xl font-bold text-center mb-12 text-charcoal-900"
-          >
-            Frequently Asked Questions
-          </motion.h2>
-          <div className="max-w-3xl mx-auto space-y-4">
-            {[
-              { q: 'How quickly can we implement Aira Nexus?', a: 'Most apartments go live within 24-48 hours. We handle data migration, staff training, and resident onboarding.' },
-              { q: 'Can residents pay maintenance online?', a: 'Yes! Residents can pay via UPI, cards, net banking, or auto-debit. We integrate with all major payment gateways.' },
-              { q: 'Is there a mobile app for residents?', a: 'Yes, we have native iOS and Android apps. Residents can pay, raise complaints, and receive updates from their phones.' },
-              { q: 'Do you support WhatsApp notifications?', a: 'Yes! Growth and Enterprise plans include WhatsApp integration for automated reminders and alerts.' },
-            ].map((faq, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="card p-6"
-              >
-                <h3 className="font-semibold mb-2 text-charcoal-900">{faq.q}</h3>
-                <p className="text-neutral-500">{faq.a}</p>
-              </motion.div>
-            ))}
+          <SectionHeading
+            badge="FAQ"
+            badgeColor="cyan"
+            title={<>Frequently asked <span className="text-gradient">questions</span></>}
+            description="Everything you need to know about apartment management with AiraNexus."
+          />
+          <div className="mt-14">
+            <FAQAccordion items={faqs} />
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="section-padding bg-brand-gradient">
-        <div className="container-custom text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <h2 className="text-3xl font-bold text-white mb-6">
-              Ready to Transform Your Society Management?
-            </h2>
-            <p className="text-white/90 mb-8 max-w-xl mx-auto">
-              Join 100+ apartments using Aira Nexus for hassle-free management.
-            </p>
-            <Link to="/request-demo" className="inline-flex items-center px-6 py-3 rounded-lg bg-white text-charcoal-900 font-semibold hover:bg-neutral-50 transition-colors">
-              Get Free Demo <ArrowRight className="w-5 h-5 ml-2" />
-            </Link>
-          </motion.div>
-        </div>
-      </section>
+      <CTABanner
+        title="Ready to transform your apartment management?"
+        description="Join 100+ apartments already using AiraNexus for hassle-free operations. Get a personalized demo today."
+        primaryAction={{ label: 'Book a Free Demo', to: '/request-demo' }}
+        secondaryAction={{ label: 'View Pricing', to: '/pricing' }}
+      />
     </div>
   );
 }

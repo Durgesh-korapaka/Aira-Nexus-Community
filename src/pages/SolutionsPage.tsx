@@ -11,8 +11,14 @@ import {
   ArrowRight,
   Briefcase,
   Shield,
+  Sparkles,
+  AlertCircle,
+  Lightbulb,
+  TrendingUp,
 } from 'lucide-react';
 import SEO from '../components/SEO';
+import SectionHeading from '../components/ui/SectionHeading';
+import CTABanner from '../components/ui/CTABanner';
 
 interface SolutionsPageProps {
   darkMode: boolean;
@@ -197,228 +203,263 @@ const roles = [
 export default function SolutionsPage({ darkMode: _darkMode }: SolutionsPageProps) {
   return (
     <div>
-      <SEO title="Solutions — AiraNexus Community Management" description="AiraNexus solutions for apartments, gated communities, villa townships, and RWAs. Tailored community management for every scale." path="/solutions" />
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 bg-hero-gradient overflow-hidden">
-        <div className="blob w-[400px] h-[400px] bg-primary-500 -top-20 -right-20 animate-float" />
-        <div className="blob w-[350px] h-[350px] bg-lime-500 -bottom-20 -left-20 animate-float" style={{ animationDelay: '2s' }} />
-        <div className="container-custom text-center relative z-10">
-          <motion.span
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-block px-4 py-2 rounded-full bg-primary-50 text-primary-600 text-sm font-medium mb-6"
-          >
-            Industry Solutions
-          </motion.span>
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-4xl md:text-5xl font-bold text-charcoal-900 mb-6"
-          >
-            Tailored for <span className="text-gradient">every community</span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg text-neutral-500 max-w-2xl mx-auto"
-          >
-            Whether you're managing an apartment complex, gated community, or villa township, Aira Nexus adapts to your needs.
-          </motion.p>
-        </div>
-      </section>
+      <SEO
+        title="Solutions — AiraNexus Community Management"
+        description="AiraNexus solutions for apartments, gated communities, villa townships, and RWAs. Tailored community management for every scale."
+        path="/solutions"
+      />
 
-      {/* Solutions Detail */}
-      <section className="section-padding bg-greenish-50">
-        <div className="container-custom">
-          <div className="space-y-32">
-            {solutions.map((solution, index) => (
-              <motion.div
-                key={solution.id}
-                id={solution.id}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className={`grid lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? '' : ''}`}
-              >
-                {/* Image */}
-                <div className={index % 2 === 1 ? 'lg:order-2' : ''}>
-                  <div className="relative rounded-3xl overflow-hidden shadow-teal-lg">
-                    <img
-                      src={solution.image}
-                      alt={solution.title}
-                      className="w-full h-80 object-cover"
-                      loading="lazy"
-                      decoding="async"
-                      width="800"
-                      height="320"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 to-transparent" />
-                    <div className="absolute bottom-6 left-6 right-6">
-                      <solution.icon className="w-12 h-12 text-white mb-2" />
-                      <h3 className="text-2xl font-bold text-white">{solution.title}</h3>
-                    </div>
-                  </div>
-                </div>
+      {/* Hero */}
+      <section className="relative pt-28 lg:pt-36 pb-20 lg:pb-28 overflow-hidden bg-hero-gradient">
+        <div className="blob w-[500px] h-[500px] bg-primary-400 -top-32 -right-32 animate-float" />
+        <div className="blob w-[400px] h-[400px] bg-lime-400 -bottom-32 -left-32 animate-float-slow" />
 
-                {/* Content */}
-                <div className={index % 2 === 1 ? 'lg:order-1' : ''}>
-                  <div className="icon-circle-lg mb-4">
-                    <solution.icon className="w-7 h-7 text-white" />
-                  </div>
-                  <h2 className="text-3xl font-bold mb-2 text-charcoal-900">
-                    {solution.title}
-                  </h2>
-                  <p className="text-lg mb-6 text-neutral-500">
-                    {solution.subtitle}
-                  </p>
-                  <p className="mb-6 text-neutral-600">
-                    {solution.description}
-                  </p>
+        <div className="container-custom relative z-10">
+          <div className="max-w-3xl mx-auto text-center">
+            <motion.span
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="badge badge-primary mb-6"
+            >
+              <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
+              Industry Solutions
+            </motion.span>
 
-                  <div className="grid md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                      <h4 className="font-semibold mb-3 text-charcoal-900">
-                        Challenges We Solve
-                      </h4>
-                      <ul className="space-y-2">
-                        {solution.challenges.map((challenge) => (
-                          <li key={challenge} className="flex items-start text-sm text-neutral-500">
-                            <span className="w-1.5 h-1.5 rounded-full bg-red-500 mt-2 mr-2 flex-shrink-0" />
-                            {challenge}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold mb-3 text-charcoal-900">
-                        Our Solution
-                      </h4>
-                      <ul className="space-y-2">
-                        {solution.solutions.map((sol) => (
-                          <li key={sol} className="flex items-start text-sm text-neutral-500">
-                            <CheckCircle className="w-4 h-4 text-lime-500 mt-0.5 mr-2 flex-shrink-0" />
-                            {sol}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.05 }}
+              className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-charcoal-900 text-balance"
+            >
+              Tailored for{' '}
+              <span className="text-gradient">every community</span>
+            </motion.h1>
 
-                  <div className="flex flex-wrap gap-2">
-                    {solution.benefits.map((benefit) => (
-                      <span
-                        key={benefit}
-                        className="px-3 py-1 rounded-full text-sm bg-primary-50 text-primary-600"
-                      >
-                        {benefit}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="mt-6 text-lg text-charcoal-500 max-w-2xl mx-auto text-pretty"
+            >
+              Whether you're managing an apartment complex, gated community, or villa township,
+              AiraNexus adapts to your needs with purpose-built tools for every scale.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="mt-8 flex flex-col sm:flex-row gap-3 justify-center"
+            >
+              <Link to="/request-demo" className="btn-primary text-base px-8 py-4">
+                Book a Free Demo
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              </Link>
+              <Link to="/pricing" className="btn-secondary text-base px-8 py-4">
+                View Pricing
+              </Link>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Role-based Solutions */}
+      {/* Solutions — alternating image/text layout */}
       <section className="section-padding bg-white">
         <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-16"
-          >
-            <span className="inline-block px-4 py-2 rounded-full bg-lime-50 text-lime-600 text-sm font-medium mb-4">
-              Who It's For
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-charcoal-900">
-              Designed for <span className="text-gradient">everyone</span>
-            </h2>
-          </motion.div>
+          <div className="space-y-24 lg:space-y-32">
+            {solutions.map((solution, index) => {
+              const isReversed = index % 2 === 1;
+              const Icon = solution.icon;
 
-          <div className="grid md:grid-cols-2 gap-8">
-            {roles.map((role) => (
-              <motion.div
-                key={role.id}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className="card p-8"
-              >
-                <div className="flex items-center space-x-4 mb-4">
-                  <div className="icon-circle-lg">
-                    <role.icon className="w-7 h-7 text-white" />
+              return (
+                <motion.article
+                  key={solution.id}
+                  id={solution.id}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-100px' }}
+                  transition={{ duration: 0.6 }}
+                  className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center"
+                >
+                  {/* Image */}
+                  <div className={isReversed ? 'lg:order-2' : ''}>
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.96 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5 }}
+                      className="relative rounded-3xl overflow-hidden shadow-elevated group"
+                    >
+                      <img
+                        src={solution.image}
+                        alt={`${solution.title} — ${solution.subtitle}`}
+                        className="w-full h-72 sm:h-80 lg:h-96 object-cover transition-transform duration-700 ease-smooth group-hover:scale-105"
+                        loading="lazy"
+                        decoding="async"
+                        width={800}
+                        height={384}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-charcoal-900/85 via-charcoal-900/20 to-transparent" />
+                      <div className="absolute bottom-6 left-6 right-6">
+                        <div className="flex items-center gap-3">
+                          <div className="w-12 h-12 rounded-2xl bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center">
+                            <Icon className="w-6 h-6 text-white" aria-hidden="true" />
+                          </div>
+                          <div>
+                            <h3 className="text-xl sm:text-2xl font-bold text-white">
+                              {solution.title}
+                            </h3>
+                            <p className="text-sm text-white/70 mt-0.5">
+                              {solution.subtitle}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
                   </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-charcoal-900">
-                      {role.title}
-                    </h3>
-                    <p className="text-sm text-neutral-500">
-                      {role.description}
+
+                  {/* Content */}
+                  <div className={isReversed ? 'lg:order-1' : ''}>
+                    <div className="flex items-center gap-3 mb-5">
+                      <div className="icon-circle-lg">
+                        <Icon className="w-7 h-7 text-white" aria-hidden="true" />
+                      </div>
+                      <span className="badge badge-neutral">
+                        Solution {String(index + 1).padStart(2, '0')}
+                      </span>
+                    </div>
+
+                    <h2 className="text-2xl sm:text-3xl font-bold mb-3 text-charcoal-900 text-balance">
+                      {solution.title}
+                    </h2>
+                    <p className="text-base text-charcoal-500 mb-5 text-pretty">
+                      {solution.description}
                     </p>
+
+                    {/* Challenges & Solutions */}
+                    <div className="grid sm:grid-cols-2 gap-6 mb-6">
+                      <div>
+                        <h4 className="flex items-center gap-2 font-semibold mb-3 text-charcoal-900">
+                          <AlertCircle className="w-4 h-4 text-red-500" aria-hidden="true" />
+                          Challenges We Solve
+                        </h4>
+                        <ul className="space-y-2.5">
+                          {solution.challenges.map((challenge) => (
+                            <li
+                              key={challenge}
+                              className="flex items-start text-sm text-charcoal-600 leading-relaxed"
+                            >
+                              <span className="w-1.5 h-1.5 rounded-full bg-red-400 mt-1.5 mr-2.5 flex-shrink-0" />
+                              {challenge}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div>
+                        <h4 className="flex items-center gap-2 font-semibold mb-3 text-charcoal-900">
+                          <Lightbulb className="w-4 h-4 text-primary-500" aria-hidden="true" />
+                          Our Solution
+                        </h4>
+                        <ul className="space-y-2.5">
+                          {solution.solutions.map((sol) => (
+                            <li
+                              key={sol}
+                              className="flex items-start text-sm text-charcoal-600 leading-relaxed"
+                            >
+                              <CheckCircle className="w-4 h-4 text-lime-500 mt-0.5 mr-2.5 flex-shrink-0 flex-shrink-0" aria-hidden="true" />
+                              {sol}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+
+                    {/* Benefits pills */}
+                    <div>
+                      <h4 className="flex items-center gap-2 font-semibold mb-3 text-charcoal-900">
+                        <TrendingUp className="w-4 h-4 text-lime-500" aria-hidden="true" />
+                        Key Benefits
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {solution.benefits.map((benefit) => (
+                          <span
+                            key={benefit}
+                            className="badge badge-primary"
+                          >
+                            {benefit}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <ul className="grid grid-cols-2 gap-3 mt-6">
-                  {role.features.map((feature) => (
-                    <li key={feature} className="flex items-center text-sm text-neutral-600">
-                      <CheckCircle className="w-4 h-4 text-lime-500 mr-2" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
+                </motion.article>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="section-padding bg-brand-gradient relative overflow-hidden">
-        <div className="blob w-[400px] h-[400px] bg-white/10 -top-20 -left-20 animate-float" />
-        <div className="container-custom text-center relative z-10">
-          <motion.h2
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-3xl md:text-4xl font-bold text-white mb-6"
-          >
-            Find the Right Solution for Your Community
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-lg text-white/90 mb-8 max-w-2xl mx-auto"
-          >
-            Let our team understand your needs and show you how Aira Nexus can help.
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-          >
-            <Link to="/request-demo" className="btn-outline-white text-base px-8 py-4">
-              Get Custom Solution
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Link>
-            <Link to="/pricing" className="btn-secondary text-base px-8 py-4">
-              View Pricing
-            </Link>
-          </motion.div>
+      {/* Role-based solutions */}
+      <section className="section-padding bg-greenish-50">
+        <div className="container-custom">
+          <SectionHeading
+            badge="Who it's for"
+            badgeColor="lime"
+            title={<>Designed for <span className="text-gradient">everyone</span></>}
+            description="From residents to community managers, AiraNexus delivers a tailored experience for every role in your community."
+          />
+
+          <div className="mt-14 grid md:grid-cols-2 gap-8">
+            {roles.map((role, i) => {
+              const Icon = role.icon;
+              return (
+                <motion.div
+                  key={role.id}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  className="card card-hover p-8"
+                >
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="icon-circle-lg">
+                      <Icon className="w-7 h-7 text-white" aria-hidden="true" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-charcoal-900">
+                        {role.title}
+                      </h3>
+                      <p className="text-sm text-charcoal-500 mt-1">
+                        {role.description}
+                      </p>
+                    </div>
+                  </div>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {role.features.map((feature) => (
+                      <li
+                        key={feature}
+                        className="flex items-center text-sm text-charcoal-600"
+                      >
+                        <CheckCircle className="w-4 h-4 text-lime-500 mr-2.5 flex-shrink-0" aria-hidden="true" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
       </section>
+
+      {/* CTA */}
+      <CTABanner
+        title="Find the right solution for your community"
+        description="Let our team understand your needs and show you how AiraNexus can help. Get a personalized walkthrough tailored to your community type."
+        primaryAction={{ label: 'Get Custom Solution', to: '/request-demo' }}
+        secondaryAction={{ label: 'View Pricing', to: '/pricing' }}
+      />
     </div>
   );
 }
