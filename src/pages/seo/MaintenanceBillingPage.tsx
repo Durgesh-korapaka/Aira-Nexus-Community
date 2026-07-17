@@ -1,254 +1,135 @@
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import {
-  CreditCard,
-  Bell,
-  Smartphone,
-  Clock,
-  CheckCircle,
-  BarChart3,
-  ArrowRight,
-} from 'lucide-react';
-import SEO from '../../components/SEO';
-import SectionHeading from '../../components/ui/SectionHeading';
-import FeatureCard from '../../components/ui/FeatureCard';
-import FAQAccordion from '../../components/ui/FAQAccordion';
-import CTABanner from '../../components/ui/CTABanner';
-import StatCard from '../../components/ui/StatCard';
-
-interface MaintenanceBillingPageProps {
-  darkMode: boolean;
-}
+import { motion } from 'framer-motion'
+import { BarChart3, Bell, CreditCard, FileText, Wallet, Zap } from 'lucide-react'
+import SEO from '../../components/SEO'
+import SectionHeading from '../../components/ui/SectionHeading'
+import FeatureCard from '../../components/ui/FeatureCard'
+import StatCard from '../../components/ui/StatCard'
+import FAQAccordion, { type FAQItem } from '../../components/ui/FAQAccordion'
+import CTABanner from '../../components/ui/CTABanner'
 
 const features = [
-  { icon: CreditCard, title: 'Auto Invoicing', description: 'Generate monthly invoices automatically with accurate calculations — no manual data entry required.' },
-  { icon: Bell, title: 'Payment Reminders', description: 'Automated SMS and WhatsApp reminders before due dates to ensure timely payments.' },
-  { icon: Smartphone, title: 'Online Payments', description: 'UPI, cards, net banking, and auto-debit options — residents pay however they prefer.' },
-  { icon: Clock, title: 'Late Fee Automation', description: 'Automatic late fee calculation and application based on your custom rules.' },
-  { icon: CheckCircle, title: 'Receipt Generation', description: 'Instant digital receipts via email and SMS. GST-compliant with automatic tax details.' },
-  { icon: BarChart3, title: 'Collection Reports', description: 'Real-time tracking of payments, defaults, and collection rates with visual dashboards.' },
-];
+  { icon: CreditCard, title: 'Automated Invoicing', description: 'Generate invoices for every unit automatically based on configurable billing slabs.' },
+  { icon: Bell, title: 'Smart Reminders', description: 'Escalating reminders via email, SMS, and WhatsApp before and after due dates.' },
+  { icon: Wallet, title: 'UPI & Card Payments', description: 'Residents pay via any UPI app, credit/debit card, or netbanking with instant settlement.' },
+  { icon: FileText, title: 'Auto-Receipts', description: 'GST-compliant receipts generated instantly and emailed to residents.' },
+  { icon: BarChart3, title: 'Arrears Dashboard', description: 'Live view of collected, pending, and overdue amounts with unit-level drill-down.' },
+  { icon: Zap, title: 'Late Fee Automation', description: 'Configurable late fees applied automatically to overdue accounts.' },
+]
 
 const benefits = [
-  '95% collection rate within 30 days',
-  'Zero manual invoice generation',
-  'Automatic reconciliation with bank statements',
-  'GST-compliant invoices with HSN codes',
-  'Multiple payment gateway support',
-];
+  { title: '40% faster collections', description: 'Automated reminders and one-tap payments dramatically reduce time-to-collect.' },
+  { title: "70% less follow-up", description: "The platform chases defaulters so your committee doesn't have to." },
+  { title: 'Zero manual invoices', description: 'Every invoice is generated, sent, and tracked automatically.' },
+]
 
-const stats = [
-  { value: '+40%', label: 'Collection' },
-  { value: '20hrs', label: 'Saved' },
-  { value: '99%', label: 'Accuracy' },
-  { value: '0', label: 'Manual Errors' },
-];
+const faqs: FAQItem[] = [
+  { question: 'How does automated billing work?', answer: 'You configure billing slabs once (e.g., ₹3,200 per 3BHK). Aira Nexus then generates invoices on your schedule, sends reminders, and tracks payments — all automatically.' },
+  { question: 'Can residents pay via UPI?', answer: 'Yes. Residents can pay via any UPI app (GPay, PhonePe, Paytm), credit/debit cards, and netbanking. Payments settle instantly with auto-generated receipts.' },
+  { question: 'How are arrears tracked?', answer: 'The arrears dashboard shows collected, pending, and overdue amounts in real time. You can drill down to individual units and send reminders with one click.' },
+  { question: 'Can I set different amounts per unit type?', answer: 'Yes. Billing slabs can vary by tower, floor, unit size, or any custom grouping. Surcharges and waivers are also supported.' },
+]
 
-const faqs = [
-  { q: 'What payment gateways do you support?', a: 'We support Razorpay, PayU, HDFC, ICICI, and all major payment gateways. Residents can pay via UPI, cards, net banking, or auto-debit.' },
-  { q: 'Can we customize late fees?', a: 'Yes! You can set custom late fee rules — flat amount, percentage, or tiered based on days overdue. Rules apply automatically.' },
-  { q: 'Can residents setup auto-debit?', a: 'Absolutely! Residents can enable NACH/eNACH for automatic monthly debits from their bank accounts — no manual intervention needed.' },
-];
-
-export default function MaintenanceBillingPage({ darkMode: _darkMode }: MaintenanceBillingPageProps) {
+export default function MaintenanceBillingPage({ darkMode: _darkMode }: { darkMode?: boolean }) {
   return (
-    <div>
+    <>
       <SEO
-        title="Maintenance Billing Software — AiraNexus"
-        description="Automated maintenance billing software for apartments and societies. Online payments, reminders, and collection tracking."
+        title="Maintenance Billing Software — Collect Dues on Autopilot"
+        description="Aira Nexus maintenance billing software automates invoicing, UPI payments, reminders, and arrears tracking for apartments and societies."
         path="/maintenance-billing-software"
       />
 
       {/* Hero */}
-      <section className="relative pt-28 lg:pt-36 pb-20 lg:pb-28 overflow-hidden bg-hero-gradient">
-        <div className="blob w-[500px] h-[500px] bg-primary-400 -top-32 -right-32 animate-float" />
-        <div className="blob w-[400px] h-[400px] bg-lime-400 -bottom-32 -left-32 animate-float-slow" />
-
-        <div className="container-custom relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            <motion.span
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="badge badge-primary mb-6"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-primary-500 animate-pulse" />
-              #1 Maintenance Billing Software
-            </motion.span>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.05 }}
-              className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-charcoal-900 text-balance"
-            >
-              Maintenance billing,{' '}
-              <span className="text-gradient">automated</span>.
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="mt-6 text-lg text-charcoal-500 max-w-2xl mx-auto text-pretty"
-            >
-              Automated maintenance billing and collection for apartments and societies. Say
-              goodbye to manual invoices, late payments, and chasing dues.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              className="mt-8 flex flex-col sm:flex-row gap-3 justify-center"
-            >
-              <Link to="/request-demo" className="btn-primary text-base px-8 py-4">
-                Start Free Trial
-                <ArrowRight className="w-4 h-4" aria-hidden="true" />
-              </Link>
-              <Link to="/pricing" className="btn-secondary text-base px-8 py-4">
-                View Pricing
-              </Link>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.25 }}
-              className="mt-8 flex items-center justify-center gap-6 text-sm text-charcoal-400"
-            >
-              <span className="flex items-center gap-1.5">
-                <CheckCircle className="w-4 h-4 text-primary-500" aria-hidden="true" />
-                No credit card required
-              </span>
-              <span className="flex items-center gap-1.5">
-                <CheckCircle className="w-4 h-4 text-primary-500" aria-hidden="true" />
-                14-day free trial
-              </span>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats bar */}
-      <section className="py-12 lg:py-16 bg-white border-y border-charcoal-100">
-        <div className="container-custom">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {stats.map((stat, i) => (
-              <StatCard key={stat.label} value={stat.value} label={stat.label} delay={i * 0.08} />
-            ))}
-          </div>
+      <section className="bg-hero-gradient pt-28 lg:pt-36">
+        <div className="container-custom pb-16 text-center lg:pb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mx-auto max-w-3xl"
+          >
+            <span className="badge-primary">
+              <Wallet className="h-3.5 w-3.5" />
+              Maintenance Billing Software
+            </span>
+            <h1 className="mt-5 text-4xl font-bold tracking-tight text-charcoal-900 sm:text-5xl text-balance">
+              Collect maintenance dues <span className="text-gradient">on autopilot</span>
+            </h1>
+            <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-charcoal-600 text-pretty">
+              Stop chasing residents for dues. Aira Nexus automates invoicing, payments, reminders,
+              and arrears tracking so your committee can focus on the community, not collections.
+            </p>
+          </motion.div>
         </div>
       </section>
 
       {/* Features */}
-      <section className="section-padding bg-greenish-50">
+      <section className="section-padding">
         <div className="container-custom">
           <SectionHeading
             badge="Features"
-            title={<>Automate your <span className="text-gradient">maintenance billing</span></>}
-            description="From invoice generation to payment collection — every step is automated, tracked, and optimized."
+            title={<>Everything billing, <span className="text-gradient">automated</span></>}
+            description="Six modules that take maintenance billing from painful to effortless."
           />
-          <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {features.map((feature, i) => (
-              <FeatureCard key={feature.title} {...feature} delay={i * 0.05} />
+              <FeatureCard key={feature.title} {...feature} delay={(i % 3) * 0.08} />
             ))}
           </div>
         </div>
       </section>
 
       {/* Benefits */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-charcoal-50/40">
         <div className="container-custom">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              <span className="badge badge-lime mb-4">Why AiraNexus</span>
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-charcoal-900 mb-6 text-balance">
-                Stop chasing payments.
-              </h2>
-              <p className="text-lg text-charcoal-500 mb-8 text-pretty">
-                On average, AiraNexus helps communities improve collections by 40%. Automated
-                reminders, multiple payment options, and transparent tracking mean fewer
-                defaults and more on-time payments.
-              </p>
-              <ul className="space-y-4">
-                {benefits.map((benefit, i) => (
-                  <motion.li
-                    key={benefit}
-                    initial={{ opacity: 0, x: -16 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: i * 0.06 }}
-                    className="flex items-start gap-3"
-                  >
-                    <CheckCircle className="w-5 h-5 text-primary-500 mt-0.5 flex-shrink-0" aria-hidden="true" />
-                    <span className="text-charcoal-600">{benefit}</span>
-                  </motion.li>
-                ))}
-              </ul>
-              <Link to="/request-demo" className="btn-primary mt-8">
-                Start Free Trial
-                <ArrowRight className="w-4 h-4" aria-hidden="true" />
-              </Link>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="card p-8"
-            >
-              <div className="text-center mb-8 pb-8 border-b border-charcoal-100">
-                <p className="text-sm text-charcoal-500 mb-2">Average Collection Improvement</p>
-                <p className="text-5xl font-bold text-gradient tracking-tight">+40%</p>
-              </div>
-              <div className="grid grid-cols-3 gap-4 text-center">
-                <div>
-                  <p className="text-2xl font-bold text-charcoal-900">20hrs</p>
-                  <p className="text-xs text-charcoal-500 mt-1">Saved Monthly</p>
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-charcoal-900">99%</p>
-                  <p className="text-xs text-charcoal-500 mt-1">Accuracy</p>
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-charcoal-900">0</p>
-                  <p className="text-xs text-charcoal-500 mt-1">Manual Errors</p>
-                </div>
-              </div>
-            </motion.div>
+          <SectionHeading
+            badge="Benefits"
+            badgeVariant="lime"
+            title={<>What changes when you <span className="text-gradient">automate billing</span></>}
+          />
+          <div className="mt-12 grid gap-6 lg:grid-cols-3">
+            {benefits.map((benefit, i) => (
+              <motion.div
+                key={benefit.title}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="card-hover"
+              >
+                <h3 className="text-lg font-semibold text-charcoal-900">{benefit.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-charcoal-600">{benefit.description}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
+      {/* Stats */}
+      <section className="border-y border-charcoal-100 bg-white">
+        <div className="container-custom grid grid-cols-2 gap-8 py-12 lg:grid-cols-4">
+          <StatCard value="40%" label="Faster collections" />
+          <StatCard value="70%" label="Less follow-up" />
+          <StatCard value="₹40Cr+" label="Dues processed" />
+          <StatCard value="91%" label="On-time rate" />
+        </div>
+      </section>
+
       {/* FAQ */}
-      <section className="section-padding bg-greenish-50">
+      <section className="section-padding">
         <div className="container-custom">
-          <SectionHeading
-            badge="FAQ"
-            badgeColor="cyan"
-            title={<>Frequently asked <span className="text-gradient">questions</span></>}
-            description="Everything you need to know about maintenance billing with AiraNexus."
-          />
-          <div className="mt-14">
+          <SectionHeading badge="FAQ" badgeVariant="cyan" title={<>Billing questions, <span className="text-gradient">answered</span></>} />
+          <div className="mx-auto mt-12 max-w-3xl">
             <FAQAccordion items={faqs} />
           </div>
         </div>
       </section>
 
-      {/* CTA */}
       <CTABanner
-        title="Ready to automate your maintenance billing?"
-        description="Start your 14-day free trial today. No credit card required. Join 100+ communities already using AiraNexus."
-        primaryAction={{ label: 'Start Free Trial', to: '/request-demo' }}
-        secondaryAction={{ label: 'View Pricing', to: '/pricing' }}
+        title="Stop chasing dues. Start collecting."
+        description="See how Aira Nexus automates your maintenance billing end-to-end. Book a free demo today."
+        primaryLabel="Book a Demo"
+        secondaryLabel="View Pricing"
       />
-    </div>
-  );
+    </>
+  )
 }

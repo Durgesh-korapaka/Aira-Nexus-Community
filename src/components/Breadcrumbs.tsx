@@ -1,108 +1,80 @@
-import { Link, useLocation } from 'react-router-dom';
-import { ChevronRight, Home } from 'lucide-react';
-import { useEffect, useMemo } from 'react';
-
-interface BreadcrumbItem {
-  name: string;
-  path: string;
-}
+import { useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import { ChevronRight, Home } from 'lucide-react'
 
 const routeNames: Record<string, string> = {
+  '/': 'Home',
   '/features': 'Features',
   '/solutions': 'Solutions',
   '/pricing': 'Pricing',
-  '/about': 'About',
+  '/about': 'About Us',
   '/contact': 'Contact',
   '/request-demo': 'Request Demo',
   '/blog': 'Blog',
   '/faq': 'FAQ',
+  '/login': 'Login',
   '/privacy': 'Privacy Policy',
   '/terms': 'Terms of Service',
-  '/login': 'Login',
   '/apartment-management-software': 'Apartment Management Software',
   '/society-management-software': 'Society Management Software',
   '/maintenance-billing-software': 'Maintenance Billing Software',
   '/mygate-alternative': 'MyGate Alternative',
   '/community-management-platform': 'Community Management Platform',
-};
+}
 
 export default function Breadcrumbs() {
-  const location = useLocation();
-  const path = location.pathname;
-
-  const items = useMemo<BreadcrumbItem[]>(() => {
-    if (path === '/') return [];
-    const segments = path.split('/').filter(Boolean);
-    const result: BreadcrumbItem[] = [{ name: 'Home', path: '/' }];
-    let currentPath = '';
-    segments.forEach((segment) => {
-      currentPath += '/' + segment;
-      const name = routeNames[currentPath] || segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ');
-      result.push({ name, path: currentPath });
-    });
-    return result;
-  }, [path]);
+  const location = useLocation()
+  const path = location.pathname
 
   useEffect(() => {
-    if (items.length === 0) return;
+    const existing = document.getElementById('breadcrumb-jsonld')
+    if (existing) existing.remove()
 
-    const existing = document.getElementById('breadcrumb-jsonld');
-    if (existing) existing.remove();
+    if (path === '/' || !routeNames[path]) return
 
-    const jsonLd = {
+    const items = [
+      { name: 'Home', url: 'https://airanexus.com/' },
+      { name: routeNames[path], url: `https://airanexus.com${path}` },
+    ].map((item, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: item.name,
+      item: item.url,
+    }))
+
+    const el = document.createElement('script')
+    el.id = 'breadcrumb-jsonld'
+    el.type = 'application/ld+json'
+    el.textContent = JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
-      itemListElement: items.map((item, index) => ({
-        '@type': 'ListItem',
-        position: index + 1,
-        name: item.name,
-        item: `https://airanexus.com${item.path}`,
-      })),
-    };
-
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.id = 'breadcrumb-jsonld';
-    script.textContent = JSON.stringify(jsonLd);
-    document.head.appendChild(script);
+      itemListElement: items,
+    })
+    document.head.appendChild(el)
 
     return () => {
-      document.getElementById('breadcrumb-jsonld')?.remove();
-    };
-  }, [items]);
+      const el2 = document.getElementById('breadcrumb-jsonld')
+      if (el2) el2.remove()
+    }
+  }, [path])
 
-  if (path === '/' || items.length === 0) return null;
+  if (path === '/' || !routeNames[path]) return null
 
   return (
-    <nav aria-label="Breadcrumb" className="container-custom pt-24 lg:pt-28 pb-0">
-      <ol className="flex items-center flex-wrap gap-1 text-sm text-charcoal-400">
-        {items.map((item, index) => {
-          const isLast = index === items.length - 1;
-          return (
-            <li key={item.path} className="flex items-center gap-1">
-              {index === 0 ? (
-                <Link
-                  to={item.path}
-                  className="flex items-center gap-1 hover:text-primary-600 transition-colors"
-                  aria-label="Go to homepage"
-                >
-                  <Home className="w-3.5 h-3.5" aria-hidden="true" />
-                  <span className="sr-only">Home</span>
-                </Link>
-              ) : isLast ? (
-                <span aria-current="page" className="text-charcoal-900 font-medium">
-                  {item.name}
-                </span>
-              ) : (
-                <Link to={item.path} className="hover:text-primary-600 transition-colors">
-                  {item.name}
-                </Link>
-              )}
-              {!isLast && <ChevronRight className="w-3.5 h-3.5 text-charcoal-300" aria-hidden="true" />}
-            </li>
-          );
-        })}
-      </ol>
+    <nav aria-label="Breadcrumb" className="border-b border-charcoal-100 bg-white/60 backdrop-blur-sm">
+      <div className="container-custom flex items-center gap-1.5 py-3 text-sm">
+        <Link
+          to="/"
+          className="flex items-center gap-1 text-charcoal-500 transition-colors hover:text-primary-600"
+        >
+          <Home className="h-3.5 w-3.5" />
+          <span className="sr-only">Home</span>
+        </Link>
+        <ChevronRight className="h-3.5 w-3.5 text-charcoal-300" aria-hidden="true" />
+        <span className="font-medium text-charcoal-700" aria-current="page">
+          {routeNames[path]}
+        </span>
+      </div>
     </nav>
-  );
+  )
 }

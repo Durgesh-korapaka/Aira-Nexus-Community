@@ -1,66 +1,90 @@
+import { useEffect } from 'react'
+
 interface SEOProps {
-  title: string;
-  description: string;
-  path: string;
+  title: string
+  description: string
+  path?: string
+  image?: string
 }
 
-export default function SEO({ title, description, path }: SEOProps) {
-  const url = `https://airanexus.com${path}`;
+const SITE_NAME = 'Aira Nexus'
+const SITE_URL = 'https://airanexus.com'
+const DEFAULT_IMAGE = `${SITE_URL}/og-image.png`
 
-  const updateTag = (selector: string, attr: string, value: string) => {
-    let tag = document.head.querySelector(selector) as HTMLMetaElement | null;
-    if (!tag) {
-      tag = document.createElement('meta');
-      const [, name] = selector.match(/meta\[(?:name|property)="(.+)"\]/) || [];
-      if (selector.startsWith('meta[property')) {
-        tag.setAttribute('property', name);
-      } else {
-        tag.setAttribute('name', name);
-      }
-      document.head.appendChild(tag);
-    }
-    tag.setAttribute(attr, value);
-  };
+function setMeta(attr: 'name' | 'property', key: string, content: string) {
+  let el = document.head.querySelector<HTMLMetaElement>(`meta[${attr}="${key}"]`)
+  if (!el) {
+    el = document.createElement('meta')
+    el.setAttribute(attr, key)
+    document.head.appendChild(el)
+  }
+  el.setAttribute('content', content)
+}
 
-  const updateLink = (rel: string, href: string) => {
-    let link = document.head.querySelector(`link[rel="${rel}"]`) as HTMLLinkElement | null;
-    if (!link) {
-      link = document.createElement('link');
-      link.setAttribute('rel', rel);
-      document.head.appendChild(link);
-    }
-    link.setAttribute('href', href);
-  };
+function setLink(rel: string, href: string) {
+  let el = document.head.querySelector<HTMLLinkElement>(`link[rel="${rel}"]`)
+  if (!el) {
+    el = document.createElement('link')
+    el.setAttribute('rel', rel)
+    document.head.appendChild(el)
+  }
+  el.setAttribute('href', href)
+}
 
-  const setPageJsonLd = (jsonLd: object) => {
-    const id = 'page-jsonld';
-    document.getElementById(id)?.remove();
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.id = id;
-    script.textContent = JSON.stringify(jsonLd);
-    document.head.appendChild(script);
-  };
+function setJsonLd(id: string, data: Record<string, unknown>) {
+  let el = document.getElementById(id) as HTMLScriptElement | null
+  if (!el) {
+    el = document.createElement('script')
+    el.id = id
+    el.type = 'application/ld+json'
+    document.head.appendChild(el)
+  }
+  el.textContent = JSON.stringify(data)
+}
 
-  if (typeof document !== 'undefined') {
-    document.title = title;
-    updateTag('meta[name="description"]', 'content', description);
-    updateTag('meta[property="og:title"]', 'content', title);
-    updateTag('meta[property="og:description"]', 'content', description);
-    updateTag('meta[property="og:url"]', 'content', url);
-    updateTag('meta[name="twitter:title"]', 'content', title);
-    updateTag('meta[name="twitter:description"]', 'content', description);
-    updateTag('meta[name="twitter:url"]', 'content', url);
-    updateLink('canonical', url);
+export default function SEO({ title, description, path = '', image }: SEOProps) {
+  const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`
+  const url = `${SITE_URL}${path}`
+  const ogImage = image ?? DEFAULT_IMAGE
 
-    setPageJsonLd({
+  useEffect(() => {
+    document.title = fullTitle
+    setMeta('name', 'description', description)
+    setLink('canonical', url)
+
+    setMeta('property', 'og:type', 'website')
+    setMeta('property', 'og:url', url)
+    setMeta('property', 'og:title', fullTitle)
+    setMeta('property', 'og:description', description)
+    setMeta('property', 'og:image', ogImage)
+    setMeta('property', 'og:site_name', SITE_NAME)
+    setMeta('property', 'og:locale', 'en_US')
+
+    setMeta('name', 'twitter:card', 'summary_large_image')
+    setMeta('name', 'twitter:url', url)
+    setMeta('name', 'twitter:title', fullTitle)
+    setMeta('name', 'twitter:description', description)
+    setMeta('name', 'twitter:image', ogImage)
+
+    setJsonLd('seo-jsonld-page', {
       '@context': 'https://schema.org',
       '@type': 'WebPage',
-      name: title,
+      name: fullTitle,
       description,
       url,
-    });
-  }
+      image: ogImage,
+      isPartOf: {
+        '@type': 'WebSite',
+        name: SITE_NAME,
+        url: SITE_URL,
+      },
+    })
 
-  return null;
+    return () => {
+      const el = document.getElementById('seo-jsonld-page')
+      if (el) el.remove()
+    }
+  }, [fullTitle, description, url, ogImage])
+
+  return null
 }

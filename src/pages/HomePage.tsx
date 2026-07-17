@@ -1,204 +1,194 @@
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import {
-  CreditCard,
-  MessageSquare,
-  Shield,
-  Users,
-  BarChart3,
-  Smartphone,
   ArrowRight,
-  CheckCircle,
-  Star,
-  Zap,
+  BarChart3,
   Bell,
-  Calendar,
-} from 'lucide-react';
-import SEO from '../components/SEO';
-import FeatureCard from '../components/ui/FeatureCard';
-import SectionHeading from '../components/ui/SectionHeading';
-import StatCard from '../components/ui/StatCard';
-import CTABanner from '../components/ui/CTABanner';
+  Building2,
+  CreditCard,
+  LayoutDashboard,
+  MessageSquare,
+  Smartphone,
+  Star,
+  Users,
+  Wallet,
+} from 'lucide-react'
+import SEO from '../components/SEO'
+import SectionHeading from '../components/ui/SectionHeading'
+import FeatureCard from '../components/ui/FeatureCard'
+import StatCard from '../components/ui/StatCard'
+import CTABanner from '../components/ui/CTABanner'
 
 const features = [
-  { icon: CreditCard, title: 'Automated Billing', description: 'Generate invoices, send reminders, and collect payments online — all on autopilot.' },
-  { icon: MessageSquare, title: 'Complaint Tracking', description: 'Route, prioritize, and resolve resident complaints with full transparency.' },
-  { icon: Shield, title: 'Visitor Management', description: 'Pre-approved gate passes with QR codes. Secure, fast, paperless.' },
-  { icon: Users, title: 'Resident Directory', description: 'Complete database with family details, vehicles, and contact information.' },
-  { icon: BarChart3, title: 'Financial Reports', description: 'Real-time dashboards for collections, expenses, and audit-ready statements.' },
-  { icon: Smartphone, title: 'Mobile App', description: 'Native iOS and Android apps for residents, staff, and committee members.' },
-];
+  { icon: CreditCard, title: 'Automated Billing', description: 'Collect maintenance dues via UPI, cards, and netbanking with automatic reminders and receipts.' },
+  { icon: MessageSquare, title: 'Complaint Tracking', description: 'Log, assign, and resolve resident complaints with full status tracking and SLA timers.' },
+  { icon: Users, title: 'Visitor Management', description: 'Pre-approve guests, generate QR passes, and log every entry with guard-side validation.' },
+  { icon: Building2, title: 'Resident Directory', description: 'A verified, searchable directory of owners and tenants with contact and vehicle details.' },
+  { icon: BarChart3, title: 'Financial Reports', description: 'Real-time income, expense, and arrears dashboards exportable to PDF and Excel.' },
+  { icon: Smartphone, title: 'Mobile App', description: 'Native iOS and Android apps for residents and managers with push notifications.' },
+]
 
-const stats = [
-  { value: '500+', label: 'Communities' },
-  { value: '50K+', label: 'Residents' },
-  { value: '40%', label: 'Better Collections' },
-  { value: '99.9%', label: 'Uptime' },
-];
+const steps = [
+  { number: '01', title: 'Onboard your community', description: 'Import residents, units, and dues in minutes with our guided setup wizard.' },
+  { number: '02', title: 'Configure billing & access', description: 'Set maintenance slabs, payment gateways, and visitor entry rules.' },
+  { number: '03', title: 'Invite residents & staff', description: 'Send branded invites. Residents download the app and verify in seconds.' },
+  { number: '04', title: 'Go live & automate', description: 'Billing, complaints, and visitor logs run on autopilot while you track everything.' },
+]
 
 const testimonials = [
   {
-    quote: 'We switched from Excel sheets to AiraNexus. Collections improved by 45% in the first quarter. The WhatsApp reminders are a game-changer.',
-    name: 'Rajesh K.',
-    role: 'President, Green Valley Apartments',
-    rating: 5,
+    name: 'Rajesh Kumar',
+    role: 'Secretary, Prestige Lakeside',
+    quote: 'We cut billing follow-ups by 70%. Residents pay on time and the dashboard tells us everything at a glance.',
+    avatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=2',
   },
   {
-    quote: 'The best decision we made for our society. Complaints that took days now resolve in hours. Residents are happier, committee is relaxed.',
-    name: 'Priya S.',
-    role: 'Secretary, Lakeview Enclave',
-    rating: 5,
+    name: 'Priya Sharma',
+    role: 'Facility Manager, Sobha Dream Acres',
+    quote: 'Complaint resolution used to take days. Now residents track everything on the app and we close tickets 3x faster.',
+    avatar: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=2',
   },
   {
-    quote: 'Onboarding was seamless. Their team migrated everything in 2 days. Now we have full financial transparency at our fingertips.',
-    name: 'Amit M.',
-    role: 'Treasurer, Palm Heights',
-    rating: 5,
+    name: 'Amit Patel',
+    role: 'Treasurer, Brigade Gateway',
+    quote: 'The financial reports are a dream. Our AGM prep that took two weeks now takes an afternoon.',
+    avatar: 'https://images.pexels.com/photos/7640/pexels-photo-7640.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=2',
   },
-];
-
-const steps = [
-  { icon: Zap, title: 'Sign Up', description: 'Create your community account in 2 minutes' },
-  { icon: Bell, title: 'Onboard Residents', description: 'Invite residents via WhatsApp or email' },
-  { icon: CheckCircle, title: 'Go Live', description: 'Start collecting payments and managing complaints' },
-  { icon: Calendar, title: 'Track & Improve', description: 'Monitor analytics and optimize operations' },
-];
+]
 
 export default function HomePage() {
   return (
-    <div>
+    <>
       <SEO
-        title="AiraNexus — AI-Powered Community Management Platform"
-        description="AiraNexus is an AI-powered community management platform for apartments, gated communities, and RWAs. Automate maintenance billing, complaints, visitor tracking, and resident communication."
+        title="Aira Nexus — AI-Powered Community Management Platform"
+        description="Aira Nexus is the all-in-one platform for apartment and society management: automated billing, complaints, visitor tracking, and financial reporting — powered by AI."
         path="/"
       />
 
       {/* Hero */}
-      <section className="relative pt-28 lg:pt-36 pb-20 lg:pb-28 overflow-hidden bg-hero-gradient">
-        <div className="blob w-[500px] h-[500px] bg-primary-400 -top-32 -right-32 animate-float" />
-        <div className="blob w-[400px] h-[400px] bg-lime-400 -bottom-32 -left-32 animate-float-slow" />
-
-        <div className="container-custom relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            <motion.span
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="badge badge-primary mb-6"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-primary-500 animate-pulse" />
+      <section className="relative overflow-hidden bg-hero-gradient pt-28 lg:pt-36">
+        <div className="container-custom relative pb-20 lg:pb-28">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mx-auto max-w-3xl text-center"
+          >
+            <span className="badge-primary">
+              <span className="flex h-1.5 w-1.5 rounded-full bg-primary-500" />
               AI-Powered Platform
-            </motion.span>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.05 }}
-              className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-charcoal-900 text-balance"
-            >
-              Community management,{' '}
-              <span className="text-gradient">reimagined</span>.
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="mt-6 text-lg text-charcoal-500 max-w-2xl mx-auto text-pretty"
-            >
-              Automate maintenance billing, track complaints, manage visitors, and keep your
-              community connected — all from one elegant platform.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              className="mt-8 flex flex-col sm:flex-row gap-3 justify-center"
-            >
-              <Link to="/request-demo" className="btn-primary text-base px-8 py-4">
+            </span>
+            <h1 className="mt-5 text-4xl font-bold tracking-tight text-charcoal-900 sm:text-5xl lg:text-6xl text-balance">
+              Community management, <span className="text-gradient">reimagined.</span>
+            </h1>
+            <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-charcoal-600 text-pretty">
+              Automate billing, complaints, visitors, and finances for your apartment or society —
+              all in one beautifully simple platform that residents and managers actually love.
+            </p>
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <Link to="/request-demo" className="btn-primary">
                 Book a Free Demo
-                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link to="/pricing" className="btn-secondary text-base px-8 py-4">
-                View Pricing
+              <Link to="/features" className="btn-secondary">
+                Explore Features
               </Link>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.25 }}
-              className="mt-8 flex items-center justify-center gap-6 text-sm text-charcoal-400"
-            >
-              <span className="flex items-center gap-1.5">
-                <CheckCircle className="w-4 h-4 text-primary-500" aria-hidden="true" />
-                No credit card required
-              </span>
-              <span className="flex items-center gap-1.5">
-                <CheckCircle className="w-4 h-4 text-primary-500" aria-hidden="true" />
-                14-day free trial
-              </span>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
 
           {/* Product mockup */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-16 max-w-5xl mx-auto"
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="mx-auto mt-14 max-w-5xl"
           >
-            <div className="relative rounded-2xl bg-white border border-charcoal-100 shadow-elevated overflow-hidden">
-              <div className="flex items-center gap-1.5 px-4 py-3 border-b border-charcoal-100 bg-charcoal-50">
-                <span className="w-3 h-3 rounded-full bg-red-400" />
-                <span className="w-3 h-3 rounded-full bg-yellow-400" />
-                <span className="w-3 h-3 rounded-full bg-green-400" />
-                <span className="ml-3 text-xs text-charcoal-400 font-medium">app.airanexus.com</span>
-              </div>
-              <div className="grid grid-cols-12 min-h-[280px] sm:min-h-[360px]">
-                {/* Sidebar */}
-                <div className="hidden sm:flex col-span-3 lg:col-span-2 flex-col gap-1 p-4 border-r border-charcoal-100 bg-charcoal-50/50">
-                  {['Dashboard', 'Billing', 'Complaints', 'Visitors', 'Residents', 'Reports'].map((item, i) => (
-                    <div
-                      key={item}
-                      className={`px-3 py-2 rounded-lg text-xs font-medium ${i === 0 ? 'bg-primary-50 text-primary-600' : 'text-charcoal-500'}`}
-                    >
-                      {item}
-                    </div>
-                  ))}
+            <div className="overflow-hidden rounded-2xl border border-charcoal-200 bg-white shadow-elevated">
+              {/* Browser chrome */}
+              <div className="flex items-center gap-2 border-b border-charcoal-100 bg-charcoal-50 px-4 py-3">
+                <div className="flex gap-1.5">
+                  <span className="h-3 w-3 rounded-full bg-red-400" />
+                  <span className="h-3 w-3 rounded-full bg-yellow-400" />
+                  <span className="h-3 w-3 rounded-full bg-green-400" />
                 </div>
-                {/* Main content */}
-                <div className="col-span-12 sm:col-span-9 lg:col-span-10 p-4 sm:p-6">
-                  <div className="flex items-center justify-between mb-6">
-                    <div>
-                      <div className="h-3 w-32 bg-charcoal-200 rounded animate-pulse mb-2" />
-                      <div className="h-2 w-24 bg-charcoal-100 rounded animate-pulse" />
+                <div className="mx-auto flex items-center gap-2 rounded-md bg-white px-3 py-1 text-xs text-charcoal-400">
+                  <span className="h-2 w-2 rounded-full bg-primary-400" />
+                  app.airanexus.com
+                </div>
+              </div>
+              {/* Dashboard */}
+              <div className="flex min-h-[380px]">
+                {/* Sidebar */}
+                <div className="hidden w-48 shrink-0 border-r border-charcoal-100 bg-charcoal-50/50 p-4 sm:block">
+                  <div className="flex items-center gap-2">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-gradient text-white">
+                      <LayoutDashboard className="h-4 w-4" />
                     </div>
-                    <div className="h-8 w-20 bg-primary-100 rounded-lg animate-pulse" />
+                    <span className="text-sm font-semibold text-charcoal-900">Aira Nexus</span>
                   </div>
-                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
-                    {[
-                      { label: 'Collected', value: '₹4.2L', color: 'bg-primary-50 text-primary-600' },
-                      { label: 'Pending', value: '₹38K', color: 'bg-yellow-50 text-yellow-600' },
-                      { label: 'Complaints', value: '12', color: 'bg-cyan-50 text-cyan-600' },
-                      { label: 'Visitors', value: '84', color: 'bg-lime-50 text-lime-600' },
-                    ].map((stat) => (
-                      <div key={stat.label} className={`rounded-xl p-3 ${stat.color}`}>
-                        <p className="text-xs opacity-70 mb-1">{stat.label}</p>
-                        <p className="text-lg font-bold">{stat.value}</p>
+                  <div className="mt-6 space-y-1">
+                    {['Dashboard', 'Billing', 'Complaints', 'Visitors', 'Residents', 'Reports'].map((item, i) => (
+                      <div
+                        key={item}
+                        className={`flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium ${
+                          i === 0 ? 'bg-primary-50 text-primary-700' : 'text-charcoal-500'
+                        }`}
+                      >
+                        <span className="h-1.5 w-1.5 rounded-full bg-current opacity-60" />
+                        {item}
                       </div>
                     ))}
                   </div>
-                  <div className="space-y-2">
-                    {[1, 2, 3].map((i) => (
-                      <div key={i} className="flex items-center gap-3 p-3 rounded-lg border border-charcoal-100">
-                        <div className="w-8 h-8 rounded-lg bg-charcoal-100 animate-pulse" />
-                        <div className="flex-1">
-                          <div className="h-2 w-32 bg-charcoal-100 rounded animate-pulse mb-1.5" />
-                          <div className="h-2 w-20 bg-charcoal-50 rounded animate-pulse" />
+                </div>
+                {/* Main */}
+                <div className="flex-1 p-5">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-xs text-charcoal-400">Welcome back, Priya</p>
+                      <p className="text-base font-semibold text-charcoal-900">Community Overview</p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Bell className="h-4 w-4 text-charcoal-400" />
+                      <div className="h-8 w-8 rounded-full bg-brand-gradient" />
+                    </div>
+                  </div>
+                  <div className="mt-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
+                    {[
+                      { label: 'Collected', value: '₹4.8L', icon: Wallet, color: 'text-greenish-600' },
+                      { label: 'Pending', value: '₹62K', icon: CreditCard, color: 'text-amber-600' },
+                      { label: 'Open Tickets', value: '12', icon: MessageSquare, color: 'text-primary-600' },
+                      { label: 'Visitors', value: '48', icon: Users, color: 'text-cyan-600' },
+                    ].map((stat) => (
+                      <div key={stat.label} className="rounded-xl border border-charcoal-100 bg-white p-3">
+                        <stat.icon className={`h-4 w-4 ${stat.color}`} />
+                        <p className="mt-2 text-lg font-bold text-charcoal-900">{stat.value}</p>
+                        <p className="text-xs text-charcoal-400">{stat.label}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-4 space-y-2">
+                    {[
+                      { name: 'Tower A · 302', status: 'Paid', amount: '₹3,200', tone: 'text-greenish-600 bg-greenish-50' },
+                      { name: 'Tower B · 104', status: 'Pending', amount: '₹3,200', tone: 'text-amber-600 bg-amber-50' },
+                      { name: 'Tower C · 505', status: 'Paid', amount: '₹3,200', tone: 'text-greenish-600 bg-greenish-50' },
+                    ].map((row) => (
+                      <div
+                        key={row.name}
+                        className="flex items-center justify-between rounded-lg border border-charcoal-100 px-3 py-2.5"
+                      >
+                        <div className="flex items-center gap-2">
+                          <div className="h-7 w-7 rounded-lg bg-charcoal-100" />
+                          <div>
+                            <p className="text-xs font-semibold text-charcoal-900">{row.name}</p>
+                            <p className="text-xs text-charcoal-400">Maintenance · Jan</p>
+                          </div>
                         </div>
-                        <div className="w-12 h-6 bg-primary-100 rounded-full animate-pulse" />
+                        <div className="flex items-center gap-3">
+                          <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${row.tone}`}>
+                            {row.status}
+                          </span>
+                          <span className="text-xs font-semibold text-charcoal-700">{row.amount}</span>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -210,64 +200,55 @@ export default function HomePage() {
       </section>
 
       {/* Stats bar */}
-      <section className="py-12 lg:py-16 bg-white border-y border-charcoal-100">
-        <div className="container-custom">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {stats.map((stat, i) => (
-              <StatCard key={stat.label} value={stat.value} label={stat.label} delay={i * 0.08} />
-            ))}
-          </div>
+      <section className="border-y border-charcoal-100 bg-white">
+        <div className="container-custom grid grid-cols-2 gap-8 py-12 lg:grid-cols-4">
+          <StatCard value="500+" label="Communities" delay={0} />
+          <StatCard value="50K+" label="Residents" delay={0.1} />
+          <StatCard value="40%" label="Better Collections" delay={0.2} />
+          <StatCard value="99.9%" label="Uptime" delay={0.3} />
         </div>
       </section>
 
       {/* Features */}
-      <section className="section-padding bg-greenish-50">
+      <section className="section-padding bg-charcoal-50/40">
         <div className="container-custom">
           <SectionHeading
             badge="Features"
             title={<>Everything your community needs, <span className="text-gradient">in one place</span></>}
-            description="From billing to complaints to visitor management — AiraNexus handles it all so your committee can focus on what matters."
+            description="From billing to visitor logs, Aira Nexus replaces 5+ disconnected tools with a single, integrated platform."
           />
-          <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {features.map((feature, i) => (
-              <FeatureCard key={feature.title} {...feature} delay={i * 0.05} />
+              <FeatureCard key={feature.title} {...feature} delay={i * 0.08} />
             ))}
           </div>
         </div>
       </section>
 
       {/* How it works */}
-      <section className="section-padding bg-white">
+      <section className="section-padding">
         <div className="container-custom">
           <SectionHeading
             badge="How it works"
-            badgeColor="lime"
-            title={<>Live in <span className="text-gradient">4 simple steps</span></>}
-            description="No complex setup. No lengthy training. Just sign up and go."
+            badgeVariant="cyan"
+            title={<>Up and running in <span className="text-gradient">four steps</span></>}
+            description="No lengthy implementations. No IT team required. Your community goes live in days, not months."
           />
-          <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((step, i) => (
               <motion.div
-                key={step.title}
-                initial={{ opacity: 0, y: 20 }}
+                key={step.number}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.08 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="relative"
               >
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-primary-500 text-white flex items-center justify-center font-bold text-sm shadow-teal">
-                    {i + 1}
-                  </div>
-                  {i < steps.length - 1 && (
-                    <div className="flex-1 h-px bg-gradient-to-r from-primary-200 to-transparent" />
-                  )}
+                <div className="card-hover">
+                  <span className="text-3xl font-bold text-primary-200">{step.number}</span>
+                  <h3 className="mt-3 text-lg font-semibold text-charcoal-900">{step.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-charcoal-600">{step.description}</p>
                 </div>
-                <div className="icon-circle-sm mb-3">
-                  <step.icon className="w-4 h-4 text-primary-600" aria-hidden="true" />
-                </div>
-                <h3 className="font-bold text-charcoal-900 mb-1">{step.title}</h3>
-                <p className="text-sm text-charcoal-500">{step.description}</p>
               </motion.div>
             ))}
           </div>
@@ -275,38 +256,42 @@ export default function HomePage() {
       </section>
 
       {/* Testimonials */}
-      <section className="section-padding bg-greenish-50">
+      <section className="section-padding bg-charcoal-50/40">
         <div className="container-custom">
           <SectionHeading
             badge="Testimonials"
-            badgeColor="cyan"
-            title={<>Trusted by <span className="text-gradient">500+ communities</span></>}
-            description="See what community managers and committee members say about AiraNexus."
+            badgeVariant="lime"
+            title={<>Loved by committees and <span className="text-gradient">residents alike</span></>}
+            description="Real communities. Real results. Here's what managers say after switching to Aira Nexus."
           />
-          <div className="mt-14 grid md:grid-cols-3 gap-6">
+          <div className="mt-12 grid gap-6 lg:grid-cols-3">
             {testimonials.map((t, i) => (
               <motion.div
                 key={t.name}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.08 }}
-                className="card card-hover p-6 flex flex-col"
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="card-hover"
               >
-                <div className="flex items-center gap-1 mb-4">
-                  {[...Array(t.rating)].map((_, j) => (
-                    <Star key={j} className="w-4 h-4 text-yellow-400 fill-current" aria-hidden="true" />
+                <div className="flex gap-0.5">
+                  {Array.from({ length: 5 }).map((_, s) => (
+                    <Star key={s} className="h-4 w-4 fill-amber-400 text-amber-400" />
                   ))}
                 </div>
-                <p className="text-sm text-charcoal-600 leading-relaxed flex-1 mb-5">
-                  "{t.quote}"
-                </p>
-                <div className="flex items-center gap-3 pt-4 border-t border-charcoal-100">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-bold text-sm">
-                    {t.name.charAt(0)}
-                  </div>
+                <p className="mt-4 text-sm leading-relaxed text-charcoal-700">"{t.quote}"</p>
+                <div className="mt-5 flex items-center gap-3">
+                  <img
+                    src={t.avatar}
+                    alt={t.name}
+                    className="h-10 w-10 rounded-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                    width="40"
+                    height="40"
+                  />
                   <div>
-                    <p className="font-semibold text-sm text-charcoal-900">{t.name}</p>
+                    <p className="text-sm font-semibold text-charcoal-900">{t.name}</p>
                     <p className="text-xs text-charcoal-500">{t.role}</p>
                   </div>
                 </div>
@@ -316,13 +301,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <CTABanner
-        title="Ready to transform your community?"
-        description="Join 500+ communities already using AiraNexus for hassle-free management. Get a personalized demo today."
-        primaryAction={{ label: 'Book a Free Demo', to: '/request-demo' }}
-        secondaryAction={{ label: 'View Pricing', to: '/pricing' }}
-      />
-    </div>
-  );
+      <CTABanner />
+    </>
+  )
 }

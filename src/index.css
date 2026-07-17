@@ -4,36 +4,36 @@
 
 @layer base {
   html {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
-    font-family: 'Inter', system-ui, sans-serif;
-    @apply text-charcoal-700 bg-white antialiased;
+    @apply font-body text-charcoal-700 bg-white antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-    @apply text-charcoal-900;
+    @apply font-heading text-charcoal-900;
+    text-wrap: balance;
   }
 
   ::selection {
     @apply bg-primary-500/20 text-primary-900;
   }
 
-  :focus-visible {
-    @apply outline-none ring-2 ring-primary-500 ring-offset-2 ring-offset-white;
+  *:focus-visible {
+    @apply outline-none ring-2 ring-primary-500 ring-offset-2 ring-offset-white rounded-md;
   }
 
-  /* Remove tap highlight on mobile */
-  button, a {
-    -webkit-tap-highlight-color: transparent;
+  [tabindex='-1']:focus-visible {
+    @apply ring-0 ring-offset-0;
   }
 
-  /* Smooth scroll with offset for sticky header */
+  -webkit-tap-highlight-color: transparent;
+
   [id] {
     scroll-margin-top: 6rem;
   }
@@ -44,25 +44,92 @@
     @apply mx-auto w-full max-w-[1200px] px-5 sm:px-6 lg:px-8;
   }
 
-  .container-wide {
-    @apply mx-auto w-full max-w-[1440px] px-5 sm:px-6 lg:px-8;
-  }
-
   .section-padding {
     @apply py-20 lg:py-28;
   }
 
-  .section-tight {
-    @apply py-16 lg:py-20;
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-primary-500 px-5 py-3 text-sm font-semibold text-white shadow-teal transition-all duration-200 hover:bg-primary-600 hover:shadow-teal-lg active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60;
   }
 
-  /* Typography helpers */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-charcoal-900 px-5 py-3 text-sm font-semibold text-white shadow-soft transition-all duration-200 hover:bg-charcoal-800 hover:shadow-card active:scale-[0.98];
+  }
+
+  .btn-outline-white {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-5 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-200 hover:bg-white/10 hover:border-white/30 active:scale-[0.98];
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-charcoal-600 transition-all duration-200 hover:bg-charcoal-100 hover:text-charcoal-900;
+  }
+
+  .btn-link {
+    @apply inline-flex items-center gap-1 text-sm font-semibold text-primary-600 transition-colors hover:text-primary-700;
+  }
+
+  .card {
+    @apply rounded-2xl border border-charcoal-100 bg-white p-6 shadow-card;
+  }
+
+  .card-hover {
+    @apply rounded-2xl border border-charcoal-100 bg-white p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover hover:border-primary-200;
+  }
+
+  .card-glass {
+    @apply rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-md;
+  }
+
+  .icon-circle {
+    @apply flex h-12 w-12 items-center justify-center rounded-xl bg-primary-50 text-primary-600 transition-all duration-300;
+  }
+
+  .icon-circle-lg {
+    @apply flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-50 text-primary-600 transition-all duration-300;
+  }
+
+  .icon-circle-sm {
+    @apply flex h-9 w-9 items-center justify-center rounded-lg bg-primary-50 text-primary-600 transition-all duration-300;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold;
+  }
+
+  .badge-primary {
+    @apply badge bg-primary-50 text-primary-700;
+  }
+
+  .badge-lime {
+    @apply badge bg-lime-100 text-lime-800;
+  }
+
+  .badge-cyan {
+    @apply badge bg-cyan-100 text-cyan-800;
+  }
+
+  .badge-neutral {
+    @apply badge bg-charcoal-100 text-charcoal-600;
+  }
+
+  .input-base {
+    @apply w-full rounded-xl border border-charcoal-200 bg-white px-4 py-3 text-sm text-charcoal-900 placeholder:text-charcoal-400 transition-colors focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20;
+  }
+
+  .input-error {
+    @apply border-red-400 focus:border-red-500 focus:ring-red-500/20;
+  }
+
+  .blob {
+    @apply pointer-events-none absolute rounded-full blur-3xl opacity-60;
+  }
+
   .text-gradient {
-    @apply bg-gradient-to-r from-primary-600 to-lime-500 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-primary-600 via-primary-500 to-cyan-500 bg-clip-text text-transparent;
   }
 
   .text-gradient-dark {
-    @apply bg-gradient-to-r from-primary-700 to-primary-500 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-charcoal-900 via-charcoal-700 to-primary-700 bg-clip-text text-transparent;
   }
 
   .text-balance {
@@ -73,133 +140,17 @@
     text-wrap: pretty;
   }
 
-  /* Buttons */
-  .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl
-           bg-primary-500 text-white font-semibold text-sm
-           shadow-teal transition-all duration-200 ease-smooth
-           hover:bg-primary-600 hover:shadow-teal-lg
-           active:scale-[0.98]
-           disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
-  }
-
-  .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl
-           bg-white text-charcoal-900 font-semibold text-sm
-           border border-charcoal-200 shadow-soft
-           transition-all duration-200 ease-smooth
-           hover:border-primary-300 hover:text-primary-600 hover:shadow-card
-           active:scale-[0.98];
-  }
-
-  .btn-outline-white {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl
-           bg-white/10 backdrop-blur-sm text-white font-semibold text-sm
-           border border-white/30
-           transition-all duration-200 ease-smooth
-           hover:bg-white/20 hover:border-white/50
-           active:scale-[0.98];
-  }
-
-  .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg
-           text-charcoal-600 font-medium text-sm
-           transition-all duration-200 ease-smooth
-           hover:bg-primary-50 hover:text-primary-600
-           active:scale-[0.98];
-  }
-
-  .btn-link {
-    @apply inline-flex items-center gap-1.5 text-sm font-semibold text-primary-600
-           transition-all duration-200 ease-smooth
-           hover:text-primary-700 hover:gap-2.5;
-  }
-
-  /* Cards */
-  .card {
-    @apply bg-white rounded-2xl border border-charcoal-100 shadow-card
-           transition-all duration-300 ease-smooth;
-  }
-
-  .card-hover {
-    @apply hover:shadow-card-hover hover:-translate-y-1;
-  }
-
-  .card-glass {
-    @apply bg-white/80 backdrop-blur-xl rounded-3xl border border-white/60
-           shadow-elevated;
-  }
-
-  .card-flat {
-    @apply bg-white rounded-2xl border border-charcoal-100;
-  }
-
-  /* Icon circles */
-  .icon-circle {
-    @apply w-10 h-10 rounded-xl bg-primary-500 flex items-center justify-center
-           shadow-teal transition-transform duration-200 ease-smooth;
-  }
-
-  .icon-circle-lg {
-    @apply w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-500 to-primary-600
-           flex items-center justify-center shadow-teal
-           transition-transform duration-200 ease-smooth;
-  }
-
-  .icon-circle-sm {
-    @apply w-8 h-8 rounded-lg bg-primary-50 flex items-center justify-center
-           transition-colors duration-200;
-  }
-
-  /* Badges / pills */
-  .badge {
-    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full
-           text-xs font-semibold tracking-wide uppercase
-           transition-colors duration-200;
-  }
-
-  .badge-primary {
-    @apply bg-primary-50 text-primary-700;
-  }
-
-  .badge-lime {
-    @apply bg-lime-50 text-lime-700;
-  }
-
-  .badge-cyan {
-    @apply bg-cyan-50 text-cyan-700;
-  }
-
-  .badge-neutral {
-    @apply bg-charcoal-50 text-charcoal-600;
-  }
-
-  /* Form inputs */
-  .input-base {
-    @apply w-full px-4 py-3 rounded-xl border border-charcoal-200 bg-white
-           text-charcoal-900 placeholder:text-charcoal-400
-           transition-all duration-200 ease-smooth
-           focus:border-primary-500 focus:ring-2 focus:ring-primary-500/15 focus:outline-none;
-  }
-
-  .input-error {
-    @apply border-red-400 focus:border-red-500 focus:ring-red-500/15;
-  }
-
-  /* Decorative blobs */
-  .blob {
-    @apply absolute rounded-full blur-3xl opacity-20 pointer-events-none;
-  }
-
-  /* Section divider */
   .section-divider {
-    @apply h-px w-full bg-gradient-to-r from-transparent via-charcoal-100 to-transparent;
+    @apply mx-auto h-px w-full max-w-3xl bg-gradient-to-r from-transparent via-charcoal-200 to-transparent;
   }
 
-  /* Shimmer skeleton */
   .skeleton {
-    @apply bg-gradient-to-r from-charcoal-100 via-charcoal-50 to-charcoal-100
-           bg-[length:200%_100%] animate-shimmer rounded-lg;
+    @apply relative overflow-hidden rounded-md bg-charcoal-100;
+  }
+  .skeleton::after {
+    content: '';
+    @apply absolute inset-0 animate-shimmer bg-gradient-to-r from-transparent via-white/60 to-transparent;
+    background-size: 1000px 100%;
   }
 }
 
@@ -222,7 +173,6 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }

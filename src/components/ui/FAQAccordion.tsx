@@ -1,64 +1,68 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import { useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { ChevronDown } from 'lucide-react'
 
-interface FAQItem {
-  q: string;
-  a: string;
+export interface FAQItem {
+  question: string
+  answer: string
 }
 
 interface FAQAccordionProps {
-  items: FAQItem[];
+  items: FAQItem[]
+  className?: string
 }
 
-export default function FAQAccordion({ items }: FAQAccordionProps) {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+export default function FAQAccordion({ items, className = '' }: FAQAccordionProps) {
+  const [openIndex, setOpenIndex] = useState<number | null>(0)
 
   return (
-    <div className="max-w-3xl mx-auto space-y-3">
+    <div className={`divide-y divide-charcoal-100 rounded-2xl border border-charcoal-100 bg-white shadow-card ${className}`}>
       {items.map((item, i) => {
-        const isOpen = openIndex === i;
+        const isOpen = openIndex === i
         return (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3, delay: i * 0.05 }}
-            className={`card overflow-hidden transition-all duration-300 ${isOpen ? 'shadow-card-hover' : ''}`}
-          >
+          <div key={i}>
             <button
               onClick={() => setOpenIndex(isOpen ? null : i)}
-              className="w-full flex items-center justify-between gap-4 p-5 text-left"
               aria-expanded={isOpen}
-              aria-controls={`faq-content-${i}`}
+              aria-controls={`faq-panel-${i}`}
+              id={`faq-trigger-${i}`}
+              className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left transition-colors hover:bg-charcoal-50/60"
             >
-              <h3 className="font-semibold text-charcoal-900 text-sm md:text-base">{item.q}</h3>
-              <span
-                className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-all duration-300 ${
-                  isOpen ? 'bg-primary-500 text-white rotate-180' : 'bg-primary-50 text-primary-600'
+              <span className="text-sm font-semibold text-charcoal-900 sm:text-base">
+                {item.question}
+              </span>
+              <motion.span
+                animate={{ rotate: isOpen ? 180 : 0 }}
+                transition={{ duration: 0.2 }}
+                className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${
+                  isOpen ? 'bg-primary-100 text-primary-700' : 'bg-charcoal-100 text-charcoal-500'
                 }`}
               >
-                <ChevronDown className="w-4 h-4" aria-hidden="true" />
-              </span>
+                <ChevronDown className="h-4 w-4" />
+              </motion.span>
             </button>
             <AnimatePresence initial={false}>
               {isOpen && (
                 <motion.div
-                  id={`faq-content-${i}`}
+                  key="content"
+                  id={`faq-panel-${i}`}
+                  role="region"
+                  aria-labelledby={`faq-trigger-${i}`}
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                  transition={{ duration: 0.25, ease: 'easeInOut' }}
                   className="overflow-hidden"
                 >
-                  <p className="px-5 pb-5 text-sm text-charcoal-500 leading-relaxed">{item.a}</p>
+                  <p className="px-5 pb-5 text-sm leading-relaxed text-charcoal-600">
+                    {item.answer}
+                  </p>
                 </motion.div>
               )}
             </AnimatePresence>
-          </motion.div>
-        );
+          </div>
+        )
       })}
     </div>
-  );
+  )
 }

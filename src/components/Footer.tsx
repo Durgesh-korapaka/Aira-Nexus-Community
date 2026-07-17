@@ -1,90 +1,128 @@
-import { Link } from 'react-router-dom';
-import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin, ArrowRight } from 'lucide-react';
+import { useState, type FormEvent } from 'react'
+import { Link } from 'react-router-dom'
+import { Globe, Link2, Mail, MapPin, MessageCircle, Phone } from 'lucide-react'
 
-const footerLinks = {
+const footerNav = {
   Product: [
-    { name: 'Features', path: '/features' },
-    { name: 'Solutions', path: '/solutions' },
-    { name: 'Pricing', path: '/pricing' },
-    { name: 'Request Demo', path: '/request-demo' },
+    { label: 'Features', to: '/features' },
+    { label: 'Solutions', to: '/solutions' },
+    { label: 'Pricing', to: '/pricing' },
+    { label: 'Request Demo', to: '/request-demo' },
   ],
   Company: [
-    { name: 'About Us', path: '/about' },
-    { name: 'Blog', path: '/blog' },
-    { name: 'Contact', path: '/contact' },
-    { name: 'FAQ', path: '/faq' },
+    { label: 'About Us', to: '/about' },
+    { label: 'Blog', to: '/blog' },
+    { label: 'Contact', to: '/contact' },
+    { label: 'FAQ', to: '/faq' },
   ],
   Resources: [
-    { name: 'Apartment Management', path: '/apartment-management-software' },
-    { name: 'Society Management', path: '/society-management-software' },
-    { name: 'Maintenance Billing', path: '/maintenance-billing-software' },
-    { name: 'MyGate Alternative', path: '/mygate-alternative' },
+    { label: 'Apartment Management', to: '/apartment-management-software' },
+    { label: 'Society Management', to: '/society-management-software' },
+    { label: 'Maintenance Billing', to: '/maintenance-billing-software' },
+    { label: 'MyGate Alternative', to: '/mygate-alternative' },
   ],
   Legal: [
-    { name: 'Privacy Policy', path: '/privacy' },
-    { name: 'Terms of Service', path: '/terms' },
-    { name: 'Login', path: '/login' },
+    { label: 'Privacy Policy', to: '/privacy' },
+    { label: 'Terms of Service', to: '/terms' },
+    { label: 'Login', to: '/login' },
   ],
-};
+}
 
-const socialLinks = [
-  { icon: Facebook, label: 'Facebook', url: 'https://www.facebook.com/airanexus' },
-  { icon: Twitter, label: 'Twitter', url: 'https://www.twitter.com/airanexus' },
-  { icon: Linkedin, label: 'LinkedIn', url: 'https://www.linkedin.com/company/airanexus' },
-  { icon: Instagram, label: 'Instagram', url: 'https://www.instagram.com/airanexus' },
-];
-
-const contactInfo = [
-  { icon: Mail, label: 'hello@airanexus.com' },
-  { icon: Phone, label: '+91-123-456-7890' },
-  { icon: MapPin, label: 'Bangalore, Karnataka, India' },
-];
+const socials = [
+  { Icon: Globe, label: 'Facebook', href: 'https://facebook.com' },
+  { Icon: MessageCircle, label: 'Twitter', href: 'https://twitter.com' },
+  { Icon: Link2, label: 'LinkedIn', href: 'https://linkedin.com' },
+  { Icon: Mail, label: 'Instagram', href: 'https://instagram.com' },
+]
 
 export default function Footer() {
+  const [email, setEmail] = useState('')
+  const [subscribed, setSubscribed] = useState(false)
+
+  const onSubscribe = (e: FormEvent) => {
+    e.preventDefault()
+    if (!email) return
+    setSubscribed(true)
+    setEmail('')
+    setTimeout(() => setSubscribed(false), 3000)
+  }
+
   return (
     <footer className="bg-charcoal-900 text-white">
       <div className="container-custom py-16 lg:py-20">
-        <div className="grid lg:grid-cols-12 gap-12">
-          {/* Brand column */}
+        <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <Link to="/" className="inline-block mb-5" aria-label="AiraNexus home">
+            <Link to="/" aria-label="Aira Nexus home" className="inline-block">
               <img
-                src="/airanexus-logo.png"
-                alt="AiraNexus"
-                className="object-contain w-auto h-[36px] brightness-0 invert"
-                width="180"
-                height="36"
+                src="/airanexus-logo-footer.svg"
+                alt="Aira Nexus Logo"
+                className="object-contain w-auto h-[45px] sm:h-[55px]"
+                width="240"
+                height="50"
               />
             </Link>
-            <p className="text-sm text-white/60 leading-relaxed max-w-sm mb-6">
-              AI-powered community management for apartments, gated communities, and RWAs.
-              Automate billing, complaints, and communication — all in one platform.
+            <p className="mt-5 max-w-sm text-sm leading-relaxed text-charcoal-300">
+              The AI-powered community management platform that brings residents, managers, and
+              vendors together — making every apartment and society run like clockwork.
             </p>
-            <div className="space-y-2.5">
-              {contactInfo.map((item) => (
-                <div key={item.label} className="flex items-center gap-3 text-sm text-white/70">
-                  <item.icon className="w-4 h-4 text-primary-400 flex-shrink-0" aria-hidden="true" />
-                  <span>{item.label}</span>
-                </div>
+
+            <div className="mt-6 space-y-3 text-sm text-charcoal-300">
+              <a
+                href="mailto:hello@airanexus.com"
+                className="flex items-center gap-3 transition-colors hover:text-white"
+              >
+                <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10">
+                  <Mail className="h-4 w-4" />
+                </span>
+                hello@airanexus.com
+              </a>
+              <a
+                href="tel:+918000000000"
+                className="flex items-center gap-3 transition-colors hover:text-white"
+              >
+                <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10">
+                  <Phone className="h-4 w-4" />
+                </span>
+                +91 80 0000 0000
+              </a>
+              <p className="flex items-start gap-3">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/10">
+                  <MapPin className="h-4 w-4" />
+                </span>
+                Prestige Tech Park, Kadubeesanahalli, Bengaluru, Karnataka 560103
+              </p>
+            </div>
+
+            <div className="mt-6 flex items-center gap-3">
+              {socials.map(({ Icon, label, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-charcoal-200 transition-all hover:bg-primary-500 hover:text-white"
+                >
+                  <Icon className="h-4 w-4" />
+                </a>
               ))}
             </div>
           </div>
 
-          {/* Link columns */}
-          <div className="lg:col-span-8 grid grid-cols-2 md:grid-cols-4 gap-8">
-            {Object.entries(footerLinks).map(([category, links]) => (
-              <div key={category}>
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-white/40 mb-4">
-                  {category}
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-4 lg:col-span-5">
+            {Object.entries(footerNav).map(([heading, links]) => (
+              <div key={heading}>
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-charcoal-400">
+                  {heading}
                 </h3>
-                <ul className="space-y-3">
+                <ul className="mt-4 space-y-3">
                   {links.map((link) => (
-                    <li key={link.path}>
+                    <li key={link.label}>
                       <Link
-                        to={link.path}
-                        className="text-sm text-white/70 hover:text-white transition-colors duration-200"
+                        to={link.to}
+                        className="text-sm text-charcoal-300 transition-colors hover:text-white"
                       >
-                        {link.name}
+                        {link.label}
                       </Link>
                     </li>
                   ))}
@@ -92,56 +130,56 @@ export default function Footer() {
               </div>
             ))}
           </div>
-        </div>
 
-        {/* Newsletter strip */}
-        <div className="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex flex-col sm:flex-row items-center gap-4">
-            <p className="text-sm text-white/60">Stay updated with community management insights</p>
-            <form className="flex gap-2 w-full sm:w-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                aria-label="Email for newsletter"
-                className="w-full sm:w-64 px-4 py-2.5 rounded-lg bg-white/10 border border-white/15 text-white text-sm placeholder:text-white/40 focus:bg-white/15 focus:border-primary-400 focus:outline-none transition-all"
-              />
-              <button
-                type="submit"
-                className="flex-shrink-0 px-4 py-2.5 rounded-lg bg-primary-500 text-white font-medium text-sm hover:bg-primary-400 transition-colors flex items-center gap-1.5"
-              >
-                Subscribe
-                <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
-              </button>
+          <div className="lg:col-span-3">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-charcoal-400">
+              Newsletter
+            </h3>
+            <p className="mt-4 text-sm text-charcoal-300">
+              Get product updates and community management tips in your inbox.
+            </p>
+            <form onSubmit={onSubscribe} className="mt-4">
+              <div className="flex flex-col gap-2 sm:flex-row">
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@email.com"
+                  aria-label="Email address"
+                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-charcoal-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/30"
+                />
+                <button
+                  type="submit"
+                  className="shrink-0 rounded-xl bg-primary-500 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-600"
+                >
+                  Subscribe
+                </button>
+              </div>
+              {subscribed && (
+                <p className="mt-2 text-xs text-greenish-400">✓ Thanks for subscribing!</p>
+              )}
             </form>
           </div>
-
-          {/* Social icons */}
-          <div className="flex items-center gap-2">
-            {socialLinks.map((social) => (
-              <a
-                key={social.label}
-                href={social.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={social.label}
-                className="w-9 h-9 rounded-xl flex items-center justify-center bg-white/5 text-white/60 hover:bg-primary-500 hover:text-white transition-all duration-200 ease-smooth"
-              >
-                <social.icon className="w-4 h-4" aria-hidden="true" />
-              </a>
-            ))}
-          </div>
         </div>
+      </div>
 
-        {/* Bottom bar */}
-        <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-white/40">
-            © {new Date().getFullYear()} AiraNexus. All rights reserved.
-          </p>
-          <p className="text-xs text-white/40">
-            Made with care in Bangalore, India
-          </p>
+      <div className="border-t border-white/10">
+        <div className="container-custom flex flex-col items-center justify-between gap-3 py-6 text-xs text-charcoal-400 sm:flex-row">
+          <p>© {new Date().getFullYear()} Aira Nexus Technologies Pvt. Ltd. All rights reserved.</p>
+          <div className="flex items-center gap-4">
+            <Link to="/privacy" className="transition-colors hover:text-white">
+              Privacy
+            </Link>
+            <Link to="/terms" className="transition-colors hover:text-white">
+              Terms
+            </Link>
+            <Link to="/login" className="transition-colors hover:text-white">
+              Login
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
-  );
+  )
 }

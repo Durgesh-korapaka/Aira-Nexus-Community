@@ -1,435 +1,300 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Search,
-  Calendar,
-  Clock,
-  User,
-  ArrowRight,
-  Sparkles,
-  Mail,
-  TrendingUp,
-} from 'lucide-react';
-import SEO from '../components/SEO';
+import { useMemo, useState, type FormEvent } from 'react'
+import { motion } from 'framer-motion'
+import { ArrowRight, Calendar, Clock, Search, Sparkles, TrendingUp } from 'lucide-react'
+import SEO from '../components/SEO'
+import SectionHeading from '../components/ui/SectionHeading'
 
-interface BlogPageProps {
-  darkMode: boolean;
+interface BlogPost {
+  title: string
+  excerpt: string
+  category: string
+  author: string
+  date: string
+  readTime: string
+  image: string
+  featured?: boolean
 }
 
-const categories = [
-  { name: 'All', count: 24 },
-  { name: 'Apartment Management', count: 8 },
-  { name: 'Maintenance Billing', count: 5 },
-  { name: 'Complaint Management', count: 4 },
-  { name: 'Community Living', count: 4 },
-  { name: 'Security', count: 2 },
-  { name: 'Technology', count: 1 },
-];
-
-const featuredPost = {
-  title: '10 Ways to Improve Maintenance Collection in Your Apartment',
-  excerpt:
-    'Discover proven strategies that have helped communities increase collection rates by 40% or more. From automated reminders to flexible payment options.',
-  category: 'Apartment Management',
-  date: 'June 15, 2024',
-  readTime: '8 min read',
-  author: 'Priya Sharma',
-  image:
-    'https://images.pexels.com/photos/1545324418/pexels-photo-1545324418.jpeg?auto=compress&cs=tinysrgb&w=800',
-};
-
-const posts = [
+const posts: BlogPost[] = [
   {
-    title: 'How to Set Up a Digital Notice Board for Your Community',
-    excerpt: 'Step-by-step guide to going paperless with community announcements.',
-    category: 'Apartment Management',
-    date: 'June 12, 2024',
-    readTime: '5 min read',
-    author: 'Rajesh Kumar',
-    image:
-      'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400',
+    title: 'How to reduce maintenance dues collection time by 60%',
+    excerpt: 'A practical, step-by-step playbook for apartment committees to move from 60-day collection cycles to under 20 days — without chasing residents.',
+    category: 'Billing',
+    author: 'Arjun Mehta',
+    date: 'Jan 12, 2025',
+    readTime: '8 min read',
+    image: 'https://images.pexels.com/photos/4386431/pexels-photo-4386431.jpeg?auto=compress&cs=tinysrgb&w=800',
+    featured: true,
   },
   {
-    title: 'The Complete Guide to Visitor Management Systems',
-    excerpt: 'Everything you need to know about implementing secure visitor tracking.',
+    title: 'The complete guide to visitor management for gated communities',
+    excerpt: 'Everything you need to know about digital visitor passes, guard workflows, and the policies that keep communities secure.',
     category: 'Security',
-    date: 'June 10, 2024',
-    readTime: '7 min read',
-    author: 'Anand Patel',
-    image:
-      'https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&w=400',
+    author: 'Sneha Reddy',
+    date: 'Jan 8, 2025',
+    readTime: '12 min read',
+    image: 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800',
   },
   {
-    title: 'WhatsApp Integration: Transforming Community Communication',
-    excerpt: 'How instant messaging is changing the way communities stay connected.',
-    category: 'Technology',
-    date: 'June 8, 2024',
-    readTime: '4 min read',
-    author: 'Sneha Patel',
-    image:
-      'https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=400',
-  },
-  {
-    title: 'Managing Complaints: Best Practices for Committee Members',
-    excerpt: 'Learn how to handle resident complaints efficiently and transparently.',
-    category: 'Complaint Management',
-    date: 'June 5, 2024',
-    readTime: '6 min read',
+    title: '5 ways AI is transforming apartment management in 2025',
+    excerpt: 'From predictive maintenance to smart billing reminders, here are the AI trends reshaping how communities are run.',
+    category: 'AI',
     author: 'Vikram Singh',
-    image:
-      'https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=400',
+    date: 'Jan 5, 2025',
+    readTime: '6 min read',
+    image: 'https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=800',
   },
   {
-    title: 'Budget Planning for Apartment Associations',
-    excerpt: 'A comprehensive guide to financial planning and budgeting.',
-    category: 'Maintenance Billing',
-    date: 'June 3, 2024',
-    readTime: '9 min read',
-    author: 'Priya Sharma',
-    image:
-      'https://images.pexels.com/photos/1545324418/pexels-photo-1545324418.jpeg?auto=compress&cs=tinysrgb&w=400',
+    title: 'RWA elections: How to run transparent, tamper-proof voting',
+    excerpt: "Digital voting eliminates the chaos of paper ballots. Here's how to set it up and keep it fair.",
+    category: 'Governance',
+    author: 'Ananya Iyer',
+    date: 'Dec 28, 2024',
+    readTime: '7 min read',
+    image: 'https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=800',
   },
   {
-    title: 'Creating a Safe and Secure Community Environment',
-    excerpt: 'Tips for improving security protocols in residential complexes.',
-    category: 'Security',
-    date: 'May 30, 2024',
+    title: "Maintenance billing software: A buyer's guide for committees",
+    excerpt: 'What to look for, what to avoid, and the questions every vendor should answer before you sign.',
+    category: 'Billing',
+    author: 'Arjun Mehta',
+    date: 'Dec 20, 2024',
+    readTime: '10 min read',
+    image: 'https://images.pexels.com/photos/669454/pexels-photo-669454.jpeg?auto=compress&cs=tinysrgb&w=800',
+  },
+  {
+    title: 'Why your community needs a digital notice board (and how to set one up)',
+    excerpt: "Paper notices get lost. WhatsApp groups get noisy. Here's why a structured notice board works better.",
+    category: 'Communication',
+    author: 'Sneha Reddy',
+    date: 'Dec 15, 2024',
     readTime: '5 min read',
-    author: 'Anand Patel',
-    image:
-      'https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&w=400',
+    image: 'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=800',
   },
-];
+]
 
-export default function BlogPage({ darkMode: _darkMode }: BlogPageProps) {
-  const [activeCategory, setActiveCategory] = useState('All');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [email, setEmail] = useState('');
+const categories = ['All', 'Billing', 'Security', 'AI', 'Governance', 'Communication']
 
-  const filteredPosts = posts.filter((post) => {
-    const matchesCategory = activeCategory === 'All' || post.category === activeCategory;
-    const matchesSearch =
-      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+export default function BlogPage({ darkMode: _darkMode }: { darkMode?: boolean }) {
+  const [search, setSearch] = useState('')
+  const [activeCategory, setActiveCategory] = useState('All')
+  const [subscribed, setSubscribed] = useState(false)
+  const [email, setEmail] = useState('')
 
-  const showFeatured = activeCategory === 'All' && !searchQuery;
+  const featured = posts.find((p) => p.featured) ?? posts[0]
+  const rest = posts.filter((p) => p !== featured)
 
-  const handleNewsletterSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setEmail('');
-  };
+  const filtered = useMemo(() => {
+    return rest.filter((post) => {
+      const matchesSearch =
+        post.title.toLowerCase().includes(search.toLowerCase()) ||
+        post.excerpt.toLowerCase().includes(search.toLowerCase())
+      const matchesCategory = activeCategory === 'All' || post.category === activeCategory
+      return matchesSearch && matchesCategory
+    })
+  }, [rest, search, activeCategory])
+
+  const onSubscribe = (e: FormEvent) => {
+    e.preventDefault()
+    if (!email) return
+    setSubscribed(true)
+    setEmail('')
+    setTimeout(() => setSubscribed(false), 3000)
+  }
 
   return (
-    <div>
+    <>
       <SEO
-        title="Blog — AiraNexus Community Management"
-        description="Insights, tips, and stories about community management, technology, and residential living from the AiraNexus team."
+        title="Blog — Insights on Community Management"
+        description="Expert insights, how-to guides, and best practices for apartment and society management from the Aira Nexus team."
         path="/blog"
       />
 
-      {/* Hero Section */}
-      <section className="relative pt-28 lg:pt-36 pb-20 lg:pb-24 overflow-hidden bg-greenish-50">
-        <div className="blob w-[500px] h-[500px] bg-primary-400 -top-32 -right-32 animate-float" />
-        <div className="blob w-[400px] h-[400px] bg-lime-400 -bottom-32 -left-32 animate-float-slow" />
-
-        <div className="container-custom relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            <motion.span
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="badge badge-primary mb-6"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-primary-500 animate-pulse" />
-              Blog &amp; Resources
-            </motion.span>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.05 }}
-              className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-charcoal-900 text-balance"
-            >
-              Insights for{' '}
-              <span className="text-gradient">community managers</span>
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="mt-6 text-lg text-charcoal-500 max-w-2xl mx-auto text-pretty"
-            >
-              Expert tips, industry insights, and best practices for managing residential
-              communities — straight from the AiraNexus team.
-            </motion.p>
-
-            {/* Search */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              className="mt-8 max-w-md mx-auto relative"
-            >
-              <Search
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-charcoal-400"
-                aria-hidden="true"
-              />
-              <input
-                type="text"
-                placeholder="Search articles..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                aria-label="Search articles"
-                className="w-full pl-12 pr-4 py-3.5 rounded-full bg-white text-charcoal-900 placeholder:text-charcoal-400 border border-charcoal-200 shadow-soft focus:outline-none focus:ring-2 focus:ring-primary-500/15 focus:border-primary-500 transition-all duration-200 ease-smooth"
-              />
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Category Filter Pills */}
-      <section className="py-8 bg-white border-b border-charcoal-100 sticky top-16 z-30 backdrop-blur-md bg-white/90">
-        <div className="container-custom">
-          <div
-            className="flex flex-wrap justify-center gap-2.5"
-            role="tablist"
-            aria-label="Article categories"
+      {/* Hero with search */}
+      <section className="bg-hero-gradient pt-28 lg:pt-36">
+        <div className="container-custom pb-12 text-center lg:pb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mx-auto max-w-3xl"
           >
-            {categories.map((category) => {
-              const isActive = activeCategory === category.name;
-              return (
-                <button
-                  key={category.name}
-                  onClick={() => setActiveCategory(category.name)}
-                  role="tab"
-                  aria-selected={isActive}
-                  className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold tracking-wide transition-all duration-200 ease-smooth active:scale-[0.98] ${
-                    isActive
-                      ? 'bg-primary-500 text-white shadow-teal'
-                      : 'bg-charcoal-50 text-charcoal-600 hover:bg-primary-50 hover:text-primary-600'
-                  }`}
-                >
-                  {category.name}
-                  <span
-                    className={`text-xs ${isActive ? 'text-white/70' : 'text-charcoal-400'}`}
-                  >
-                    {category.count}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
+            <span className="badge-primary">
+              <Sparkles className="h-3.5 w-3.5" />
+              Blog
+            </span>
+            <h1 className="mt-5 text-4xl font-bold tracking-tight text-charcoal-900 sm:text-5xl text-balance">
+              Insights for better <span className="text-gradient">community management</span>
+            </h1>
+            <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-charcoal-600 text-pretty">
+              Practical guides, expert insights, and real-world stories from communities across India.
+            </p>
+            <div className="mx-auto mt-8 max-w-md">
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-charcoal-400" />
+                <input
+                  type="search"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search articles..."
+                  aria-label="Search blog posts"
+                  className="w-full rounded-xl border border-charcoal-200 bg-white py-3 pl-11 pr-4 text-sm shadow-soft focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20"
+                />
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Featured Post */}
-      {showFeatured && (
-        <section className="section-tight bg-greenish-50">
+      {/* Category filter */}
+      <section className="border-b border-charcoal-100 bg-white">
+        <div className="container-custom flex flex-wrap items-center gap-2 py-4">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all ${
+                activeCategory === cat
+                  ? 'bg-primary-500 text-white shadow-teal'
+                  : 'bg-charcoal-100 text-charcoal-600 hover:bg-charcoal-200'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* Featured post */}
+      {activeCategory === 'All' && !search && (
+        <section className="section-padding">
           <div className="container-custom">
-            <motion.div
+            <motion.article
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="card card-hover p-0 overflow-hidden group"
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.6 }}
+              className="grid items-center gap-8 rounded-3xl border border-charcoal-100 bg-white p-6 shadow-card lg:grid-cols-2 lg:p-8"
             >
-              <div className="grid lg:grid-cols-2">
-                <div className="relative h-64 lg:h-auto overflow-hidden">
-                  <img
-                    src={featuredPost.image}
-                    alt={featuredPost.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-smooth"
-                    loading="lazy"
-                    decoding="async"
-                    width={800}
-                    height={600}
-                  />
-                  <span className="absolute top-4 left-4 badge badge-primary bg-white/95 backdrop-blur-sm shadow-soft">
-                    <Sparkles className="w-3 h-3" aria-hidden="true" />
+              <div className="overflow-hidden rounded-2xl">
+                <img
+                  src={featured.image}
+                  alt={featured.title}
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                  decoding="async"
+                  width="800"
+                  height="500"
+                />
+              </div>
+              <div>
+                <div className="flex items-center gap-3">
+                  <span className="badge-primary">
+                    <TrendingUp className="h-3.5 w-3.5" />
                     Featured
                   </span>
+                  <span className="badge-neutral">{featured.category}</span>
                 </div>
-                <div className="p-8 lg:p-12 flex flex-col justify-center">
-                  <span className="badge badge-lime self-start mb-4">
-                    {featuredPost.category}
-                  </span>
-                  <h2 className="text-2xl md:text-3xl font-bold mb-4 text-charcoal-900 text-balance">
-                    {featuredPost.title}
-                  </h2>
-                  <p className="mb-6 text-charcoal-500 text-pretty leading-relaxed">
-                    {featuredPost.excerpt}
-                  </p>
-                  <div className="flex flex-wrap items-center gap-4 text-sm text-charcoal-500 mb-6">
-                    <span className="flex items-center gap-1.5">
-                      <Calendar className="w-4 h-4" aria-hidden="true" />
-                      {featuredPost.date}
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <Clock className="w-4 h-4" aria-hidden="true" />
-                      {featuredPost.readTime}
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <User className="w-4 h-4" aria-hidden="true" />
-                      {featuredPost.author}
-                    </span>
-                  </div>
-                  <a
-                    href="#"
-                    className="btn-primary self-start"
-                    aria-label={`Read article: ${featuredPost.title}`}
-                  >
-                    Read Article
-                    <ArrowRight className="w-4 h-4" aria-hidden="true" />
-                  </a>
+                <h2 className="mt-4 text-2xl font-bold tracking-tight text-charcoal-900 sm:text-3xl text-balance">
+                  {featured.title}
+                </h2>
+                <p className="mt-3 text-base leading-relaxed text-charcoal-600 text-pretty">
+                  {featured.excerpt}
+                </p>
+                <div className="mt-5 flex items-center gap-4 text-xs text-charcoal-500">
+                  <span className="font-semibold text-charcoal-700">{featured.author}</span>
+                  <span className="flex items-center gap-1"><Calendar className="h-3 w-3" />{featured.date}</span>
+                  <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{featured.readTime}</span>
                 </div>
+                <a href="#" className="btn-link mt-6">
+                  Read article
+                  <ArrowRight className="h-4 w-4" />
+                </a>
               </div>
-            </motion.div>
+            </motion.article>
           </div>
         </section>
       )}
 
-      {/* Blog Grid */}
-      <section className={showFeatured ? 'section-tight bg-greenish-50 pt-0' : 'section-padding bg-greenish-50'}>
+      {/* Blog grid */}
+      <section className="pb-20 lg:pb-28">
         <div className="container-custom">
-          <div className="flex items-center justify-between mb-10">
-            <h2 className="text-2xl font-bold text-charcoal-900">
-              {activeCategory === 'All' ? 'Latest Articles' : activeCategory}
-            </h2>
-            <span className="text-sm text-charcoal-500 font-medium">
-              {filteredPosts.length} {filteredPosts.length === 1 ? 'article' : 'articles'}
-            </span>
-          </div>
-
-          <AnimatePresence mode="popLayout">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-              {filteredPosts.map((post, index) => (
+          {filtered.length > 0 ? (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {filtered.map((post, i) => (
                 <motion.article
                   key={post.title}
-                  layout
                   initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.05 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  className="card card-hover p-0 overflow-hidden group flex flex-col"
+                  viewport={{ once: true, margin: '-60px' }}
+                  transition={{ duration: 0.5, delay: (i % 3) * 0.08 }}
+                  className="card-hover group flex flex-col"
                 >
-                  <div className="relative h-48 overflow-hidden">
+                  <div className="overflow-hidden rounded-xl">
                     <img
                       src={post.image}
                       alt={post.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-smooth"
+                      className="aspect-[16/10] w-full object-cover transition-transform duration-300 group-hover:scale-105"
                       loading="lazy"
                       decoding="async"
-                      width={400}
-                      height={250}
+                      width="800"
+                      height="500"
                     />
-                    <span className="absolute top-3 left-3 badge badge-primary bg-white/95 backdrop-blur-sm shadow-soft">
-                      {post.category}
-                    </span>
                   </div>
-                  <div className="p-6 flex flex-col flex-1">
-                    <h3 className="text-lg font-bold mb-2 text-charcoal-900 group-hover:text-primary-600 transition-colors duration-200 line-clamp-2">
+                  <div className="mt-4 flex-1">
+                    <span className="badge-neutral">{post.category}</span>
+                    <h3 className="mt-3 text-lg font-semibold text-charcoal-900 line-clamp-2">
                       {post.title}
                     </h3>
-                    <p className="text-sm mb-4 line-clamp-2 text-charcoal-500 leading-relaxed flex-1">
+                    <p className="mt-2 text-sm leading-relaxed text-charcoal-600 line-clamp-3">
                       {post.excerpt}
                     </p>
-                    <div className="flex items-center justify-between text-xs text-charcoal-400 pt-4 border-t border-charcoal-100">
-                      <span className="flex items-center gap-1.5">
-                        <Calendar className="w-3 h-3" aria-hidden="true" />
-                        {post.date}
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <Clock className="w-3 h-3" aria-hidden="true" />
-                        {post.readTime}
-                      </span>
-                    </div>
+                  </div>
+                  <div className="mt-4 flex items-center gap-3 border-t border-charcoal-100 pt-4 text-xs text-charcoal-500">
+                    <span className="font-semibold text-charcoal-700">{post.author}</span>
+                    <span className="flex items-center gap-1"><Calendar className="h-3 w-3" />{post.date}</span>
+                    <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{post.readTime}</span>
                   </div>
                 </motion.article>
               ))}
             </div>
-          </AnimatePresence>
-
-          {filteredPosts.length === 0 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-center py-16"
-            >
-              <div className="icon-circle-lg mx-auto mb-6">
-                <Search className="w-6 h-6 text-white" aria-hidden="true" />
-              </div>
-              <h3 className="text-xl font-bold text-charcoal-900 mb-2">No articles found</h3>
-              <p className="text-charcoal-500 mb-6">
-                Try a different search term or category.
-              </p>
-              <button
-                onClick={() => {
-                  setSearchQuery('');
-                  setActiveCategory('All');
-                }}
-                className="btn-secondary"
-              >
-                Clear filters
-              </button>
-            </motion.div>
+          ) : (
+            <div className="py-20 text-center">
+              <p className="text-base text-charcoal-500">No articles found. Try a different search or category.</p>
+            </div>
           )}
         </div>
       </section>
 
-      {/* Newsletter Section */}
-      <section className="section-padding bg-white">
+      {/* Newsletter */}
+      <section className="section-padding bg-charcoal-50/40">
         <div className="container-custom">
-          <div className="bg-brand-gradient rounded-3xl p-8 md:p-12 lg:p-16 text-center relative overflow-hidden">
-            <div className="blob w-[300px] h-[300px] bg-white/20 top-0 -right-20" />
-            <div className="blob w-[250px] h-[250px] bg-white/10 bottom-0 -left-20" />
-
-            <div className="relative z-10 max-w-2xl mx-auto">
-              <div className="icon-circle-lg mx-auto mb-6 bg-white/15 backdrop-blur-sm border border-white/20">
-                <Mail className="w-6 h-6 text-white" aria-hidden="true" />
-              </div>
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-white text-balance">
-                Stay in the loop
-              </h2>
-              <p className="mb-8 max-w-xl mx-auto text-white/90 text-pretty text-lg">
-                Subscribe to our newsletter and get the latest community management tips,
-                insights, and product updates delivered to your inbox.
-              </p>
-              <form
-                onSubmit={handleNewsletterSubmit}
-                className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
-              >
-                <label htmlFor="newsletter-email" className="sr-only">
-                  Email address
-                </label>
-                <input
-                  id="newsletter-email"
-                  type="email"
-                  required
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 px-4 py-3 rounded-xl bg-white/95 text-charcoal-900 placeholder:text-charcoal-400 border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white transition-all duration-200 ease-smooth"
-                />
-                <button
-                  type="submit"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white text-primary-600 font-semibold text-sm whitespace-nowrap hover:bg-charcoal-50 active:scale-[0.98] transition-all duration-200 ease-smooth shadow-soft"
-                >
-                  Subscribe
-                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
-                </button>
-              </form>
-              <p className="mt-4 text-sm text-white/70 flex items-center justify-center gap-1.5">
-                <TrendingUp className="w-3.5 h-3.5" aria-hidden="true" />
-                Join 2,000+ community managers. No spam, unsubscribe anytime.
-              </p>
-            </div>
-          </div>
+          <SectionHeading
+            badge="Newsletter"
+            badgeVariant="lime"
+            title={<>Get the best of Aira Nexus <span className="text-gradient">in your inbox</span></>}
+            description="One email every two weeks. No spam, just practical community management insights."
+          />
+          <form onSubmit={onSubscribe} className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row">
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@email.com"
+              aria-label="Email address"
+              className="input-base"
+            />
+            <button type="submit" className="btn-primary shrink-0">
+              Subscribe
+              <ArrowRight className="h-4 w-4" />
+            </button>
+          </form>
+          {subscribed && (
+            <p className="mt-3 text-center text-sm text-greenish-600">✓ Thanks for subscribing!</p>
+          )}
         </div>
       </section>
-    </div>
-  );
+    </>
+  )
 }

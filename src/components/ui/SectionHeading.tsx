@@ -1,63 +1,47 @@
-import { motion } from 'framer-motion';
-import type { ReactNode } from 'react';
+import { motion } from 'framer-motion'
+import type { ReactNode } from 'react'
 
 interface SectionHeadingProps {
-  badge?: string;
-  badgeColor?: 'primary' | 'lime' | 'cyan' | 'neutral';
-  title: ReactNode;
-  description?: string;
-  align?: 'center' | 'left';
-  className?: string;
+  badge?: string
+  badgeVariant?: 'primary' | 'lime' | 'cyan' | 'neutral'
+  title: ReactNode
+  description?: ReactNode
+  align?: 'center' | 'left'
+  className?: string
+}
+
+const badgeClasses: Record<NonNullable<SectionHeadingProps['badgeVariant']>, string> = {
+  primary: 'badge-primary',
+  lime: 'badge-lime',
+  cyan: 'badge-cyan',
+  neutral: 'badge-neutral',
 }
 
 export default function SectionHeading({
   badge,
-  badgeColor = 'primary',
+  badgeVariant = 'primary',
   title,
   description,
   align = 'center',
   className = '',
 }: SectionHeadingProps) {
-  const badgeClass = {
-    primary: 'badge-primary',
-    lime: 'badge-lime',
-    cyan: 'badge-cyan',
-    neutral: 'badge-neutral',
-  }[badgeColor];
-
   return (
-    <div className={`${align === 'center' ? 'text-center mx-auto' : 'text-left'} max-w-2xl ${className}`}>
-      {badge && (
-        <motion.span
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4 }}
-          className={`badge ${badgeClass} mb-4`}
-        >
-          {badge}
-        </motion.span>
-      )}
-      <motion.h2
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.05 }}
-        className="text-3xl md:text-4xl font-bold tracking-tight text-balance"
-      >
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-80px' }}
+      transition={{ duration: 0.5 }}
+      className={`${align === 'center' ? 'mx-auto max-w-2xl text-center' : 'max-w-2xl text-left'} ${className}`}
+    >
+      {badge && <span className={badgeClasses[badgeVariant]}>{badge}</span>}
+      <h2 className="mt-4 text-3xl font-bold tracking-tight text-charcoal-900 sm:text-4xl text-balance">
         {title}
-      </motion.h2>
+      </h2>
       {description && (
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="mt-4 text-lg text-charcoal-500 text-pretty"
-        >
+        <p className="mt-4 text-base leading-relaxed text-charcoal-600 text-pretty">
           {description}
-        </motion.p>
+        </p>
       )}
-    </div>
-  );
+    </motion.div>
+  )
 }

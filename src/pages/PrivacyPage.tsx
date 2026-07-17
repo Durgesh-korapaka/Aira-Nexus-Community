@@ -1,201 +1,198 @@
-import { motion } from 'framer-motion';
-import { Shield } from 'lucide-react';
-import SEO from '../components/SEO';
-
-interface PrivacyPageProps {
-  darkMode: boolean;
-}
+import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
+import { Shield } from 'lucide-react'
+import SEO from '../components/SEO'
+import CTABanner from '../components/ui/CTABanner'
 
 const sections = [
   { id: 'introduction', title: '1. Introduction' },
-  { id: 'data-collection', title: '2. Data We Collect' },
-  { id: 'data-use', title: '3. How We Use Your Data' },
-  { id: 'data-security', title: '4. Data Security' },
-  { id: 'data-retention', title: '5. Data Retention' },
-  { id: 'legal-rights', title: '6. Your Legal Rights' },
-  { id: 'contact', title: '7. Contact Us' },
-  { id: 'changes', title: '8. Changes to This Policy' },
-];
+  { id: 'information-we-collect', title: '2. Information We Collect' },
+  { id: 'how-we-use', title: '3. How We Use Your Information' },
+  { id: 'data-sharing', title: '4. Data Sharing & Disclosure' },
+  { id: 'data-security', title: '5. Data Security' },
+  { id: 'data-retention', title: '6. Data Retention' },
+  { id: 'your-rights', title: '7. Your Rights' },
+  { id: 'contact', title: '8. Contact Us' },
+]
 
-export default function PrivacyPage({ darkMode: _darkMode }: PrivacyPageProps) {
+const content: Record<string, { heading: string; body: string[] }> = {
+  introduction: {
+    heading: '1. Introduction',
+    body: [
+      'Aira Nexus Technologies Pvt. Ltd. ("Aira Nexus", "we", "us", or "our") respects your privacy and is committed to protecting your personal data. This Privacy Policy explains how we collect, use, store, and protect your information when you use our community management platform.',
+      'This policy applies to all users of Aira Nexus, including residents, committee members, community managers, and vendors. By using our services, you agree to the practices described in this policy.',
+    ],
+  },
+  'information-we-collect': {
+    heading: '2. Information We Collect',
+    body: [
+      'Account information: Name, email address, phone number, and role within your community (resident, owner, tenant, committee member, or manager).',
+      'Community data: Apartment/unit number, building and tower details, vehicle information, and family member details you choose to add.',
+      'Transaction data: Payment history, billing records, invoice details, and receipt information related to maintenance dues and other community charges.',
+      'Usage data: Device information, IP address, browser type, app interactions, and logs that help us maintain and improve service quality.',
+      'Communication data: Messages, complaints, notices, and support requests you submit through the platform.',
+    ],
+  },
+  'how-we-use': {
+    heading: '3. How We Use Your Information',
+    body: [
+      'Service delivery: To provide core features like billing, complaint tracking, visitor management, and communication tools.',
+      'Notifications: To send payment reminders, complaint updates, community notices, and important service announcements.',
+      'Support: To respond to your support requests, troubleshoot issues, and provide technical assistance.',
+      'Improvement: To analyze usage patterns, identify areas for improvement, and develop new features that serve our communities better.',
+      'Compliance: To meet legal obligations, prevent fraud, and maintain accurate records as required by applicable laws.',
+    ],
+  },
+  'data-sharing': {
+    heading: '4. Data Sharing & Disclosure',
+    body: [
+      'Within your community: Certain information (such as your name, unit number, and contact details) is visible to authorized community managers and committee members to facilitate community operations.',
+      'Service providers: We share data with trusted third-party processors (such as payment gateways, SMS/email providers, and cloud infrastructure) strictly to operate our services. These providers are bound by confidentiality and data protection agreements.',
+      'Legal compliance: We may disclose information when required by law, court order, or government authority, or to protect the rights, property, or safety of Aira Nexus, our users, or others.',
+      'Business transfers: In the event of a merger, acquisition, or asset sale, user data may be transferred as part of the transaction, subject to the protections in this policy.',
+    ],
+  },
+  'data-security': {
+    heading: '5. Data Security',
+    body: [
+      'We implement industry-standard security measures to protect your data, including TLS 1.3 encryption in transit, AES-256 encryption at rest, and SOC2-aligned access controls.',
+      'Access to personal data is restricted to authorized personnel who require it to perform their duties. All access is logged and regularly audited.',
+      'We conduct periodic security assessments and penetration testing to identify and address vulnerabilities.',
+      'While we strive to protect your data, no method of transmission or storage is 100% secure. We cannot guarantee absolute security but commit to taking all reasonable measures.',
+    ],
+  },
+  'data-retention': {
+    heading: '6. Data Retention',
+    body: [
+      'We retain your data for as long as your account is active and for a reasonable period thereafter to comply with legal obligations, resolve disputes, and enforce our agreements.',
+      'Financial records are retained for the period required by Indian tax and corporate law (typically 7 years).',
+      'You may request deletion of your account and personal data at any time, subject to our legal retention obligations. Upon request, we will anonymize or delete your data within 30 days.',
+    ],
+  },
+  'your-rights': {
+    heading: '7. Your Rights',
+    body: [
+      'Access: You can request a copy of the personal data we hold about you at any time.',
+      'Correction: You can update your information directly in the app or request corrections to inaccurate data.',
+      'Deletion: You can request deletion of your account and associated personal data, subject to legal retention requirements.',
+      'Portability: You can request an export of your data in a machine-readable format.',
+      'Withdrawal: You can withdraw consent for non-essential data processing at any time, though this may affect certain features.',
+    ],
+  },
+  contact: {
+    heading: '8. Contact Us',
+    body: [
+      'If you have questions, concerns, or requests regarding this Privacy Policy or your personal data, please contact us:',
+      'Email: privacy@airanexus.com',
+      'Phone: +91 80 0000 0000',
+      'Address: Prestige Tech Park, Kadubeesanahalli, Bengaluru, Karnataka 560103, India',
+      'We aim to respond to all privacy-related requests within 30 days of receipt.',
+    ],
+  },
+}
+
+export default function PrivacyPage({ darkMode: _darkMode }: { darkMode?: boolean }) {
+  const [activeId, setActiveId] = useState(sections[0].id)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveId(entry.target.id)
+        })
+      },
+      { rootMargin: '-20% 0px -70% 0px' },
+    )
+    sections.forEach((s) => {
+      const el = document.getElementById(s.id)
+      if (el) observer.observe(el)
+    })
+    return () => observer.disconnect()
+  }, [])
+
   return (
-    <div>
+    <>
       <SEO
-        title="Privacy Policy — AiraNexus"
-        description="Read the AiraNexus privacy policy. We respect your privacy and are committed to protecting your personal data."
+        title="Privacy Policy"
+        description="Learn how Aira Nexus collects, uses, and protects your personal data. Our commitment to your privacy and data security."
         path="/privacy"
       />
 
-      <section className="relative pt-32 pb-16 bg-greenish-50 overflow-hidden">
-        <div className="blob w-[400px] h-[400px] bg-primary-400 -top-20 -right-20 animate-float" />
-        <div className="blob w-[350px] h-[350px] bg-lime-400 -bottom-20 -left-20 animate-float-slow" />
-        <div className="container-custom text-center relative z-10">
+      {/* Hero */}
+      <section className="bg-hero-gradient pt-28 lg:pt-36">
+        <div className="container-custom pb-12 text-center lg:pb-16">
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="icon-circle-lg mx-auto mb-6"
+            transition={{ duration: 0.6 }}
+            className="mx-auto max-w-3xl"
           >
-            <Shield className="w-8 h-8 text-white" aria-hidden="true" />
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-100 text-primary-600">
+              <Shield className="h-8 w-8" />
+            </div>
+            <h1 className="mt-5 text-4xl font-bold tracking-tight text-charcoal-900 sm:text-5xl text-balance">
+              Privacy <span className="text-gradient">Policy</span>
+            </h1>
+            <p className="mx-auto mt-4 max-w-xl text-base text-charcoal-600">
+              Last updated: January 1, 2025. Your privacy matters to us. Here's exactly how we handle your data.
+            </p>
           </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.05 }}
-            className="text-4xl md:text-5xl font-bold tracking-tight text-charcoal-900"
-          >
-            Privacy Policy
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="mt-4 text-lg text-charcoal-500"
-          >
-            Last updated: June 1, 2024
-          </motion.p>
         </div>
       </section>
 
-      <section className="section-padding bg-white">
+      <section className="pb-20 lg:pb-28">
         <div className="container-custom">
-          <div className="grid lg:grid-cols-4 gap-12">
-            {/* Table of contents */}
+          <div className="grid gap-10 lg:grid-cols-[260px_1fr] lg:gap-16">
+            {/* Sticky TOC */}
             <aside className="hidden lg:block">
-              <div className="sticky top-28">
-                <h2 className="text-xs font-semibold uppercase tracking-wider text-charcoal-400 mb-4">
+              <nav className="sticky top-24" aria-label="Table of contents">
+                <h2 className="text-xs font-semibold uppercase tracking-wider text-charcoal-400">
                   Contents
                 </h2>
-                <nav>
-                  <ul className="space-y-2">
-                    {sections.map((s) => (
-                      <li key={s.id}>
-                        <a
-                          href={`#${s.id}`}
-                          className="block text-sm text-charcoal-500 hover:text-primary-600 transition-colors"
-                        >
-                          {s.title}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
-              </div>
+                <ul className="mt-4 space-y-1">
+                  {sections.map((s) => (
+                    <li key={s.id}>
+                      <a
+                        href={`#${s.id}`}
+                        className={`block rounded-lg px-3 py-2 text-sm transition-colors ${
+                          activeId === s.id
+                            ? 'bg-primary-50 font-semibold text-primary-700'
+                            : 'text-charcoal-600 hover:bg-charcoal-50'
+                        }`}
+                      >
+                        {s.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
             </aside>
 
             {/* Content */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="lg:col-span-3 max-w-3xl"
-            >
-              <div className="card p-8 md:p-12 space-y-8">
-                <section id="introduction">
-                  <h2 className="text-xl font-bold mb-3 text-charcoal-900">1. Introduction</h2>
-                  <p className="text-charcoal-500 leading-relaxed">
-                    Welcome to Aira Nexus. We respect your privacy and are committed to protecting
-                    your personal data. This privacy policy will inform you about how we look after
-                    your personal data when you visit our website or use our services, and tell you
-                    about your privacy rights and how the law protects you.
-                  </p>
-                </section>
-
-                <section id="data-collection">
-                  <h2 className="text-xl font-bold mb-3 text-charcoal-900">2. Data We Collect</h2>
-                  <p className="text-charcoal-500 leading-relaxed mb-4">
-                    We may collect, use, store and transfer different kinds of personal data about
-                    you which we have grouped together as follows:
-                  </p>
-                  <ul className="space-y-2.5 text-charcoal-500">
-                    <li><strong className="text-charcoal-900">Identity Data:</strong> includes first name, last name, username or similar identifier</li>
-                    <li><strong className="text-charcoal-900">Contact Data:</strong> includes email address, telephone numbers, physical address</li>
-                    <li><strong className="text-charcoal-900">Financial Data:</strong> includes payment card details, bank account information for payment processing</li>
-                    <li><strong className="text-charcoal-900">Community Data:</strong> includes apartment/unit details, resident information, visitor logs</li>
-                    <li><strong className="text-charcoal-900">Technical Data:</strong> includes internet protocol (IP) address, browser type and version, device information</li>
-                    <li><strong className="text-charcoal-900">Usage Data:</strong> includes information about how you use our website and services</li>
-                  </ul>
-                </section>
-
-                <section id="data-use">
-                  <h2 className="text-xl font-bold mb-3 text-charcoal-900">3. How We Use Your Data</h2>
-                  <p className="text-charcoal-500 leading-relaxed mb-4">
-                    We will only use your personal data when the law allows us to. Most commonly, we
-                    will use your personal data in the following circumstances:
-                  </p>
-                  <ul className="space-y-2 text-charcoal-500 list-disc list-insight">
-                    <li>To provide our community management services to you</li>
-                    <li>To process your payments and maintain your account</li>
-                    <li>To send you communications about our services, updates, and notices</li>
-                    <li>To improve our services through analytics and user feedback</li>
-                    <li>To comply with legal obligations and protect our legal rights</li>
-                  </ul>
-                </section>
-
-                <section id="data-security">
-                  <h2 className="text-xl font-bold mb-3 text-charcoal-900">4. Data Security</h2>
-                  <p className="text-charcoal-500 leading-relaxed">
-                    We have put in place appropriate security measures to prevent your personal data
-                    from being accidentally lost, used or accessed in an unauthorized way, altered or
-                    disclosed. In addition, we limit access to your personal data to those employees,
-                    agents, contractors and other third parties who have a business need to know.
-                  </p>
-                </section>
-
-                <section id="data-retention">
-                  <h2 className="text-xl font-bold mb-3 text-charcoal-900">5. Data Retention</h2>
-                  <p className="text-charcoal-500 leading-relaxed">
-                    We will only retain your personal data for as long as reasonably necessary to
-                    fulfill the purposes we collected it for. For account data, we typically retain
-                    information for 90 days after account closure before deletion. Financial records
-                    are retained for 7 years as required by law.
-                  </p>
-                </section>
-
-                <section id="legal-rights">
-                  <h2 className="text-xl font-bold mb-3 text-charcoal-900">6. Your Legal Rights</h2>
-                  <p className="text-charcoal-500 leading-relaxed mb-4">
-                    Under certain circumstances, you have rights under data protection laws in
-                    relation to your personal data, including the right to:
-                  </p>
-                  <ul className="space-y-2 text-charcoal-500 list-disc list-insight">
-                    <li>Request access to your personal data</li>
-                    <li>Request correction of your personal data</li>
-                    <li>Request erasure of your personal data</li>
-                    <li>Object to processing of your personal data</li>
-                    <li>Request restriction of processing your personal data</li>
-                    <li>Request transfer of your personal data</li>
-                    <li>Right to withdraw consent</li>
-                  </ul>
-                </section>
-
-                <section id="contact">
-                  <h2 className="text-xl font-bold mb-3 text-charcoal-900">7. Contact Us</h2>
-                  <p className="text-charcoal-500 leading-relaxed">
-                    If you have any questions about this privacy policy or our privacy practices,
-                    please contact us at:
-                  </p>
-                  <p className="text-charcoal-500 leading-relaxed mt-3">
-                    <strong className="text-charcoal-900">Email:</strong> privacy@airanexus.com<br />
-                    <strong className="text-charcoal-900">Address:</strong> Bangalore, Karnataka, India
-                  </p>
-                </section>
-
-                <section id="changes">
-                  <h2 className="text-xl font-bold mb-3 text-charcoal-900">8. Changes to This Policy</h2>
-                  <p className="text-charcoal-500 leading-relaxed">
-                    We may update this privacy policy from time to time. We will notify you of any
-                    changes by posting the new privacy policy on this page and updating the "Last
-                    updated" date. You are advised to review this privacy policy periodically for any
-                    changes.
-                  </p>
-                </section>
-              </div>
-            </motion.div>
+            <div className="card max-w-3xl space-y-10">
+              {sections.map((s) => (
+                <div key={s.id} id={s.id} className="scroll-mt-24">
+                  <h2 className="text-xl font-bold text-charcoal-900">{content[s.id].heading}</h2>
+                  <div className="mt-4 space-y-3">
+                    {content[s.id].body.map((para, i) => (
+                      <p key={i} className="text-sm leading-relaxed text-charcoal-600">{para}</p>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
-    </div>
-  );
+
+      <CTABanner
+        title="Questions about your data?"
+        description="Our team is here to help with any privacy or data-related questions you may have."
+        primaryLabel="Contact Us"
+        primaryTo="/contact"
+        secondaryLabel="View Terms"
+        secondaryTo="/terms"
+      />
+    </>
+  )
 }

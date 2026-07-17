@@ -1,66 +1,61 @@
-import { motion } from 'framer-motion';
-import type { ReactNode } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion'
+import { ArrowRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 interface CTABannerProps {
-  title: string;
-  description: string;
-  primaryAction?: { label: string; to: string };
-  secondaryAction?: { label: string; to: string };
-  children?: ReactNode;
+  title?: string
+  description?: string
+  primaryLabel?: string
+  primaryTo?: string
+  secondaryLabel?: string
+  secondaryTo?: string
 }
 
 export default function CTABanner({
-  title,
-  description,
-  primaryAction,
-  secondaryAction,
-  children,
+  title = 'Ready to transform your community?',
+  description = 'Join 500+ communities already running on Aira Nexus. Book a personalized demo and see the platform in action.',
+  primaryLabel = 'Book a Demo',
+  primaryTo = '/request-demo',
+  secondaryLabel = 'View Pricing',
+  secondaryTo = '/pricing',
 }: CTABannerProps) {
   return (
-    <section className="section-padding bg-white">
+    <section className="section-padding">
       <div className="container-custom">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.5 }}
-          className="relative overflow-hidden rounded-3xl bg-brand-gradient px-6 py-16 sm:px-12 sm:py-20 text-center shadow-elevated"
+          className="relative overflow-hidden rounded-3xl bg-brand-gradient px-6 py-14 text-center shadow-elevated sm:px-12 lg:py-20"
         >
-          <div className="blob w-[400px] h-[400px] bg-white/10 -top-20 -left-20 animate-float" />
-          <div className="blob w-[300px] h-[300px] bg-lime-400/20 -bottom-20 -right-20 animate-float-slow" />
-
-          <div className="relative z-10 max-w-2xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 text-balance">
+          <div className="blob -left-10 -top-10 h-40 w-40 bg-white/20" />
+          <div className="blob -bottom-12 -right-8 h-48 w-48 bg-cyan-300/30" />
+          <div className="relative">
+            <h2 className="mx-auto max-w-2xl text-3xl font-bold tracking-tight text-white sm:text-4xl text-balance">
               {title}
             </h2>
-            <p className="text-lg text-white/80 mb-8 text-pretty">
+            <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/90 text-pretty">
               {description}
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              {primaryAction && (
-                <Link
-                  to={primaryAction.to}
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-white text-primary-600 font-semibold text-sm shadow-lg transition-all duration-200 ease-smooth hover:bg-primary-50 hover:shadow-xl active:scale-[0.98]"
-                >
-                  {primaryAction.label}
-                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
-                </Link>
-              )}
-              {secondaryAction && (
-                <Link
-                  to={secondaryAction.to}
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-white/10 backdrop-blur-sm text-white font-semibold text-sm border border-white/30 transition-all duration-200 ease-smooth hover:bg-white/20 hover:border-white/50 active:scale-[0.98]"
-                >
-                  {secondaryAction.label}
-                </Link>
-              )}
-              {children}
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <Link
+                to={primaryTo}
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 text-sm font-semibold text-primary-700 shadow-lg transition-all hover:bg-charcoal-50 hover:shadow-xl active:scale-[0.98]"
+              >
+                {primaryLabel}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                to={secondaryTo}
+                className="btn-outline-white"
+              >
+                {secondaryLabel}
+              </Link>
             </div>
           </div>
         </motion.div>
       </div>
     </section>
-  );
+  )
 }
