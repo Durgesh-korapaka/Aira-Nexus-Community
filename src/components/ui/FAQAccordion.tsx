@@ -9,54 +9,55 @@ export interface FAQItem {
 
 interface FAQAccordionProps {
   items: FAQItem[]
-  className?: string
+  defaultOpen?: number
 }
 
-export default function FAQAccordion({ items, className = '' }: FAQAccordionProps) {
-  const [openIndex, setOpenIndex] = useState<number | null>(0)
+export default function FAQAccordion({ items, defaultOpen = -1 }: FAQAccordionProps) {
+  const [openIndex, setOpenIndex] = useState<number | null>(defaultOpen)
+
+  const toggle = (i: number) => setOpenIndex((cur) => (cur === i ? null : i))
 
   return (
-    <div className={`divide-y divide-charcoal-100 rounded-2xl border border-charcoal-100 bg-white shadow-card ${className}`}>
+    <div className="divide-y divide-charcoal-100 overflow-hidden rounded-2xl border border-charcoal-100 bg-white shadow-card">
       {items.map((item, i) => {
         const isOpen = openIndex === i
+        const panelId = `faq-panel-${i}`
+        const buttonId = `faq-button-${i}`
         return (
-          <div key={i}>
-            <button
-              onClick={() => setOpenIndex(isOpen ? null : i)}
-              aria-expanded={isOpen}
-              aria-controls={`faq-panel-${i}`}
-              id={`faq-trigger-${i}`}
-              className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left transition-colors hover:bg-charcoal-50/60"
-            >
-              <span className="text-sm font-semibold text-charcoal-900 sm:text-base">
-                {item.question}
-              </span>
-              <motion.span
-                animate={{ rotate: isOpen ? 180 : 0 }}
-                transition={{ duration: 0.2 }}
-                className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${
-                  isOpen ? 'bg-primary-100 text-primary-700' : 'bg-charcoal-100 text-charcoal-500'
-                }`}
+          <div key={item.question}>
+            <h3>
+              <button
+                id={buttonId}
+                type="button"
+                onClick={() => toggle(i)}
+                aria-expanded={isOpen}
+                aria-controls={panelId}
+                className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left transition-colors hover:bg-charcoal-50 sm:px-6"
               >
-                <ChevronDown className="h-4 w-4" />
-              </motion.span>
-            </button>
+                <span className="text-base font-semibold text-charcoal-900">{item.question}</span>
+                <motion.span
+                  animate={{ rotate: isOpen ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-50 text-primary-600"
+                >
+                  <ChevronDown className="h-4 w-4" aria-hidden="true" />
+                </motion.span>
+              </button>
+            </h3>
             <AnimatePresence initial={false}>
               {isOpen && (
                 <motion.div
+                  id={panelId}
                   key="content"
-                  id={`faq-panel-${i}`}
-                  role="region"
-                  aria-labelledby={`faq-trigger-${i}`}
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.25, ease: 'easeInOut' }}
                   className="overflow-hidden"
                 >
-                  <p className="px-5 pb-5 text-sm leading-relaxed text-charcoal-600">
+                  <div className="px-5 pb-5 text-sm leading-relaxed text-charcoal-600 sm:px-6 sm:text-[0.95rem]">
                     {item.answer}
-                  </p>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>

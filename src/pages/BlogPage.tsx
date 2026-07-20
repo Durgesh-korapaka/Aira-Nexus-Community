@@ -1,144 +1,133 @@
-import { useMemo, useState, type FormEvent } from 'react'
+import { useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ArrowRight, Calendar, Clock, Search, Sparkles, TrendingUp } from 'lucide-react'
+import { ArrowRight, Calendar, Clock, Search, Tag } from 'lucide-react'
 import SEO from '../components/SEO'
 import SectionHeading from '../components/ui/SectionHeading'
 
-interface BlogPost {
+interface Post {
   title: string
   excerpt: string
   category: string
-  author: string
   date: string
   readTime: string
   image: string
-  featured?: boolean
+  slug: string
 }
 
-const posts: BlogPost[] = [
+const CATEGORIES = ['All', 'Billing', 'Operations', 'Security', 'Product', 'Community']
+
+const POSTS: Post[] = [
   {
-    title: 'How to reduce maintenance dues collection time by 60%',
-    excerpt: 'A practical, step-by-step playbook for apartment committees to move from 60-day collection cycles to under 20 days — without chasing residents.',
+    title: 'How to reduce maintenance defaulters by 40%',
+    excerpt: 'A practical playbook for treasurers: reminders, late-fee policies, and the psychology of timely payments.',
     category: 'Billing',
-    author: 'Arjun Mehta',
-    date: 'Jan 12, 2025',
-    readTime: '8 min read',
-    image: 'https://images.pexels.com/photos/4386431/pexels-photo-4386431.jpeg?auto=compress&cs=tinysrgb&w=800',
-    featured: true,
+    date: 'Mar 12, 2025',
+    readTime: '6 min',
+    image: 'https://images.pexels.com/photos/4386370/pexels-photo-4386370.jpeg?auto=compress&cs=tinysrgb&w=800',
+    slug: 'reduce-maintenance-defaulters',
   },
   {
-    title: 'The complete guide to visitor management for gated communities',
-    excerpt: 'Everything you need to know about digital visitor passes, guard workflows, and the policies that keep communities secure.',
+    title: 'The committee’s guide to AGM-ready financial reports',
+    excerpt: 'Everything you need to prepare a transparent, audit-ready annual report in under an hour.',
+    category: 'Operations',
+    date: 'Mar 4, 2025',
+    readTime: '8 min',
+    image: 'https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800',
+    slug: 'agm-financial-reports',
+  },
+  {
+    title: 'Visitor management: from logbooks to QR passes',
+    excerpt: 'Why paper visitor logs fail and how digital passes transform gate security without friction.',
     category: 'Security',
-    author: 'Sneha Reddy',
-    date: 'Jan 8, 2025',
-    readTime: '12 min read',
-    image: 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800',
+    date: 'Feb 24, 2025',
+    readTime: '5 min',
+    image: 'https://images.pexels.com/photos/8018847/pexels-photo-8018847.jpeg?auto=compress&cs=tinysrgb&w=800',
+    slug: 'visitor-management-qr-passes',
   },
   {
-    title: '5 ways AI is transforming apartment management in 2025',
-    excerpt: 'From predictive maintenance to smart billing reminders, here are the AI trends reshaping how communities are run.',
-    category: 'AI',
-    author: 'Vikram Singh',
-    date: 'Jan 5, 2025',
-    readTime: '6 min read',
-    image: 'https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=800',
+    title: 'Introducing WhatsApp-native notices in AiraNexus',
+    excerpt: 'Send notices that residents actually read — with read receipts, pinning, and category filters.',
+    category: 'Product',
+    date: 'Feb 10, 2025',
+    readTime: '4 min',
+    image: 'https://images.pexels.com/photos/4348404/pexels-photo-4348404.jpeg?auto=compress&cs=tinysrgb&w=800',
+    slug: 'whatsapp-native-notices',
   },
   {
-    title: 'RWA elections: How to run transparent, tamper-proof voting',
-    excerpt: "Digital voting eliminates the chaos of paper ballots. Here's how to set it up and keep it fair.",
-    category: 'Governance',
-    author: 'Ananya Iyer',
-    date: 'Dec 28, 2024',
-    readTime: '7 min read',
+    title: 'Building a culture of participation in gated communities',
+    excerpt: 'Practical ways to turn passive residents into engaged community members using polls, events, and transparency.',
+    category: 'Community',
+    date: 'Jan 28, 2025',
+    readTime: '7 min',
     image: 'https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=800',
+    slug: 'culture-of-participation',
   },
   {
-    title: "Maintenance billing software: A buyer's guide for committees",
-    excerpt: 'What to look for, what to avoid, and the questions every vendor should answer before you sign.',
-    category: 'Billing',
-    author: 'Arjun Mehta',
-    date: 'Dec 20, 2024',
-    readTime: '10 min read',
-    image: 'https://images.pexels.com/photos/669454/pexels-photo-669454.jpeg?auto=compress&cs=tinysrgb&w=800',
-  },
-  {
-    title: 'Why your community needs a digital notice board (and how to set one up)',
-    excerpt: "Paper notices get lost. WhatsApp groups get noisy. Here's why a structured notice board works better.",
-    category: 'Communication',
-    author: 'Sneha Reddy',
-    date: 'Dec 15, 2024',
-    readTime: '5 min read',
-    image: 'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=800',
+    title: 'Amenity booking: stop the double-bookings for good',
+    excerpt: 'How conflict-free calendars and fair-use policies keep your gym, pool, and clubhouse running smoothly.',
+    category: 'Operations',
+    date: 'Jan 15, 2025',
+    readTime: '5 min',
+    image: 'https://images.pexels.com/photos/1954527/pexels-photo-1954527.jpeg?auto=compress&cs=tinysrgb&w=800',
+    slug: 'amenity-booking',
   },
 ]
 
-const categories = ['All', 'Billing', 'Security', 'AI', 'Governance', 'Communication']
+export default function BlogPage({ _darkMode = false }: { _darkMode?: boolean }) {
+  void _darkMode
+  const [query, setQuery] = useState('')
+  const [category, setCategory] = useState('All')
 
-export default function BlogPage({ darkMode: _darkMode }: { darkMode?: boolean }) {
-  const [search, setSearch] = useState('')
-  const [activeCategory, setActiveCategory] = useState('All')
-  const [subscribed, setSubscribed] = useState(false)
-  const [email, setEmail] = useState('')
-
-  const featured = posts.find((p) => p.featured) ?? posts[0]
-  const rest = posts.filter((p) => p !== featured)
-
+  const featured = POSTS[0]
   const filtered = useMemo(() => {
-    return rest.filter((post) => {
-      const matchesSearch =
-        post.title.toLowerCase().includes(search.toLowerCase()) ||
-        post.excerpt.toLowerCase().includes(search.toLowerCase())
-      const matchesCategory = activeCategory === 'All' || post.category === activeCategory
-      return matchesSearch && matchesCategory
+    return POSTS.filter((p) => {
+      const matchesCat = category === 'All' || p.category === category
+      const matchesQuery =
+        query.trim() === '' ||
+        p.title.toLowerCase().includes(query.toLowerCase()) ||
+        p.excerpt.toLowerCase().includes(query.toLowerCase())
+      return matchesCat && matchesQuery
     })
-  }, [rest, search, activeCategory])
-
-  const onSubscribe = (e: FormEvent) => {
-    e.preventDefault()
-    if (!email) return
-    setSubscribed(true)
-    setEmail('')
-    setTimeout(() => setSubscribed(false), 3000)
-  }
+  }, [query, category])
 
   return (
     <>
       <SEO
-        title="Blog — Insights on Community Management"
-        description="Expert insights, how-to guides, and best practices for apartment and society management from the Aira Nexus team."
+        title="Blog — Community management insights"
+        description="The AiraNexus blog: practical guides on billing, operations, security, and building thriving residential communities."
         path="/blog"
       />
 
-      {/* Hero with search */}
-      <section className="bg-hero-gradient pt-28 lg:pt-36">
-        <div className="container-custom pb-12 text-center lg:pb-16">
+      {/* Hero */}
+      <section className="relative overflow-hidden bg-hero-gradient pt-28 lg:pt-36">
+        <div className="container-custom relative">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mx-auto max-w-3xl"
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="mx-auto max-w-3xl text-center"
           >
-            <span className="badge-primary">
-              <Sparkles className="h-3.5 w-3.5" />
-              Blog
-            </span>
-            <h1 className="mt-5 text-4xl font-bold tracking-tight text-charcoal-900 sm:text-5xl text-balance">
-              Insights for better <span className="text-gradient">community management</span>
+            <span className="badge-primary">Blog</span>
+            <h1 className="mt-5 text-4xl font-bold tracking-tight text-charcoal-900 sm:text-5xl md:text-6xl md:leading-[1.05] text-balance">
+              Insights for <span className="text-gradient">community leaders</span>
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-charcoal-600 text-pretty">
-              Practical guides, expert insights, and real-world stories from communities across India.
+              Practical guides on billing, operations, security, and building thriving communities.
             </p>
+
+            {/* Search */}
             <div className="mx-auto mt-8 max-w-md">
+              <label htmlFor="blog-search" className="sr-only">Search articles</label>
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-charcoal-400" />
+                <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-charcoal-400" aria-hidden="true" />
                 <input
+                  id="blog-search"
                   type="search"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search articles..."
-                  aria-label="Search blog posts"
-                  className="w-full rounded-xl border border-charcoal-200 bg-white py-3 pl-11 pr-4 text-sm shadow-soft focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Search articles…"
+                  className="input-base pl-11"
                 />
               </div>
             </div>
@@ -146,153 +135,138 @@ export default function BlogPage({ darkMode: _darkMode }: { darkMode?: boolean }
         </div>
       </section>
 
-      {/* Category filter */}
+      {/* Category pills */}
       <section className="border-b border-charcoal-100 bg-white">
-        <div className="container-custom flex flex-wrap items-center gap-2 py-4">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all ${
-                activeCategory === cat
-                  ? 'bg-primary-500 text-white shadow-teal'
-                  : 'bg-charcoal-100 text-charcoal-600 hover:bg-charcoal-200'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
+        <div className="container-custom py-6">
+          <div className="flex flex-wrap items-center gap-2">
+            {CATEGORIES.map((c) => (
+              <button
+                key={c}
+                onClick={() => setCategory(c)}
+                className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                  category === c
+                    ? 'bg-primary-500 text-white'
+                    : 'bg-charcoal-100 text-charcoal-700 hover:bg-charcoal-200'
+                }`}
+                aria-pressed={category === c}
+              >
+                {c}
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Featured post */}
-      {activeCategory === 'All' && !search && (
-        <section className="section-padding">
+      {/* Featured */}
+      {category === 'All' && query.trim() === '' && (
+        <section className="section-padding bg-white">
           <div className="container-custom">
+            <SectionHeading
+              badge="Featured"
+              badgeVariant="lime"
+              title="Latest from the blog"
+              align="left"
+            />
             <motion.article
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.6 }}
-              className="grid items-center gap-8 rounded-3xl border border-charcoal-100 bg-white p-6 shadow-card lg:grid-cols-2 lg:p-8"
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+              className="mt-10 grid gap-8 lg:grid-cols-2 lg:items-center"
             >
-              <div className="overflow-hidden rounded-2xl">
+              <div className="overflow-hidden rounded-3xl border border-charcoal-100 bg-white shadow-card">
                 <img
                   src={featured.image}
                   alt={featured.title}
-                  className="h-full w-full object-cover"
                   loading="lazy"
                   decoding="async"
-                  width="800"
-                  height="500"
+                  width={800}
+                  height={600}
+                  className="aspect-[4/3] w-full object-cover"
                 />
               </div>
               <div>
-                <div className="flex items-center gap-3">
-                  <span className="badge-primary">
-                    <TrendingUp className="h-3.5 w-3.5" />
-                    Featured
-                  </span>
-                  <span className="badge-neutral">{featured.category}</span>
-                </div>
-                <h2 className="mt-4 text-2xl font-bold tracking-tight text-charcoal-900 sm:text-3xl text-balance">
-                  {featured.title}
-                </h2>
-                <p className="mt-3 text-base leading-relaxed text-charcoal-600 text-pretty">
-                  {featured.excerpt}
-                </p>
+                <span className="badge-primary"><Tag className="h-3 w-3" aria-hidden="true" /> {featured.category}</span>
+                <h2 className="mt-4 text-2xl font-bold text-charcoal-900 sm:text-3xl text-balance">{featured.title}</h2>
+                <p className="mt-3 text-base leading-relaxed text-charcoal-600 text-pretty">{featured.excerpt}</p>
                 <div className="mt-5 flex items-center gap-4 text-xs text-charcoal-500">
-                  <span className="font-semibold text-charcoal-700">{featured.author}</span>
-                  <span className="flex items-center gap-1"><Calendar className="h-3 w-3" />{featured.date}</span>
-                  <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{featured.readTime}</span>
+                  <span className="inline-flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5" aria-hidden="true" /> {featured.date}</span>
+                  <span className="inline-flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" aria-hidden="true" /> {featured.readTime} read</span>
                 </div>
-                <a href="#" className="btn-link mt-6">
-                  Read article
-                  <ArrowRight className="h-4 w-4" />
-                </a>
+                <Link to={`/blog/${featured.slug}`} className="btn-link mt-6 text-base">
+                  Read article <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
               </div>
             </motion.article>
           </div>
         </section>
       )}
 
-      {/* Blog grid */}
-      <section className="pb-20 lg:pb-28">
+      {/* Grid */}
+      <section className="section-padding bg-charcoal-50">
         <div className="container-custom">
-          {filtered.length > 0 ? (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {filtered.map((post, i) => (
-                <motion.article
-                  key={post.title}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-60px' }}
-                  transition={{ duration: 0.5, delay: (i % 3) * 0.08 }}
-                  className="card-hover group flex flex-col"
-                >
-                  <div className="overflow-hidden rounded-xl">
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      className="aspect-[16/10] w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      loading="lazy"
-                      decoding="async"
-                      width="800"
-                      height="500"
-                    />
+          <SectionHeading
+            badge={category === 'All' ? 'All articles' : category}
+            badgeVariant="cyan"
+            title={query ? `Results for "${query}"` : 'Recent articles'}
+            align="left"
+          />
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((p, i) => (
+              <motion.article
+                key={p.slug}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.5, delay: (i % 3) * 0.06, ease: 'easeOut' }}
+                className="card-hover group flex flex-col overflow-hidden p-0"
+              >
+                <div className="overflow-hidden">
+                  <img
+                    src={p.image}
+                    alt={p.title}
+                    loading="lazy"
+                    decoding="async"
+                    width={800}
+                    height={600}
+                    className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="flex flex-1 flex-col p-5">
+                  <span className="badge-primary self-start"><Tag className="h-3 w-3" aria-hidden="true" /> {p.category}</span>
+                  <h3 className="mt-3 text-lg font-semibold text-charcoal-900 line-clamp-2">{p.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-charcoal-600 line-clamp-3 text-pretty">{p.excerpt}</p>
+                  <div className="mt-4 flex items-center gap-4 text-xs text-charcoal-500">
+                    <span className="inline-flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5" aria-hidden="true" /> {p.date}</span>
+                    <span className="inline-flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" aria-hidden="true" /> {p.readTime}</span>
                   </div>
-                  <div className="mt-4 flex-1">
-                    <span className="badge-neutral">{post.category}</span>
-                    <h3 className="mt-3 text-lg font-semibold text-charcoal-900 line-clamp-2">
-                      {post.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-charcoal-600 line-clamp-3">
-                      {post.excerpt}
-                    </p>
-                  </div>
-                  <div className="mt-4 flex items-center gap-3 border-t border-charcoal-100 pt-4 text-xs text-charcoal-500">
-                    <span className="font-semibold text-charcoal-700">{post.author}</span>
-                    <span className="flex items-center gap-1"><Calendar className="h-3 w-3" />{post.date}</span>
-                    <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{post.readTime}</span>
-                  </div>
-                </motion.article>
-              ))}
-            </div>
-          ) : (
-            <div className="py-20 text-center">
-              <p className="text-base text-charcoal-500">No articles found. Try a different search or category.</p>
-            </div>
+                  <Link to={`/blog/${p.slug}`} className="btn-link mt-4">
+                    Read more <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                  </Link>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+          {filtered.length === 0 && (
+            <p className="mt-10 text-center text-charcoal-500">No articles found. Try a different search or category.</p>
           )}
         </div>
       </section>
 
       {/* Newsletter */}
-      <section className="section-padding bg-charcoal-50/40">
+      <section className="section-padding bg-white">
         <div className="container-custom">
-          <SectionHeading
-            badge="Newsletter"
-            badgeVariant="lime"
-            title={<>Get the best of Aira Nexus <span className="text-gradient">in your inbox</span></>}
-            description="One email every two weeks. No spam, just practical community management insights."
-          />
-          <form onSubmit={onSubscribe} className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row">
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@email.com"
-              aria-label="Email address"
-              className="input-base"
-            />
-            <button type="submit" className="btn-primary shrink-0">
-              Subscribe
-              <ArrowRight className="h-4 w-4" />
-            </button>
-          </form>
-          {subscribed && (
-            <p className="mt-3 text-center text-sm text-greenish-600">✓ Thanks for subscribing!</p>
-          )}
+          <div className="mx-auto max-w-2xl rounded-3xl border border-charcoal-100 bg-charcoal-50 p-8 text-center shadow-soft sm:p-12">
+            <h2 className="text-2xl font-bold text-charcoal-900 sm:text-3xl">Get the newsletter</h2>
+            <p className="mt-3 text-base text-charcoal-600 text-pretty">
+              Monthly insights on community management. No spam, unsubscribe anytime.
+            </p>
+            <form className="mx-auto mt-6 flex max-w-md flex-col gap-3 sm:flex-row" onSubmit={(e) => e.preventDefault()}>
+              <label htmlFor="blog-newsletter" className="sr-only">Email address</label>
+              <input id="blog-newsletter" type="email" required placeholder="you@community.com" className="input-base" />
+              <button type="submit" className="btn-primary whitespace-nowrap">Subscribe</button>
+            </form>
+          </div>
         </div>
       </section>
     </>

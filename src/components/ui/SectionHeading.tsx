@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion'
 import type { ReactNode } from 'react'
+import { motion } from 'framer-motion'
 
 interface SectionHeadingProps {
   badge?: string
@@ -10,7 +10,7 @@ interface SectionHeadingProps {
   className?: string
 }
 
-const badgeClasses: Record<NonNullable<SectionHeadingProps['badgeVariant']>, string> = {
+const BADGE_CLASSES: Record<NonNullable<SectionHeadingProps['badgeVariant']>, string> = {
   primary: 'badge-primary',
   lime: 'badge-lime',
   cyan: 'badge-cyan',
@@ -27,18 +27,18 @@ export default function SectionHeading({
 }: SectionHeadingProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
       className={`${align === 'center' ? 'mx-auto max-w-2xl text-center' : 'max-w-2xl text-left'} ${className}`}
     >
-      {badge && <span className={badgeClasses[badgeVariant]}>{badge}</span>}
-      <h2 className="mt-4 text-3xl font-bold tracking-tight text-charcoal-900 sm:text-4xl text-balance">
+      {badge && <span className={BADGE_CLASSES[badgeVariant]}>{badge}</span>}
+      <h2 className="mt-4 text-3xl font-bold tracking-tight text-charcoal-900 sm:text-4xl md:text-[2.5rem] md:leading-[1.1]">
         {title}
       </h2>
       {description && (
-        <p className="mt-4 text-base leading-relaxed text-charcoal-600 text-pretty">
+        <p className="mt-4 text-base leading-relaxed text-charcoal-600 sm:text-lg text-pretty">
           {description}
         </p>
       )}

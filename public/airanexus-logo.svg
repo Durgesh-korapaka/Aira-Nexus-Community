@@ -1,7 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" fill="none" role="img" aria-label="Aira Nexus Logo">
   <title>Aira Nexus</title>
-
-  <!-- Wordmark: "aira" -->
   <text font-family="'Plus Jakarta Sans','Nunito','Arial Rounded MT Bold',Arial,sans-serif" font-size="64" font-weight="800" fill="#1FA7A0" letter-spacing="-1.5">
     <tspan x="6" y="78">a</tspan>
     <tspan x="56" y="78">i</tspan>
@@ -13,13 +11,9 @@
   <text font-family="'Plus Jakarta Sans','Nunito','Arial Rounded MT Bold',Arial,sans-serif" font-size="64" font-weight="800" fill="#1FA7A0">
     <tspan x="124" y="78">a</tspan>
   </text>
-
-  <!-- "nexus" in teal (for light backgrounds) -->
   <text font-family="'Plus Jakarta Sans','Nunito','Arial Rounded MT Bold',Arial,sans-serif" font-size="64" font-weight="800" fill="#1FA7A0" letter-spacing="-1.5">
     <tspan x="186" y="78">nexus</tspan>
   </text>
-
-  <!-- Connected nodes icon -->
   <g transform="translate(470,60) rotate(12)">
     <line x1="0" y1="0" x2="-24" y2="-18" stroke="#1FA7A0" stroke-width="5" stroke-linecap="round"/>
     <line x1="0" y1="0" x2="24" y2="-18" stroke="#1FA7A0" stroke-width="5" stroke-linecap="round"/>

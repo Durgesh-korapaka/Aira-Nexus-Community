@@ -2,14 +2,14 @@ import { useEffect } from 'react'
 
 interface SEOProps {
   title: string
-  description: string
+  description?: string
   path?: string
   image?: string
+  type?: string
 }
 
-const SITE_NAME = 'Aira Nexus'
-const SITE_URL = 'https://airanexus.com'
-const DEFAULT_IMAGE = `${SITE_URL}/og-image.png`
+const BASE_URL = 'https://airanexus.com'
+const DEFAULT_IMAGE = 'https://airanexus.com/favicon-512x512.png'
 
 function setMeta(attr: 'name' | 'property', key: string, content: string) {
   let el = document.head.querySelector<HTMLMetaElement>(`meta[${attr}="${key}"]`)
@@ -31,60 +31,68 @@ function setLink(rel: string, href: string) {
   el.setAttribute('href', href)
 }
 
-function setJsonLd(id: string, data: Record<string, unknown>) {
-  let el = document.getElementById(id) as HTMLScriptElement | null
+function setJsonLd(id: string, json: object) {
+  let el = document.head.querySelector<HTMLScriptElement>(`script[data-seo="${id}"]`)
   if (!el) {
     el = document.createElement('script')
-    el.id = id
     el.type = 'application/ld+json'
+    el.setAttribute('data-seo', id)
     document.head.appendChild(el)
   }
-  el.textContent = JSON.stringify(data)
+  el.textContent = JSON.stringify(json)
 }
 
-export default function SEO({ title, description, path = '', image }: SEOProps) {
-  const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`
-  const url = `${SITE_URL}${path}`
-  const ogImage = image ?? DEFAULT_IMAGE
-
+export default function SEO({
+  title,
+  description = 'AiraNexus is the AI-powered community management platform for apartments, gated communities, and residential complexes.',
+  path = '/',
+  image = DEFAULT_IMAGE,
+  type = 'website',
+}: SEOProps) {
   useEffect(() => {
+    const fullTitle = title.includes('AiraNexus') ? title : `${title} — AiraNexus`
+    const url = `${BASE_URL}${path}`
+
     document.title = fullTitle
     setMeta('name', 'description', description)
     setLink('canonical', url)
 
-    setMeta('property', 'og:type', 'website')
+    // Open Graph
+    setMeta('property', 'og:type', type)
     setMeta('property', 'og:url', url)
     setMeta('property', 'og:title', fullTitle)
     setMeta('property', 'og:description', description)
-    setMeta('property', 'og:image', ogImage)
-    setMeta('property', 'og:site_name', SITE_NAME)
-    setMeta('property', 'og:locale', 'en_US')
+    setMeta('property', 'og:image', image)
+    setMeta('property', 'og:site_name', 'AiraNexus')
+    setMeta('property', 'og:locale', 'en_IN')
 
+    // Twitter
     setMeta('name', 'twitter:card', 'summary_large_image')
     setMeta('name', 'twitter:url', url)
     setMeta('name', 'twitter:title', fullTitle)
     setMeta('name', 'twitter:description', description)
-    setMeta('name', 'twitter:image', ogImage)
+    setMeta('name', 'twitter:image', image)
 
-    setJsonLd('seo-jsonld-page', {
+    // JSON-LD breadcrumb
+    setJsonLd('breadcrumb', {
       '@context': 'https://schema.org',
-      '@type': 'WebPage',
-      name: fullTitle,
-      description,
-      url,
-      image: ogImage,
-      isPartOf: {
-        '@type': 'WebSite',
-        name: SITE_NAME,
-        url: SITE_URL,
-      },
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: BASE_URL,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: title,
+          item: url,
+        },
+      ],
     })
-
-    return () => {
-      const el = document.getElementById('seo-jsonld-page')
-      if (el) el.remove()
-    }
-  }, [fullTitle, description, url, ogImage])
+  }, [title, description, path, image, type])
 
   return null
 }

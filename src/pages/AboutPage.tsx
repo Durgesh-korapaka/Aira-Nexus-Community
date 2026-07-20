@@ -1,104 +1,110 @@
 import { motion } from 'framer-motion'
-import { Heart, Lightbulb, Shield, Target, Users, Zap } from 'lucide-react'
+import { Heart, Lightbulb, ShieldCheck, Target, Users, Zap, Eye } from 'lucide-react'
 import SEO from '../components/SEO'
 import SectionHeading from '../components/ui/SectionHeading'
 import StatCard from '../components/ui/StatCard'
 import CTABanner from '../components/ui/CTABanner'
 
-const values = [
-  { icon: Heart, title: 'Resident-first', description: 'Every decision starts with what makes life better for residents and the people serving them.' },
-  { icon: Shield, title: 'Trust & security', description: 'We treat community data with the same care as our own. SOC2-aligned, encrypted, audited.' },
-  { icon: Zap, title: 'Simplicity wins', description: 'Powerful software is useless if no one uses it. We obsess over intuitive, delightful UX.' },
-  { icon: Target, title: 'Outcomes over features', description: 'We measure success by faster collections and resolved complaints — not feature counts.' },
-  { icon: Users, title: 'Community-driven', description: 'Our roadmap is shaped by the committees and managers who use Aira Nexus every day.' },
-  { icon: Lightbulb, title: 'Always improving', description: 'We ship every week. Feedback loops are short, and good ideas come from everyone.' },
+const VALUES = [
+  { icon: Heart, title: 'Community first', description: 'Every decision starts with what’s best for the communities we serve.' },
+  { icon: Zap, title: 'Bias for action', description: 'We ship fast, learn fast, and fix fast. Momentum is a feature.' },
+  { icon: ShieldCheck, title: 'Trust by design', description: 'Security, privacy, and transparency are non-negotiable defaults.' },
+  { icon: Lightbulb, title: 'Curiosity driven', description: 'We ask why, challenge assumptions, and stay close to real users.' },
+  { icon: Users, title: 'Inclusive by default', description: 'Our products work for every resident, regardless of tech fluency.' },
+  { icon: Target, title: 'Outcomes over output', description: 'We measure success by community outcomes, not feature counts.' },
 ]
 
-const team = [
-  { name: 'Arjun Mehta', role: 'Co-founder & CEO', avatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&dpr=2' },
-  { name: 'Sneha Reddy', role: 'Co-founder & CTO', avatar: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&dpr=2' },
-  { name: 'Vikram Singh', role: 'Head of Product', avatar: 'https://images.pexels.com/photos/7640/pexels-photo-7640.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&dpr=2' },
-  { name: 'Ananya Iyer', role: 'Head of Customer Success', avatar: 'https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&dpr=2' },
+const STATS = [
+  { value: '2021', label: 'Founded in Bangalore' },
+  { value: '500+', label: 'Communities served' },
+  { value: '50K+', label: 'Residents onboarded' },
+  { value: '40+', label: 'Team members' },
 ]
 
-export default function AboutPage({ darkMode: _darkMode }: { darkMode?: boolean }) {
+const TEAM = [
+  { name: 'Arjun Rao', role: 'Co-founder & CEO', id: 220453 },
+  { name: 'Meera Iyer', role: 'Co-founder & CTO', id: 415829 },
+  { name: 'Karthik Reddy', role: 'Head of Product', id: 7640 },
+  { name: 'Sneha Patel', role: 'Head of Customer Success', id: 1043471 },
+]
+
+export default function AboutPage({ _darkMode = false }: { _darkMode?: boolean }) {
+  void _darkMode
   return (
     <>
       <SEO
-        title="About — The Team Behind Aira Nexus"
-        description="Aira Nexus is on a mission to make community management effortless. Learn about our story, mission, values, and the team building the platform."
+        title="About — The team behind AiraNexus"
+        description="AiraNexus is on a mission to make community management effortless. Meet the team building the platform trusted by 500+ communities across India."
         path="/about"
       />
 
       {/* Hero */}
-      <section className="bg-hero-gradient pt-28 lg:pt-36">
-        <div className="container-custom pb-16 text-center lg:pb-20">
+      <section className="relative overflow-hidden bg-hero-gradient pt-28 lg:pt-36">
+        <div className="container-custom relative">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mx-auto max-w-3xl"
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="mx-auto max-w-3xl text-center"
           >
-            <span className="badge-primary">
-              <Heart className="h-3.5 w-3.5" />
-              Our Story
-            </span>
-            <h1 className="mt-5 text-4xl font-bold tracking-tight text-charcoal-900 sm:text-5xl text-balance">
-              We're making community management <span className="text-gradient">effortless.</span>
+            <span className="badge-primary">About us</span>
+            <h1 className="mt-5 text-4xl font-bold tracking-tight text-charcoal-900 sm:text-5xl md:text-6xl md:leading-[1.05] text-balance">
+              We make community management <span className="text-gradient">effortless</span>
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-charcoal-600 text-pretty">
-              Aira Nexus was born from a simple frustration: running a community shouldn't require
-              five tools, three spreadsheets, and a dozen WhatsApp groups.
+              AiraNexus started in 2021 when two apartment owners got tired of chasing maintenance
+              dues over WhatsApp. Today we serve 500+ communities across India.
             </p>
           </motion.div>
         </div>
       </section>
 
       {/* Story */}
-      <section className="section-padding">
+      <section className="section-padding bg-white">
         <div className="container-custom">
-          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <motion.div
-              initial={{ opacity: 0, x: -24 }}
+              initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
             >
-              <h2 className="text-3xl font-bold tracking-tight text-charcoal-900 sm:text-4xl text-balance">
-                From a frustrated secretary to 500+ communities
+              <span className="badge-neutral">Our story</span>
+              <h2 className="mt-4 text-3xl font-bold tracking-tight text-charcoal-900 sm:text-4xl">
+                From a WhatsApp group to a national platform
               </h2>
               <div className="mt-5 space-y-4 text-base leading-relaxed text-charcoal-600 text-pretty">
                 <p>
-                  In 2021, our co-founder Arjun became secretary of his 180-unit apartment complex. Within
-                  a month he was juggling an Excel sheet for dues, a WhatsApp group for complaints, a
-                  paper register for visitors, and a Google Drive for notices.
+                  In 2021, Arjun and Meera — both apartment owners in Bangalore — were volunteering on
+                  their respective committees. They spent weekends reconciling spreadsheets, chasing
+                  dues, and answering the same questions on five different WhatsApp groups.
                 </p>
                 <p>
-                  He assumed there'd be software for this. There was — but it was either built for
-                  enterprises, stuck on desktop, or so clunky that residents refused to use it.
+                  Convinced there had to be a better way, they built a prototype that automated billing
+                  and complaints for their own communities. Word spread. Within a year, 50 communities
+                  had asked to use it. AiraNexus was born.
                 </p>
                 <p>
-                  So he and Sneha built their own. Within three months, on-time collections at their
-                  community jumped from 62% to 91%. Word spread. Today, Aira Nexus powers 500+
-                  communities across India.
+                  Today we’re a team of 40+ engineers, designers, and community specialists obsessed
+                  with making life easier for the people who run where we live.
                 </p>
               </div>
             </motion.div>
             <motion.div
-              initial={{ opacity: 0, x: 24 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
             >
-              <div className="overflow-hidden rounded-2xl shadow-elevated">
+              <div className="overflow-hidden rounded-3xl border border-charcoal-100 bg-white shadow-card">
                 <img
                   src="https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=800"
-                  alt="The Aira Nexus team at work"
-                  className="h-full w-full object-cover"
+                  alt="The AiraNexus team collaborating"
                   loading="lazy"
                   decoding="async"
-                  width="800"
-                  height="500"
+                  width={800}
+                  height={600}
+                  className="aspect-[4/3] w-full object-cover"
                 />
               </div>
             </motion.div>
@@ -106,65 +112,55 @@ export default function AboutPage({ darkMode: _darkMode }: { darkMode?: boolean 
         </div>
       </section>
 
-      {/* Mission & Vision */}
-      <section className="section-padding bg-charcoal-50/40">
-        <div className="container-custom">
-          <div className="grid gap-6 lg:grid-cols-2">
-            {[
-              {
-                icon: Target,
-                title: 'Our Mission',
-                description: 'To give every community — regardless of size or budget — the tools to run itself with transparency, efficiency, and delight. No community should be held back by paperwork.',
-              },
-              {
-                icon: Lightbulb,
-                title: 'Our Vision',
-                description: 'A world where managing a community is as seamless as ordering groceries online — where residents feel informed, managers feel empowered, and committees feel in control.',
-              },
-            ].map((card, i) => (
-              <motion.div
-                key={card.title}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="card-hover"
-              >
-                <div className="icon-circle-lg">
-                  <card.icon className="h-7 w-7" />
-                </div>
-                <h3 className="mt-5 text-xl font-semibold text-charcoal-900">{card.title}</h3>
-                <p className="mt-3 text-base leading-relaxed text-charcoal-600 text-pretty">{card.description}</p>
-              </motion.div>
-            ))}
-          </div>
+      {/* Mission / Vision */}
+      <section className="section-padding bg-charcoal-50">
+        <div className="container-custom grid gap-6 lg:grid-cols-2">
+          {[
+            { icon: Target, title: 'Our mission', body: 'To give every community — from a 40-villa layout to a 1,200-flat township — the tools to run beautifully, transparently, and effortlessly.' },
+            { icon: Eye, title: 'Our vision', body: 'A world where living in a managed community feels as smooth as living in a five-star hotel, with technology that stays out of the way until you need it.' },
+          ].map((c, i) => (
+            <motion.div
+              key={c.title}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.5, delay: i * 0.08, ease: 'easeOut' }}
+              className="card-hover"
+            >
+              <div className="icon-circle-lg">
+                <c.icon className="h-6 w-6" aria-hidden="true" />
+              </div>
+              <h3 className="mt-5 text-2xl font-bold text-charcoal-900">{c.title}</h3>
+              <p className="mt-3 text-base leading-relaxed text-charcoal-600 text-pretty">{c.body}</p>
+            </motion.div>
+          ))}
         </div>
       </section>
 
       {/* Values */}
-      <section className="section-padding">
+      <section className="section-padding bg-white">
         <div className="container-custom">
           <SectionHeading
-            badge="Our Values"
+            badge="Our values"
             badgeVariant="lime"
-            title={<>The principles that <span className="text-gradient">guide us</span></>}
-            description="Six values that shape every product decision, hire, and customer conversation."
+            title="What we believe"
+            description="The principles that shape how we build, hire, and serve."
           />
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {values.map((value, i) => (
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {VALUES.map((v, i) => (
               <motion.div
-                key={value.title}
+                key={v.title}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.5, delay: (i % 3) * 0.08 }}
+                transition={{ duration: 0.5, delay: (i % 3) * 0.06, ease: 'easeOut' }}
                 className="card-hover group"
               >
-                <div className="icon-circle-lg group-hover:scale-110 group-hover:bg-primary-100">
-                  <value.icon className="h-7 w-7" />
+                <div className="icon-circle-lg transition-transform duration-300 group-hover:scale-110">
+                  <v.icon className="h-6 w-6" aria-hidden="true" />
                 </div>
-                <h3 className="mt-5 text-lg font-semibold text-charcoal-900">{value.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-charcoal-600">{value.description}</p>
+                <h3 className="mt-5 text-lg font-semibold text-charcoal-900">{v.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-charcoal-600 text-pretty">{v.description}</p>
               </motion.div>
             ))}
           </div>
@@ -172,59 +168,55 @@ export default function AboutPage({ darkMode: _darkMode }: { darkMode?: boolean 
       </section>
 
       {/* Stats */}
-      <section className="border-y border-charcoal-100 bg-white">
-        <div className="container-custom grid grid-cols-2 gap-8 py-12 lg:grid-cols-4">
-          <StatCard value="500+" label="Communities served" />
-          <StatCard value="50K+" label="Residents managed" />
-          <StatCard value="40+" label="Cities across India" />
-          <StatCard value="2021" label="Founded in Bengaluru" />
+      <section className="border-y border-charcoal-100 bg-charcoal-50 py-12">
+        <div className="container-custom grid grid-cols-2 gap-8 lg:grid-cols-4">
+          {STATS.map((s, i) => (
+            <StatCard key={s.label} value={s.value} label={s.label} delay={i * 0.05} />
+          ))}
         </div>
       </section>
 
       {/* Team */}
-      <section className="section-padding bg-charcoal-50/40">
+      <section className="section-padding bg-white">
         <div className="container-custom">
           <SectionHeading
-            badge="Our Team"
+            badge="Leadership"
             badgeVariant="cyan"
-            title={<>The people <span className="text-gradient">behind Aira Nexus</span></>}
-            description="A small, senior team obsessed with building software communities actually love."
+            title="Meet the team"
+            description="The people building AiraNexus."
           />
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {team.map((member, i) => (
-              <motion.div
-                key={member.name}
+          <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {TEAM.map((m, i) => (
+              <motion.figure
+                key={m.name}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="card-hover text-center"
+                transition={{ duration: 0.5, delay: i * 0.08, ease: 'easeOut' }}
+                className="text-center"
               >
-                <img
-                  src={member.avatar}
-                  alt={member.name}
-                  className="mx-auto h-24 w-24 rounded-full object-cover"
-                  loading="lazy"
-                  decoding="async"
-                  width="96"
-                  height="96"
-                />
-                <h3 className="mt-4 text-base font-semibold text-charcoal-900">{member.name}</h3>
-                <p className="text-sm text-primary-600">{member.role}</p>
-              </motion.div>
+                <div className="mx-auto overflow-hidden rounded-3xl border border-charcoal-100 bg-white shadow-card">
+                  <img
+                    src={`https://images.pexels.com/photos/${m.id}/pexels-photo-${m.id}.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&dpr=2`}
+                    alt={m.name}
+                    loading="lazy"
+                    decoding="async"
+                    width={400}
+                    height={400}
+                    className="aspect-square w-full object-cover"
+                  />
+                </div>
+                <figcaption className="mt-4">
+                  <p className="text-base font-semibold text-charcoal-900">{m.name}</p>
+                  <p className="text-sm text-charcoal-500">{m.role}</p>
+                </figcaption>
+              </motion.figure>
             ))}
           </div>
         </div>
       </section>
 
-      <CTABanner
-        title="Want to join our mission?"
-        description="We're hiring across engineering, product, and customer success. Come build the future of community management with us."
-        primaryLabel="See Open Roles"
-        primaryTo="/contact"
-        secondaryLabel="Learn More"
-        secondaryTo="/features"
-      />
+      <CTABanner />
     </>
   )
 }

@@ -8,7 +8,7 @@ interface HeaderProps {
   setDarkMode: (v: boolean) => void
 }
 
-const navLinks = [
+const NAV_LINKS = [
   { to: '/features', label: 'Features' },
   { to: '/solutions', label: 'Solutions' },
   { to: '/pricing', label: 'Pricing' },
@@ -31,6 +31,10 @@ export default function Header({ darkMode, setDarkMode }: HeaderProps) {
   }, [])
 
   useEffect(() => {
+    setMobileOpen(false)
+  }, [location.pathname])
+
+  useEffect(() => {
     if (mobileOpen) {
       document.body.style.overflow = 'hidden'
     } else {
@@ -41,20 +45,16 @@ export default function Header({ darkMode, setDarkMode }: HeaderProps) {
     }
   }, [mobileOpen])
 
-  useEffect(() => {
-    setMobileOpen(false)
-  }, [location.pathname])
-
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+      className={`fixed inset-x-0 top-0 z-40 transition-all duration-300 ${
         scrolled
-          ? 'border-b border-charcoal-100 bg-white/85 backdrop-blur-xl shadow-soft'
+          ? 'border-b border-charcoal-100 bg-white/85 backdrop-blur-xl'
           : 'border-b border-transparent bg-transparent'
       }`}
     >
       <div className="container-custom flex h-16 items-center justify-between lg:h-20">
-        <Link to="/" aria-label="Aira Nexus home" className="flex items-center">
+        <Link to="/" aria-label="Aira Nexus home" className="inline-flex items-center">
           <img
             src="/airanexus-logo.svg"
             alt="Aira Nexus Logo"
@@ -65,13 +65,13 @@ export default function Header({ darkMode, setDarkMode }: HeaderProps) {
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
-          {navLinks.map((link) => (
+          {NAV_LINKS.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
               className={({ isActive }) =>
-                `relative px-3 py-2 text-sm font-medium transition-colors ${
-                  isActive ? 'text-primary-600' : 'text-charcoal-600 hover:text-charcoal-900'
+                `relative rounded-full px-3.5 py-2 text-sm font-medium transition-colors ${
+                  isActive ? 'text-primary-700' : 'text-charcoal-700 hover:text-charcoal-900'
                 }`
               }
             >
@@ -81,7 +81,7 @@ export default function Header({ darkMode, setDarkMode }: HeaderProps) {
                   {isActive && (
                     <motion.span
                       layoutId="nav-active"
-                      className="absolute inset-x-2 -bottom-0.5 h-0.5 rounded-full bg-primary-500"
+                      className="absolute inset-0 -z-10 rounded-full bg-primary-50"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -95,9 +95,9 @@ export default function Header({ darkMode, setDarkMode }: HeaderProps) {
           <button
             onClick={() => setDarkMode(!darkMode)}
             aria-label="Toggle dark mode"
-            className="rounded-lg p-2 text-charcoal-500 transition-colors hover:bg-charcoal-100 hover:text-charcoal-900"
+            className="rounded-full p-2 text-charcoal-600 transition-colors hover:bg-charcoal-100"
           >
-            <span className="block h-4 w-4 rounded-full border-2 border-charcoal-400" />
+            <span className="block h-4 w-4 rounded-full bg-gradient-to-br from-primary-400 to-cyan-400" aria-hidden="true" />
           </button>
           <Link to="/login" className="btn-ghost">
             Sign In
@@ -109,9 +109,9 @@ export default function Header({ darkMode, setDarkMode }: HeaderProps) {
 
         <button
           onClick={() => setMobileOpen((v) => !v)}
-          aria-label="Toggle menu"
+          className="inline-flex items-center justify-center rounded-lg p-2 text-charcoal-700 lg:hidden"
+          aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={mobileOpen}
-          className="rounded-lg p-2 text-charcoal-700 transition-colors hover:bg-charcoal-100 lg:hidden"
         >
           {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
@@ -123,16 +123,16 @@ export default function Header({ darkMode, setDarkMode }: HeaderProps) {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.25, ease: 'easeInOut' }}
             className="overflow-hidden border-t border-charcoal-100 bg-white lg:hidden"
           >
             <nav className="container-custom flex flex-col gap-1 py-4" aria-label="Mobile">
-              {navLinks.map((link) => (
+              {NAV_LINKS.map((link) => (
                 <NavLink
                   key={link.to}
                   to={link.to}
                   className={({ isActive }) =>
-                    `rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
+                    `rounded-xl px-4 py-3 text-base font-medium transition-colors ${
                       isActive
                         ? 'bg-primary-50 text-primary-700'
                         : 'text-charcoal-700 hover:bg-charcoal-50'
@@ -142,11 +142,11 @@ export default function Header({ darkMode, setDarkMode }: HeaderProps) {
                   {link.label}
                 </NavLink>
               ))}
-              <div className="mt-2 flex flex-col gap-2 border-t border-charcoal-100 pt-3">
-                <Link to="/login" className="btn-ghost w-full">
+              <div className="mt-3 flex flex-col gap-2">
+                <Link to="/login" className="btn-outline-white border border-charcoal-200 bg-white text-charcoal-900">
                   Sign In
                 </Link>
-                <Link to="/request-demo" className="btn-primary w-full">
+                <Link to="/request-demo" className="btn-primary">
                   Book Demo
                 </Link>
               </div>

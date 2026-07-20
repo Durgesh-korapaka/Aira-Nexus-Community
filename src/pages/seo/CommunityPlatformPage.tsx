@@ -1,121 +1,97 @@
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Building2, KeyRound, Users } from 'lucide-react'
+import { ArrowRight, Building2, ShieldCheck, UserCog, Users } from 'lucide-react'
 import SEO from '../../components/SEO'
 import SectionHeading from '../../components/ui/SectionHeading'
 import FeatureCard from '../../components/ui/FeatureCard'
 import StatCard from '../../components/ui/StatCard'
 import CTABanner from '../../components/ui/CTABanner'
 
-const audiences = [
-  { icon: Users, title: 'For Residents', description: 'Pay dues, raise complaints, pre-approve guests, and book amenities — all from a single app.' },
-  { icon: Building2, title: 'For Managers', description: 'Replace five tools with one. Automate billing, monitor complaints, and publish notices from one dashboard.' },
-  { icon: KeyRound, title: 'For Security', description: 'Validate visitors in seconds with QR passes and keep a complete, auditable entry log.' },
+const AUDIENCES = [
+  { icon: Users, title: 'For residents', description: 'Pay dues, raise complaints, book amenities, approve visitors, and vote — all from one app.' },
+  { icon: UserCog, title: 'For managers', description: 'Run the entire community from a single dashboard with automations, reports, and audit trails.' },
+  { icon: ShieldCheck, title: 'For committees', description: 'Transparent governance with one-click reports, approval workflows, and tamper-proof polls.' },
 ]
 
-const communityTypes = [
-  'Apartment Complexes',
-  'Gated Communities',
-  'Villa Communities',
-  'Residential Townships',
-  'Cooperative Housing Societies',
-  'Mixed-Use Complexes',
+const STATS = [
+  { value: '500+', label: 'Communities' },
+  { value: '50K+', label: 'Residents' },
+  { value: '12', label: 'Integrated modules' },
+  { value: '99.9%', label: 'Uptime' },
 ]
 
-export default function CommunityPlatformPage({ darkMode: _darkMode }: { darkMode?: boolean }) {
+const COMMUNITY_TYPES = [
+  'Apartments', 'Gated communities', 'Villa layouts', 'Residential complexes', 'Townships', 'Co-operative societies',
+]
+
+export default function CommunityPlatformPage({ _darkMode = false }: { _darkMode?: boolean }) {
+  void _darkMode
   return (
     <>
       <SEO
-        title="Community Management Platform — One Platform for Every Community"
-        description="Aira Nexus is a unified community management platform for apartments, gated communities, and residential complexes. Billing, complaints, visitors, and finances — all in one place."
+        title="Community Management Platform"
+        description="AiraNexus is the AI-powered community management platform for apartments, gated communities, and residential complexes — billing, visitors, complaints, and more."
         path="/community-management-platform"
       />
 
       {/* Hero */}
-      <section className="bg-hero-gradient pt-28 lg:pt-36">
-        <div className="container-custom pb-16 text-center lg:pb-20">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mx-auto max-w-3xl"
-          >
-            <span className="badge-primary">
-              <Building2 className="h-3.5 w-3.5" />
-              Community Management Platform
-            </span>
-            <h1 className="mt-5 text-4xl font-bold tracking-tight text-charcoal-900 sm:text-5xl text-balance">
+      <section className="relative overflow-hidden bg-hero-gradient pt-28 lg:pt-36">
+        <div className="container-custom relative">
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: 'easeOut' }} className="mx-auto max-w-3xl text-center">
+            <span className="badge-primary">Community Management Platform</span>
+            <h1 className="mt-5 text-4xl font-bold tracking-tight text-charcoal-900 sm:text-5xl md:text-6xl md:leading-[1.05] text-balance">
               One platform for <span className="text-gradient">every community</span>
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-charcoal-600 text-pretty">
-              Aira Nexus unifies billing, complaints, visitors, and finances into a single
-              platform that adapts to any community type — from 20-unit villas to 2,000-apartment townships.
+              AiraNexus brings billing, complaints, visitors, and communication together — for any
+              residential community, of any size.
             </p>
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <Link to="/request-demo" className="btn-primary px-6 py-3.5 text-base">Book a Demo <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
+              <Link to="/features" className="btn-ghost px-5 py-3.5 text-base">Explore Features</Link>
+            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Audience features */}
-      <section className="section-padding">
+      {/* Audiences */}
+      <section className="section-padding bg-white">
         <div className="container-custom">
-          <SectionHeading
-            badge="Built for everyone"
-            title={<>Three experiences, <span className="text-gradient">one platform</span></>}
-            description="Residents, managers, and security each get an experience tailored to their role."
-          />
-          <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            {audiences.map((audience, i) => (
-              <FeatureCard key={audience.title} {...audience} delay={i * 0.1} />
+          <SectionHeading badge="Built for everyone" badgeVariant="cyan" title={<>Made for <span className="text-gradient">every role</span></>} description="AiraNexus meets residents, managers, and committees where they are." />
+          <div className="mt-14 grid gap-6 lg:grid-cols-3">
+            {AUDIENCES.map((a, i) => (
+              <FeatureCard key={a.title} icon={a.icon} title={a.title} description={a.description} delay={i * 0.08} />
             ))}
           </div>
         </div>
       </section>
 
       {/* Stats */}
-      <section className="border-y border-charcoal-100 bg-white">
-        <div className="container-custom grid grid-cols-2 gap-8 py-12 lg:grid-cols-4">
-          <StatCard value="500+" label="Communities" />
-          <StatCard value="50K+" label="Residents" />
-          <StatCard value="12" label="Integrated modules" />
-          <StatCard value="99.9%" label="Uptime" />
+      <section className="border-y border-charcoal-100 bg-charcoal-50 py-12">
+        <div className="container-custom grid grid-cols-2 gap-8 lg:grid-cols-4">
+          {STATS.map((s, i) => <StatCard key={s.label} value={s.value} label={s.label} delay={i * 0.05} />)}
         </div>
       </section>
 
       {/* Community types */}
-      <section className="section-padding bg-charcoal-50/40">
+      <section className="section-padding bg-white">
         <div className="container-custom">
-          <SectionHeading
-            badge="Community types"
-            badgeVariant="cyan"
-            title={<>Works for <span className="text-gradient">every structure</span></>}
-            description="No matter how your community is organized, Aira Nexus adapts."
-          />
-          <div className="mx-auto mt-12 grid max-w-4xl gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {communityTypes.map((type, i) => (
-              <motion.div
-                key={type}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.4, delay: (i % 3) * 0.06 }}
-                className="flex items-center gap-3 rounded-xl border border-charcoal-100 bg-white px-5 py-4 shadow-soft"
-              >
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-100 text-primary-600">
-                  <span className="text-sm">✓</span>
-                </span>
-                <span className="text-sm font-medium text-charcoal-700">{type}</span>
+          <SectionHeading badge="Works for" badgeVariant="lime" title="Every kind of community" description="From a 40-villa layout to a 1,200-flat township." />
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {COMMUNITY_TYPES.map((t, i) => (
+              <motion.div key={t} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.4, delay: (i % 3) * 0.05, ease: 'easeOut' }} className="flex items-center gap-3 rounded-2xl border border-charcoal-100 bg-white p-5 shadow-soft">
+                <span className="icon-circle"><Building2 className="h-5 w-5" aria-hidden="true" /></span>
+                <span className="text-sm font-medium text-charcoal-900">{t}</span>
               </motion.div>
             ))}
+          </div>
+          <div className="mt-10 text-center">
+            <Link to="/solutions" className="btn-link text-base">See all solutions <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
           </div>
         </div>
       </section>
 
-      <CTABanner
-        title="Find your community's perfect fit"
-        description="Tell us about your community and we'll tailor a demo to your structure and scale."
-        primaryLabel="Book a Demo"
-        secondaryLabel="View Solutions"
-        secondaryTo="/solutions"
-      />
+      <CTABanner />
     </>
   )
 }

@@ -1,118 +1,97 @@
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Building2, KeyRound, Users, Wallet } from 'lucide-react'
+import { ArrowRight, CalendarClock, MessageSquare, ShieldCheck, Trees, Users, Vote } from 'lucide-react'
 import SEO from '../../components/SEO'
 import SectionHeading from '../../components/ui/SectionHeading'
 import FeatureCard from '../../components/ui/FeatureCard'
 import StatCard from '../../components/ui/StatCard'
 import CTABanner from '../../components/ui/CTABanner'
 
-const features = [
-  { icon: Wallet, title: 'Society Billing', description: 'Automated maintenance collection with UPI, cards, and netbanking plus real-time arrears tracking.' },
-  { icon: Users, title: 'Member Management', description: 'Verified directory of all society members with roles, units, and family details.' },
-  { icon: KeyRound, title: 'Gate Security', description: 'Digital visitor passes, guard-side validation, and a complete entry/exit log.' },
-  { icon: Building2, title: 'Facility Booking', description: 'Reserve clubhouses, pools, and sports courts with conflict-free slot management.' },
+const FEATURES = [
+  { icon: Users, title: 'Visitor & gate management', description: 'Pre-approve guests, generate QR passes, and watch gate activity in real time across all entrances.' },
+  { icon: CalendarClock, title: 'Amenity booking', description: 'Residents book the gym, pool, and clubhouse with conflict-free calendars and fair-use policies.' },
+  { icon: MessageSquare, title: 'WhatsApp-native notices', description: 'Publish notices with read receipts, pinning, and category filters — sent straight to WhatsApp.' },
+  { icon: Vote, title: 'Polls & voting', description: 'Run committee elections and quick polls with tamper-proof, transparent results.' },
 ]
 
-export default function SocietyManagementPage({ darkMode: _darkMode }: { darkMode?: boolean }) {
+const STATS = [
+  { value: '500+', label: 'Gated communities' },
+  { value: '50K+', label: 'Residents served' },
+  { value: '4.8/5', label: 'Average app rating' },
+  { value: '99.9%', label: 'Platform uptime' },
+]
+
+export default function SocietyManagementPage({ _darkMode = false }: { _darkMode?: boolean }) {
+  void _darkMode
   return (
     <>
       <SEO
-        title="Society Management Software — Streamline Your RWA Operations"
-        description="Aira Nexus society management software automates billing, member management, gate security, and facility booking for RWAs and cooperative societies."
+        title="Society Management Software"
+        description="AiraNexus society management software for gated communities — visitor management, amenity booking, notices, polls, and billing in one platform."
         path="/society-management-software"
       />
 
       {/* Hero */}
-      <section className="bg-hero-gradient pt-28 lg:pt-36">
-        <div className="container-custom pb-16 text-center lg:pb-20">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mx-auto max-w-3xl"
-          >
-            <span className="badge-cyan">
-              <Building2 className="h-3.5 w-3.5" />
-              Society Management Software
-            </span>
-            <h1 className="mt-5 text-4xl font-bold tracking-tight text-charcoal-900 sm:text-5xl text-balance">
-              Streamline your <span className="text-gradient">society operations</span>
+      <section className="relative overflow-hidden bg-hero-gradient pt-28 lg:pt-36">
+        <div className="container-custom relative">
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: 'easeOut' }} className="mx-auto max-w-3xl text-center">
+            <span className="badge-primary"><Trees className="h-3.5 w-3.5" aria-hidden="true" /> Society Management Software</span>
+            <h1 className="mt-5 text-4xl font-bold tracking-tight text-charcoal-900 sm:text-5xl md:text-6xl md:leading-[1.05] text-balance">
+              Run your society <span className="text-gradient">like clockwork</span>
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-charcoal-600 text-pretty">
-              The complete platform for RWAs and cooperative societies — automate billing, secure
-              your gate, and keep every member informed.
+              The all-in-one platform for gated communities — visitors, amenities, notices, polls,
+              and billing, beautifully integrated.
             </p>
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <Link to="/request-demo" className="btn-primary px-6 py-3.5 text-base">Book a Demo <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
+              <Link to="/pricing" className="btn-ghost px-5 py-3.5 text-base">See Pricing</Link>
+            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="border-y border-charcoal-100 bg-white">
-        <div className="container-custom grid grid-cols-2 gap-8 py-12 lg:grid-cols-4">
-          <StatCard value="500+" label="Societies" />
-          <StatCard value="50K+" label="Members" />
-          <StatCard value="₹40Cr+" label="Dues collected" />
-          <StatCard value="99.9%" label="Uptime" />
-        </div>
-      </section>
-
       {/* Features */}
-      <section className="section-padding">
+      <section className="section-padding bg-white">
         <div className="container-custom">
-          <SectionHeading
-            badge="Core modules"
-            title={<>Four pillars of <span className="text-gradient">society management</span></>}
-            description="Everything an RWA needs to run a modern, transparent society."
-          />
-          <div className="mt-12 grid gap-6 sm:grid-cols-2">
-            {features.map((feature, i) => (
-              <FeatureCard key={feature.title} {...feature} delay={(i % 2) * 0.08} />
+          <SectionHeading badge="Features" title={<>Built for <span className="text-gradient">gated communities</span></>} description="Everything your managing committee and residents need, in one place." />
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
+            {FEATURES.map((f, i) => (
+              <FeatureCard key={f.title} icon={f.icon} title={f.title} description={f.description} delay={(i % 2) * 0.08} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* Feature grid */}
-      <section className="section-padding bg-charcoal-50/40">
-        <div className="container-custom">
-          <SectionHeading
-            badge="Why societies choose us"
-            badgeVariant="lime"
-            title={<>Built for <span className="text-gradient">Indian societies</span></>}
-            description="From cooperative housing societies to large RWAs, Aira Nexus adapts to your governance model."
-          />
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              { title: 'RWA elections', description: 'Run transparent, tamper-proof committee elections with digital voting.' },
-              { title: 'AGM management', description: 'Publish notices, minutes, and financial reports that members can verify.' },
-              { title: 'Vendor & AMC tracking', description: 'Maintain a central register of vendors, contracts, and renewal dates.' },
-              { title: 'Notice board', description: 'Publish circulars with read-receipts and mandatory acknowledgements.' },
-              { title: 'Polls & surveys', description: 'Gather member opinions on decisions that affect the community.' },
-              { title: 'Document vault', description: 'Permissioned storage for bylaws, invoices, and compliance records.' },
-            ].map((item, i) => (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.5, delay: (i % 3) * 0.08 }}
-                className="card-hover"
-              >
-                <h3 className="text-base font-semibold text-charcoal-900">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-charcoal-600">{item.description}</p>
-              </motion.div>
-            ))}
-          </div>
+      {/* Stats */}
+      <section className="border-y border-charcoal-100 bg-charcoal-50 py-12">
+        <div className="container-custom grid grid-cols-2 gap-8 lg:grid-cols-4">
+          {STATS.map((s, i) => <StatCard key={s.label} value={s.value} label={s.label} delay={i * 0.05} />)}
         </div>
       </section>
 
-      <CTABanner
-        title="Ready to upgrade your society?"
-        description="See how Aira Nexus can transform your RWA operations. Book a free, personalized demo today."
-        primaryLabel="Book a Demo"
-        secondaryLabel="Explore Features"
-        secondaryTo="/features"
-      />
+      {/* Feature grid with image */}
+      <section className="section-padding bg-white">
+        <div className="container-custom grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.6, ease: 'easeOut' }}>
+            <span className="badge-lime"><ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" /> Security</span>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-charcoal-900 sm:text-4xl">A gate that never sleeps</h2>
+            <p className="mt-4 text-base leading-relaxed text-charcoal-600 text-pretty">
+              Security staff get a purpose-built console for visitor check-ins, delivery approvals,
+              and staff attendance. Residents pre-approve guests from the app and get instant alerts
+              when someone arrives.
+            </p>
+            <Link to="/features" className="btn-link mt-6 text-base">Explore all features <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
+          </motion.div>
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.6, ease: 'easeOut' }}>
+            <div className="overflow-hidden rounded-3xl border border-charcoal-100 bg-white shadow-card">
+              <img src="https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Gated community" loading="lazy" decoding="async" width={800} height={600} className="aspect-[4/3] w-full object-cover" />
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <CTABanner />
     </>
   )
 }
