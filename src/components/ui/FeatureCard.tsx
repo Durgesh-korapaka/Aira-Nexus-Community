@@ -1,12 +1,12 @@
-import type { LucideIcon } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { motion } from 'framer-motion';
+import type { LucideIcon } from 'lucide-react';
 
 interface FeatureCardProps {
-  icon: LucideIcon
-  title: string
-  description: string
-  delay?: number
-  className?: string
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  delay?: number;
+  href?: string;
 }
 
 export default function FeatureCard({
@@ -14,21 +14,20 @@ export default function FeatureCard({
   title,
   description,
   delay = 0,
-  className = '',
 }: FeatureCardProps) {
   return (
     <motion.article
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.5, delay, ease: 'easeOut' }}
-      className={`card-hover group ${className}`}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay }}
+      className="card-hover group"
     >
-      <div className="icon-circle-lg transition-transform duration-300 group-hover:scale-110">
-        <Icon className="h-6 w-6" aria-hidden="true" />
+      <div className="icon-circle-lg group-hover:scale-110 group-hover:bg-primary-100">
+        <Icon className="h-7 w-7" aria-hidden="true" />
       </div>
-      <h3 className="mt-5 text-lg font-semibold text-charcoal-900">{title}</h3>
-      <p className="mt-2 text-sm leading-relaxed text-charcoal-600 text-pretty">{description}</p>
+      <h3 className="mt-5 font-display text-lg font-semibold text-charcoal-900">{title}</h3>
+      <p className="mt-2 text-sm leading-relaxed text-charcoal-600">{description}</p>
     </motion.article>
-  )
+  );
 }

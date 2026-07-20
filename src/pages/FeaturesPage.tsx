@@ -1,107 +1,98 @@
-import { motion } from 'framer-motion'
+import { motion } from 'framer-motion';
 import {
-  ArrowRight,
-  BarChart3,
-  Bell,
-  CalendarClock,
-  ClipboardList,
-  CreditCard,
-  FileText,
-  FolderLock,
-  MessageSquare,
-  Smartphone,
+  Receipt,
   Users,
-  Vote,
+  ShieldCheck,
+  CalendarDays,
+  Wrench,
+  Megaphone,
+  CreditCard,
+  BarChart3,
+  FileText,
   Building2,
-} from 'lucide-react'
-import SEO from '../components/SEO'
-import FeatureCard from '../components/ui/FeatureCard'
-import StatCard from '../components/ui/StatCard'
-import CTABanner from '../components/ui/CTABanner'
+  Smartphone,
+  Zap,
+} from 'lucide-react';
+import SEO from '../components/SEO';
+import SectionHeading from '../components/ui/SectionHeading';
+import FeatureCard from '../components/ui/FeatureCard';
+import StatCard from '../components/ui/StatCard';
+import CTABanner from '../components/ui/CTABanner';
 
-const FEATURES = [
-  { icon: CreditCard, title: 'Automated Billing', description: 'Generate invoices, send reminders via WhatsApp and email, and reconcile payments automatically.' },
-  { icon: ClipboardList, title: 'Complaint Tracking', description: 'Log, assign, and resolve resident complaints with full audit trails and SLA timers.' },
-  { icon: Users, title: 'Visitor Management', description: 'Pre-approve guests, generate QR passes, and watch gate activity in real time.' },
-  { icon: Building2, title: 'Resident Directory', description: 'A secure, searchable directory of residents, owners, tenants, and staff.' },
-  { icon: BarChart3, title: 'Financial Reports', description: 'Real-time dashboards for collections, expenses, and balances across all wings.' },
-  { icon: Smartphone, title: 'Mobile App', description: 'Native iOS and Android apps for residents, managers, and security staff.' },
-  { icon: MessageSquare, title: 'WhatsApp Integration', description: 'Send notices, reminders, and approvals directly through WhatsApp Business API.' },
-  { icon: Bell, title: 'Notice Board', description: 'Publish community notices with read receipts, pinning, and category filters.' },
-  { icon: CalendarClock, title: 'Amenity Booking', description: 'Residents book gym, pool, and clubhouse slots with conflict-free calendars.' },
-  { icon: Vote, title: 'Polls & Voting', description: 'Run committee elections and quick polls with tamper-proof results.' },
-  { icon: FolderLock, title: 'Document Storage', description: 'Central, permission-controlled storage for bylaws, invoices, and audit files.' },
-  { icon: FileText, title: 'Vendor Management', description: 'Track contracts, ratings, and payments for housekeeping, security, and vendors.' },
-]
+const bentoFeatures = [
+  { icon: Receipt, title: 'Maintenance Billing', description: 'Automated invoices, reminders, and online payments with UPI, cards, and net banking.' },
+  { icon: Users, title: 'Visitor Management', description: 'Digital gate pass with QR check-in, staff verification, and real-time tracking.' },
+  { icon: ShieldCheck, title: 'Security & Access', description: 'Role-based access, audit logs, and bank-grade encryption for every community.' },
+  { icon: CalendarDays, title: 'Amenity Booking', description: 'Conflict-free scheduling for clubhouses, pools, courts, and community halls.' },
+  { icon: Wrench, title: 'Helpdesk & Complaints', description: 'Track tickets, assign vendors, and resolve issues with SLA timers and ratings.' },
+  { icon: Megaphone, title: 'Communications', description: 'Broadcast notices, polls, and emergency alerts via SMS, email, and push.' },
+  { icon: CreditCard, title: 'Online Payments', description: 'Accept maintenance, dues, and one-time charges with instant reconciliation.' },
+  { icon: BarChart3, title: 'Analytics & Reports', description: 'Real-time dashboards for collections, arrears, vendor performance, and more.' },
+  { icon: FileText, title: 'Accounting', description: 'Double-entry ledger, balance sheets, and audit-ready financial statements.' },
+  { icon: Building2, title: 'Asset Management', description: 'Track assets, warranties, AMC contracts, and maintenance schedules.' },
+  { icon: Smartphone, title: 'Resident App', description: 'Native iOS and Android apps for residents to pay, book, and raise tickets.' },
+  { icon: Zap, title: 'Integrations', description: 'Connect with Tally, WhatsApp, and popular accounting and communication tools.' },
+];
 
-const DEEP_DIVES = [
+const deepDives = [
   {
-    title: 'Billing that runs itself',
-    description: 'Set up your maintenance schedule once and AiraNexus handles invoice generation, reminders, late fees, and reconciliation. Residents pay via UPI, cards, or netbanking — and you see the money in your account, categorized, in real time.',
-    points: ['Auto-invoices on your schedule', 'WhatsApp + email reminders', 'UPI, cards, netbanking, wallets', 'Auto-reconciliation with bank feeds'],
-    image: 'https://images.pexels.com/photos/4386370/pexels-photo-4386370.jpeg?auto=compress&cs=tinysrgb&w=800',
-    icon: CreditCard,
+    title: 'Maintenance billing that actually gets paid',
+    description:
+      'Generate invoices automatically based on flat size, category, or custom rules. Send reminders via SMS, email, and WhatsApp. Accept payments through UPI, cards, and net banking with instant reconciliation. Track arrears and defaulters at a glance.',
+    image: 'https://images.pexels.com/photos/4386466/pexels-photo-4386466.jpeg?auto=compress&cs=tinysrgb&w=800',
+    points: ['Automated invoice generation', 'Multi-channel reminders', 'Instant payment reconciliation'],
   },
   {
-    title: 'A gate that never sleeps',
-    description: 'Security staff get a purpose-built console for visitor check-ins, delivery approvals, and staff attendance. Residents pre-approve guests from the app and get instant alerts when someone arrives — no phone calls required.',
-    points: ['QR-based visitor passes', 'Real-time gate dashboard', 'Delivery & cab approval flow', 'Staff attendance and payroll'],
-    image: 'https://images.pexels.com/photos/8018847/pexels-photo-8018847.jpeg?auto=compress&cs=tinysrgb&w=800',
-    icon: Users,
+    title: 'Visitor management your security team will love',
+    description:
+      'Replace paper gate registers with a digital system. Guards verify visitors via QR codes, residents pre-approve guests, and every entry is logged with timestamps. Staff attendance and verification built right in.',
+    image: 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800',
+    points: ['QR-based check-in', 'Pre-approval workflow', 'Staff attendance tracking'],
+    reverse: true,
   },
   {
-    title: 'Reports your auditor will love',
-    description: 'Every rupee in and out is categorized, timestamped, and exportable. Generate balance sheets, expense breakdowns, and arrears reports in one click — ready for the AGM or your auditor.',
-    points: ['One-click AGM reports', 'Wing-wise expense breakdown', 'Arrears & defaulters list', 'Export to PDF, Excel, or Tally'],
-    image: 'https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800',
-    icon: BarChart3,
+    title: 'Analytics that turn data into decisions',
+    description:
+      'See collection rates, defaulters, vendor performance, and resident satisfaction in real time. Export reports for AGMs, audits, and committee meetings. Set alerts for anomalies and thresholds.',
+    image: 'https://images.pexels.com/photos/7651935/pexels-photo-7651935.jpeg?auto=compress&cs=tinysrgb&w=800',
+    points: ['Real-time dashboards', 'AGM-ready reports', 'Anomaly alerts'],
   },
-]
+];
 
-const STATS = [
-  { value: '12', label: 'Integrated modules' },
-  { value: '7 days', label: 'Average onboarding' },
-  { value: '4.8/5', label: 'Average app rating' },
-  { value: '99.9%', label: 'Platform uptime' },
-]
+const stats = [
+  { value: '12+', label: 'Core modules' },
+  { value: '50K+', label: 'Active residents' },
+  { value: '99.9%', label: 'Uptime SLA' },
+  { value: '4.8/5', label: 'User rating' },
+];
 
-export default function FeaturesPage({ _darkMode = false }: { _darkMode?: boolean }) {
-  void _darkMode
+export default function FeaturesPage({ _darkMode }: { _darkMode?: boolean }) {
+  void _darkMode;
   return (
     <>
       <SEO
-        title="Features — Community Management Tools"
-        description="Explore AiraNexus features: automated billing, complaint tracking, visitor management, resident directory, financial reports, mobile app, and more."
-        path="/features"
+        title="Features — AiraNexus Society Management Software"
+        description="Explore every AiraNexus feature: maintenance billing, visitor management, helpdesk, amenity booking, accounting, analytics, and more."
+        canonical="https://airanexus.com/features"
       />
 
       {/* Hero */}
-      <section className="relative overflow-hidden bg-hero-gradient pt-28 lg:pt-36">
-        <div className="container-custom relative">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
-            className="mx-auto max-w-3xl text-center"
-          >
-            <span className="badge-primary">Features</span>
-            <h1 className="mt-5 text-4xl font-bold tracking-tight text-charcoal-900 sm:text-5xl md:text-6xl md:leading-[1.05] text-balance">
-              One platform, <span className="text-gradient">every workflow</span>
-            </h1>
-            <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-charcoal-600 text-pretty">
-              Twelve integrated modules that replace the patchwork of spreadsheets, WhatsApp groups,
-              and legacy software your community runs on today.
-            </p>
-          </motion.div>
+      <section className="bg-hero-gradient pb-20 pt-32 sm:pt-36">
+        <div className="container-custom">
+          <SectionHeading
+            badge="Features"
+            title="One platform. Every workflow."
+            description="AiraNexus replaces fragmented spreadsheets, WhatsApp groups, and paper registers with a unified system designed for Indian residential communities."
+          />
         </div>
       </section>
 
       {/* Bento grid */}
-      <section className="section-padding bg-white">
+      <section className="pb-16">
         <div className="container-custom">
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {FEATURES.map((f, i) => (
-              <FeatureCard key={f.title} icon={f.icon} title={f.title} description={f.description} delay={(i % 3) * 0.06} />
+            {bentoFeatures.map((f, i) => (
+              <FeatureCard key={f.title} {...f} delay={(i % 3) * 0.06} />
             ))}
           </div>
         </div>
@@ -110,71 +101,74 @@ export default function FeaturesPage({ _darkMode = false }: { _darkMode?: boolea
       {/* Deep dives */}
       <section className="section-padding bg-charcoal-50">
         <div className="container-custom space-y-20 lg:space-y-28">
-          {DEEP_DIVES.map((d, i) => {
-            const reversed = i % 2 === 1
-            return (
-              <div key={d.title} className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-                <motion.div
-                  initial={{ opacity: 0, x: reversed ? 30 : -30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: '-80px' }}
-                  transition={{ duration: 0.6, ease: 'easeOut' }}
-                  className={reversed ? 'lg:order-2' : ''}
-                >
-                  <div className="icon-circle-lg">
-                    <d.icon className="h-6 w-6" aria-hidden="true" />
-                  </div>
-                  <h2 className="mt-5 text-3xl font-bold tracking-tight text-charcoal-900 sm:text-4xl">{d.title}</h2>
-                  <p className="mt-4 text-base leading-relaxed text-charcoal-600 text-pretty">{d.description}</p>
-                  <ul className="mt-6 space-y-3">
-                    {d.points.map((p) => (
-                      <li key={p} className="flex items-start gap-3 text-sm text-charcoal-700">
-                        <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary-50 text-primary-600">
-                          <ArrowRight className="h-3 w-3" aria-hidden="true" />
-                        </span>
-                        {p}
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-80px' }}
-                  transition={{ duration: 0.6, ease: 'easeOut' }}
-                  className={reversed ? 'lg:order-1' : ''}
-                >
-                  <div className="overflow-hidden rounded-3xl border border-charcoal-100 bg-white shadow-card">
-                    <img
-                      src={d.image}
-                      alt={d.title}
-                      loading="lazy"
-                      decoding="async"
-                      width={800}
-                      height={600}
-                      className="aspect-[4/3] w-full object-cover"
-                    />
-                  </div>
-                </motion.div>
-              </div>
-            )
-          })}
+          {deepDives.map((d) => (
+            <div
+              key={d.title}
+              className={`grid items-center gap-10 lg:grid-cols-2 lg:gap-16 ${
+                d.reverse ? 'lg:[&>figure]:order-2' : ''
+              }`}
+            >
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+              >
+                <span className="badge-primary">Deep dive</span>
+                <h2 className="mt-4 text-display-sm font-display font-bold tracking-tight text-charcoal-900 text-balance">
+                  {d.title}
+                </h2>
+                <p className="mt-4 text-base leading-relaxed text-charcoal-600 text-pretty">
+                  {d.description}
+                </p>
+                <ul className="mt-6 space-y-3">
+                  {d.points.map((p) => (
+                    <li key={p} className="flex items-center gap-3 text-sm text-charcoal-800">
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary-100 text-primary-700">
+                        <ShieldCheck className="h-3 w-3" aria-hidden="true" />
+                      </span>
+                      {p}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+              <motion.figure
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="overflow-hidden rounded-4xl border border-charcoal-100 shadow-card-hover"
+              >
+                <img
+                  src={d.image}
+                  alt={d.title}
+                  loading="lazy"
+                  decoding="async"
+                  width={800}
+                  height={533}
+                  className="h-full w-full object-cover"
+                />
+              </motion.figure>
+            </div>
+          ))}
         </div>
       </section>
 
       {/* Stats */}
-      <section className="border-y border-charcoal-100 bg-white py-12">
-        <div className="container-custom grid grid-cols-2 gap-8 lg:grid-cols-4">
-          {STATS.map((s, i) => (
-            <StatCard key={s.label} value={s.value} label={s.label} delay={i * 0.05} />
-          ))}
+      <section className="border-y border-charcoal-100 bg-white">
+        <div className="container-custom py-12">
+          <div className="grid grid-cols-2 gap-8 lg:grid-cols-4">
+            {stats.map((s, i) => (
+              <StatCard key={s.label} value={s.value} label={s.label} delay={i * 0.08} />
+            ))}
+          </div>
         </div>
       </section>
 
       <CTABanner
         title="See AiraNexus in action"
-        description="Book a 30-minute demo and we'll tailor it to your community's exact needs."
+        description="Book a personalized demo and explore every feature tailored to your community."
       />
     </>
-  )
+  );
 }

@@ -1,54 +1,50 @@
-import { lazy, Suspense } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { AuthProvider } from './context/AuthContext'
-import Header from './components/Header'
-import Footer from './components/Footer'
-import Breadcrumbs from './components/Breadcrumbs'
-import WhatsAppWidget from './components/WhatsAppWidget'
-import { Loader2 } from 'lucide-react'
+import { lazy, Suspense } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Loader2 } from 'lucide-react';
+import { AuthProvider } from './context/AuthContext';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Breadcrumbs from './components/Breadcrumbs';
+import WhatsAppWidget from './components/WhatsAppWidget';
 
-const HomePage = lazy(() => import('./pages/HomePage'))
-const FeaturesPage = lazy(() => import('./pages/FeaturesPage'))
-const SolutionsPage = lazy(() => import('./pages/SolutionsPage'))
-const PricingPage = lazy(() => import('./pages/PricingPage'))
-const AboutPage = lazy(() => import('./pages/AboutPage'))
-const ContactPage = lazy(() => import('./pages/ContactPage'))
-const RequestDemoPage = lazy(() => import('./pages/RequestDemoPage'))
-const BlogPage = lazy(() => import('./pages/BlogPage'))
-const FAQPage = lazy(() => import('./pages/FAQPage'))
-const LoginPage = lazy(() => import('./pages/LoginPage'))
-const PrivacyPage = lazy(() => import('./pages/PrivacyPage'))
-const TermsPage = lazy(() => import('./pages/TermsPage'))
-const ApartmentManagementPage = lazy(() => import('./pages/seo/ApartmentManagementPage'))
-const SocietyManagementPage = lazy(() => import('./pages/seo/SocietyManagementPage'))
-const MaintenanceBillingPage = lazy(() => import('./pages/seo/MaintenanceBillingPage'))
-const MyGateAlternativePage = lazy(() => import('./pages/seo/MyGateAlternativePage'))
-const CommunityPlatformPage = lazy(() => import('./pages/seo/CommunityPlatformPage'))
+const HomePage = lazy(() => import('./pages/HomePage'));
+const FeaturesPage = lazy(() => import('./pages/FeaturesPage'));
+const SolutionsPage = lazy(() => import('./pages/SolutionsPage'));
+const PricingPage = lazy(() => import('./pages/PricingPage'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
+const RequestDemoPage = lazy(() => import('./pages/RequestDemoPage'));
+const BlogPage = lazy(() => import('./pages/BlogPage'));
+const FAQPage = lazy(() => import('./pages/FAQPage'));
+const LoginPage = lazy(() => import('./pages/LoginPage'));
+const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
+const TermsPage = lazy(() => import('./pages/TermsPage'));
+const ApartmentManagementPage = lazy(() => import('./pages/seo/ApartmentManagementPage'));
+const SocietyManagementPage = lazy(() => import('./pages/seo/SocietyManagementPage'));
+const CommunityPlatformPage = lazy(() => import('./pages/seo/CommunityPlatformPage'));
+const MaintenanceBillingPage = lazy(() => import('./pages/seo/MaintenanceBillingPage'));
+const MyGateAlternativePage = lazy(() => import('./pages/seo/MyGateAlternativePage'));
 
 function PageLoader() {
   return (
     <div className="flex min-h-[60vh] items-center justify-center" role="status" aria-live="polite">
-      <Loader2 className="h-8 w-8 animate-spin text-primary-500" aria-hidden="true" />
-      <span className="sr-only">Loading…</span>
+      <Loader2 className="h-8 w-8 animate-spin text-primary-500" aria-label="Loading" />
     </div>
-  )
+  );
 }
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <AuthProvider>
+    <AuthProvider>
+      <BrowserRouter>
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-primary-500 focus:px-5 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-white"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-primary-500 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
         >
           Skip to content
         </a>
-
         <Header darkMode={false} setDarkMode={() => {}} />
-
         <Breadcrumbs />
-
         <main id="main-content">
           <Suspense fallback={<PageLoader />}>
             <Routes>
@@ -73,10 +69,9 @@ export default function App() {
             </Routes>
           </Suspense>
         </main>
-
         <Footer />
         <WhatsAppWidget />
-      </AuthProvider>
-    </BrowserRouter>
-  )
+      </BrowserRouter>
+    </AuthProvider>
+  );
 }

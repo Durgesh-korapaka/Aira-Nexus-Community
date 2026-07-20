@@ -1,21 +1,15 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  css: {
-    devSourcemap: true,
-    transformer: 'postcss',
-    modules: {
-      localsConvention: 'camelCase',
-    },
+  esbuild: {
+    target: 'es2020',
   },
   build: {
-    target: 'es2020',
-    sourcemap: false,
-    minify: 'esbuild',
     cssCodeSplit: true,
+    target: 'es2020',
     rollupOptions: {
       output: {
         manualChunks: {
@@ -27,18 +21,4 @@ export default defineConfig({
       },
     },
   },
-  esbuild: {
-    target: 'es2020',
-    logOverride: { 'this-is-undefined-in-esm': 'silent' },
-  },
-  optimizeDeps: {
-    include: [
-      'react',
-      'react-dom',
-      'react-router-dom',
-      'framer-motion',
-      'lucide-react',
-      '@supabase/supabase-js',
-    ],
-  },
-})
+});

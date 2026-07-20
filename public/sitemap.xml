@@ -9,9 +9,9 @@
   <url><loc>https://airanexus.com/request-demo</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://airanexus.com/blog</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://airanexus.com/faq</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://airanexus.com/login</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
-  <url><loc>https://airanexus.com/privacy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
-  <url><loc>https://airanexus.com/terms</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://airanexus.com/login</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://airanexus.com/privacy</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://airanexus.com/terms</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
   <url><loc>https://airanexus.com/apartment-management-software</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://airanexus.com/society-management-software</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://airanexus.com/maintenance-billing-software</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>

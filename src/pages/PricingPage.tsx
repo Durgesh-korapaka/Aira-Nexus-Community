@@ -1,271 +1,256 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { ArrowRight, Check, Sparkles, X } from 'lucide-react'
-import SEO from '../components/SEO'
-import SectionHeading from '../components/ui/SectionHeading'
-import FAQAccordion from '../components/ui/FAQAccordion'
-import CTABanner from '../components/ui/CTABanner'
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Check, ArrowRight, Sparkles } from 'lucide-react';
+import SEO from '../components/SEO';
+import SectionHeading from '../components/ui/SectionHeading';
+import FAQAccordion from '../components/ui/FAQAccordion';
+import CTABanner from '../components/ui/CTABanner';
 
-const PLANS = [
+type Billing = 'monthly' | 'yearly';
+
+const plans = [
   {
     name: 'Starter',
-    tagline: 'For small communities getting started',
     monthly: 2999,
-    annual: 2499,
+    yearly: 29990,
+    description: 'For small societies up to 100 flats getting started with digital management.',
     features: [
-      'Up to 100 units',
-      'Automated billing & reminders',
+      'Up to 100 flats',
+      'Maintenance billing & payments',
+      'Visitor management',
+      'Helpdesk & complaints',
       'Resident mobile app',
-      'Notice board',
       'Email support',
     ],
-    cta: 'Start with Starter',
-    href: '/request-demo',
-    highlighted: false,
+    popular: false,
+    cta: 'Start free trial',
+    to: '/request-demo',
   },
   {
     name: 'Growth',
-    tagline: 'For growing communities that need more',
     monthly: 5999,
-    annual: 4999,
+    yearly: 59990,
+    description: 'For growing communities up to 500 flats that need automation and analytics.',
     features: [
-      'Up to 500 units',
+      'Up to 500 flats',
       'Everything in Starter',
-      'Visitor management',
-      'Complaint tracking',
-      'Financial reports & exports',
-      'WhatsApp integration',
+      'Amenity booking',
+      'Accounting & ledger',
+      'Analytics dashboards',
+      'WhatsApp & SMS reminders',
       'Priority support',
     ],
-    cta: 'Choose Growth',
-    href: '/request-demo',
-    highlighted: true,
+    popular: true,
+    cta: 'Start free trial',
+    to: '/request-demo',
   },
   {
     name: 'Enterprise',
-    tagline: 'For townships and large complexes',
     monthly: null,
-    annual: null,
+    yearly: null,
+    description: 'For large communities and property managers running multiple societies.',
     features: [
-      'Unlimited units',
+      'Unlimited flats',
       'Everything in Growth',
-      'Vendor & staff management',
-      'Polls & voting',
-      'Document storage',
-      'White-label app',
+      'Multi-property console',
+      'Custom integrations',
       'Dedicated account manager',
-      'Custom SLAs',
+      'On-site training',
+      '99.9% uptime SLA',
     ],
-    cta: 'Talk to Sales',
-    href: '/contact',
-    highlighted: false,
+    popular: false,
+    cta: 'Contact sales',
+    to: '/contact',
   },
-]
+];
 
-const COMPARISON = [
-  { feature: 'Units supported', starter: '100', growth: '500', enterprise: 'Unlimited' },
-  { feature: 'Automated billing', starter: true, growth: true, enterprise: true },
+const comparison = [
+  { feature: 'Flats supported', starter: '100', growth: '500', enterprise: 'Unlimited' },
+  { feature: 'Maintenance billing', starter: true, growth: true, enterprise: true },
+  { feature: 'Online payments', starter: true, growth: true, enterprise: true },
+  { feature: 'Visitor management', starter: true, growth: true, enterprise: true },
+  { feature: 'Helpdesk & complaints', starter: true, growth: true, enterprise: true },
   { feature: 'Resident mobile app', starter: true, growth: true, enterprise: true },
-  { feature: 'Visitor management', starter: false, growth: true, enterprise: true },
-  { feature: 'Complaint tracking', starter: false, growth: true, enterprise: true },
-  { feature: 'Financial reports', starter: false, growth: true, enterprise: true },
-  { feature: 'WhatsApp integration', starter: false, growth: true, enterprise: true },
-  { feature: 'Vendor management', starter: false, growth: false, enterprise: true },
-  { feature: 'Polls & voting', starter: false, growth: false, enterprise: true },
-  { feature: 'White-label app', starter: false, growth: false, enterprise: true },
+  { feature: 'Amenity booking', starter: false, growth: true, enterprise: true },
+  { feature: 'Accounting & ledger', starter: false, growth: true, enterprise: true },
+  { feature: 'Analytics dashboards', starter: false, growth: true, enterprise: true },
+  { feature: 'WhatsApp & SMS reminders', starter: false, growth: true, enterprise: true },
+  { feature: 'Multi-property console', starter: false, growth: false, enterprise: true },
+  { feature: 'Custom integrations', starter: false, growth: false, enterprise: true },
   { feature: 'Dedicated account manager', starter: false, growth: false, enterprise: true },
-]
+];
 
-const FAQS = [
+const faqs = [
   {
     question: 'Is there a free trial?',
-    answer: 'Yes — every plan starts with a 14-day free trial. No credit card required. You can explore the full Growth plan during your trial and pick the right tier when you’re ready.',
-  },
-  {
-    question: 'How does billing work?',
-    answer: 'Plans are billed monthly or annually. Annual billing saves you roughly two months compared to monthly. You can upgrade, downgrade, or cancel anytime from your dashboard.',
-  },
-  {
-    question: 'Are there setup fees?',
-    answer: 'No setup fees on Starter and Growth. For Enterprise, onboarding is included and we handle resident, unit, and dues import at no extra cost.',
+    answer: 'Yes, every plan starts with a 14-day free trial. No credit card required. You can explore all features before committing.',
   },
   {
     question: 'Can I switch plans later?',
-    answer: 'Absolutely. You can upgrade or downgrade at any time. Changes take effect immediately and we prorate the difference on your next invoice.',
+    answer: 'Absolutely. You can upgrade or downgrade at any time from your dashboard. Changes are prorated automatically.',
+  },
+  {
+    question: 'Are there any setup fees?',
+    answer: 'No setup fees on Starter and Growth plans. Enterprise onboarding may include a one-time implementation fee for custom integrations and on-site training.',
   },
   {
     question: 'What payment methods do you accept?',
-    answer: 'We accept UPI, all major credit and debit cards, netbanking, and bank transfers for annual plans. GST invoices are provided for all business payments.',
+    answer: 'We accept UPI, credit and debit cards, net banking, and bank transfers. Annual plans can be invoiced.',
   },
-]
+  {
+    question: 'Do you offer discounts for annual billing?',
+    answer: 'Yes, annual billing saves you roughly two months compared to monthly billing.',
+  },
+];
 
 function Cell({ value }: { value: boolean | string }) {
   if (typeof value === 'boolean') {
     return value ? (
-      <Check className="mx-auto h-4 w-4 text-primary-600" aria-label="Yes" />
+      <Check className="mx-auto h-5 w-5 text-primary-600" aria-label="Included" />
     ) : (
-      <X className="mx-auto h-4 w-4 text-charcoal-300" aria-label="No" />
-    )
+      <span className="mx-auto text-charcoal-300" aria-label="Not included">
+        —
+      </span>
+    );
   }
-  return <span className="text-sm text-charcoal-700">{value}</span>
+  return <span className="text-sm font-medium text-charcoal-800">{value}</span>;
 }
 
-export default function PricingPage({ _darkMode = false }: { _darkMode?: boolean }) {
-  void _darkMode
-  const [annual, setAnnual] = useState(true)
+export default function PricingPage({ _darkMode }: { _darkMode?: boolean }) {
+  void _darkMode;
+  const [billing, setBilling] = useState<Billing>('monthly');
 
   return (
     <>
       <SEO
-        title="Pricing — Simple, transparent plans"
-        description="AiraNexus pricing plans for every community size. Starter from ₹2,999/mo, Growth from ₹5,999/mo, and custom Enterprise. 14-day free trial."
-        path="/pricing"
+        title="Pricing — Simple, transparent plans | AiraNexus"
+        description="Choose the AiraNexus plan that fits your community. Starter ₹2,999/mo, Growth ₹5,999/mo, and Enterprise with custom pricing."
+        canonical="https://airanexus.com/pricing"
       />
 
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-hero-gradient pt-28 lg:pt-36">
-        <div className="container-custom relative">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
-            className="mx-auto max-w-3xl text-center"
-          >
-            <span className="badge-primary">Pricing</span>
-            <h1 className="mt-5 text-4xl font-bold tracking-tight text-charcoal-900 sm:text-5xl md:text-6xl md:leading-[1.05] text-balance">
-              Pricing that scales with <span className="text-gradient">your community</span>
-            </h1>
-            <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-charcoal-600 text-pretty">
-              Simple, transparent plans. No setup fees, no hidden costs. Cancel anytime.
-            </p>
-
-            {/* Billing toggle */}
-            <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-charcoal-200 bg-white p-1 shadow-soft">
+      <section className="bg-hero-gradient pb-16 pt-32 sm:pt-36">
+        <div className="container-custom">
+          <SectionHeading
+            badge="Pricing"
+            title="Simple, transparent pricing"
+            description="Pick a plan that scales with your community. No hidden fees, no surprises. Cancel anytime."
+          />
+          <div className="mt-8 flex items-center justify-center">
+            <div className="inline-flex items-center gap-1 rounded-full border border-charcoal-200 bg-white p-1 shadow-soft">
               <button
-                onClick={() => setAnnual(false)}
+                onClick={() => setBilling('monthly')}
                 className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                  !annual ? 'bg-primary-500 text-white' : 'text-charcoal-600 hover:text-charcoal-900'
+                  billing === 'monthly' ? 'bg-primary-500 text-white' : 'text-charcoal-700'
                 }`}
-                aria-pressed={!annual}
               >
                 Monthly
               </button>
               <button
-                onClick={() => setAnnual(true)}
+                onClick={() => setBilling('yearly')}
                 className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                  annual ? 'bg-primary-500 text-white' : 'text-charcoal-600 hover:text-charcoal-900'
+                  billing === 'yearly' ? 'bg-primary-500 text-white' : 'text-charcoal-700'
                 }`}
-                aria-pressed={annual}
               >
-                Annual
-                <span className="ml-1.5 text-xs text-lime-600">Save 17%</span>
+                Yearly
+                <span className="ml-1.5 text-2xs font-semibold text-greenish-600">Save 2 months</span>
               </button>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Pricing cards */}
-      <section className="bg-hero-gradient pb-4">
-        <div className="container-custom pb-20 lg:pb-28">
-          <div className="grid gap-6 lg:grid-cols-3 lg:items-stretch">
-            {PLANS.map((plan, i) => {
-              const price = annual ? plan.annual : plan.monthly
-              return (
-                <motion.div
-                  key={plan.name}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-60px' }}
-                  transition={{ duration: 0.5, delay: i * 0.08, ease: 'easeOut' }}
-                  className={`relative flex flex-col rounded-3xl border p-7 ${
-                    plan.highlighted
-                      ? 'border-transparent bg-brand-gradient text-white shadow-teal-xl lg:-mt-4 lg:mb-0'
-                      : 'border-charcoal-100 bg-white shadow-card'
-                  }`}
-                >
-                  {plan.highlighted && (
-                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1 text-xs font-semibold text-primary-700 shadow-soft">
-                      <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-                      Most Popular
+      {/* Plans */}
+      <section className="pb-16">
+        <div className="container-custom">
+          <div className="grid gap-6 lg:grid-cols-3">
+            {plans.map((plan, i) => (
+              <motion.div
+                key={plan.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className={`relative flex flex-col rounded-4xl border p-6 sm:p-8 ${
+                  plan.popular
+                    ? 'border-primary-300 bg-white shadow-teal-lg lg:-mt-4 lg:mb-4'
+                    : 'border-charcoal-100 bg-white shadow-card'
+                }`}
+              >
+                {plan.popular && (
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 badge-primary bg-primary-500 !text-white">
+                    <Sparkles className="h-3 w-3" aria-hidden="true" />
+                    Most popular
+                  </span>
+                )}
+                <h3 className="font-display text-lg font-bold text-charcoal-900">{plan.name}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-charcoal-600">{plan.description}</p>
+                <div className="mt-6 flex items-end gap-1">
+                  {plan.monthly === null ? (
+                    <span className="font-display text-display-sm font-extrabold text-charcoal-900">
+                      Custom
                     </span>
+                  ) : (
+                    <>
+                      <span className="font-display text-display-md font-extrabold text-charcoal-900">
+                        ₹{(billing === 'monthly' ? plan.monthly : Math.round(plan.yearly! / 12)).toLocaleString('en-IN')}
+                      </span>
+                      <span className="mb-1.5 text-sm text-charcoal-500">/mo</span>
+                    </>
                   )}
-                  <h3 className={`text-lg font-semibold ${plan.highlighted ? 'text-white' : 'text-charcoal-900'}`}>
-                    {plan.name}
-                  </h3>
-                  <p className={`mt-1 text-sm ${plan.highlighted ? 'text-white/85' : 'text-charcoal-500'}`}>
-                    {plan.tagline}
+                </div>
+                {plan.monthly !== null && billing === 'yearly' && (
+                  <p className="mt-1 text-2xs text-charcoal-500">
+                    Billed ₹{plan.yearly!.toLocaleString('en-IN')} annually
                   </p>
-                  <div className="mt-6">
-                    {price === null ? (
-                      <p className={`text-4xl font-bold ${plan.highlighted ? 'text-white' : 'text-charcoal-900'}`}>Custom</p>
-                    ) : (
-                      <div className="flex items-baseline gap-1">
-                        <span className={`text-4xl font-bold ${plan.highlighted ? 'text-white' : 'text-charcoal-900'}`}>
-                          ₹{price.toLocaleString('en-IN')}
-                        </span>
-                        <span className={`text-sm ${plan.highlighted ? 'text-white/80' : 'text-charcoal-500'}`}>/mo</span>
-                      </div>
-                    )}
-                    {price !== null && (
-                      <p className={`mt-1 text-xs ${plan.highlighted ? 'text-white/75' : 'text-charcoal-500'}`}>
-                        billed {annual ? 'annually' : 'monthly'}
-                      </p>
-                    )}
-                  </div>
-                  <Link
-                    to={plan.href}
-                    className={`mt-6 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-all active:scale-[0.98] ${
-                      plan.highlighted
-                        ? 'bg-white text-primary-700 hover:bg-primary-50'
-                        : 'btn-primary'
-                    }`}
-                  >
-                    {plan.cta}
-                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                  </Link>
-                  <ul className="mt-7 space-y-3">
-                    {plan.features.map((f) => (
-                      <li key={f} className="flex items-start gap-2.5 text-sm">
-                        <Check className={`mt-0.5 h-4 w-4 shrink-0 ${plan.highlighted ? 'text-white' : 'text-primary-600'}`} aria-hidden="true" />
-                        <span className={plan.highlighted ? 'text-white/90' : 'text-charcoal-700'}>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
-              )
-            })}
+                )}
+                <Link
+                  to={plan.to}
+                  className={`mt-6 ${plan.popular ? 'btn-primary' : 'btn-secondary'}`}
+                >
+                  {plan.cta}
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+                <ul className="mt-8 space-y-3">
+                  {plan.features.map((f) => (
+                    <li key={f} className="flex items-start gap-3 text-sm text-charcoal-700">
+                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary-500" aria-hidden="true" />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Comparison table */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-charcoal-50">
         <div className="container-custom">
           <SectionHeading
-            badge="Compare plans"
-            badgeVariant="neutral"
-            title="A side-by-side look"
-            description="Everything you get at each tier, in one view."
+            badge="Compare"
+            badgeVariant="cyan"
+            title="Compare every feature"
+            description="A detailed breakdown of what's included in each plan."
           />
           <div className="mt-12 overflow-x-auto">
-            <table className="w-full min-w-[640px] border-collapse text-left">
+            <table className="w-full min-w-[640px] overflow-hidden rounded-3xl border border-charcoal-100 bg-white shadow-card">
               <thead>
-                <tr className="border-b border-charcoal-100">
-                  <th className="py-4 pr-4 text-sm font-semibold text-charcoal-900">Feature</th>
-                  <th className="px-4 py-4 text-center text-sm font-semibold text-charcoal-900">Starter</th>
-                  <th className="px-4 py-4 text-center text-sm font-semibold text-primary-700">Growth</th>
-                  <th className="px-4 py-4 text-center text-sm font-semibold text-charcoal-900">Enterprise</th>
+                <tr className="border-b border-charcoal-100 bg-charcoal-50">
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-charcoal-900">Feature</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-charcoal-900">Starter</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-primary-700">Growth</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-charcoal-900">Enterprise</th>
                 </tr>
               </thead>
-              <tbody>
-                {COMPARISON.map((row) => (
-                  <tr key={row.feature} className="border-b border-charcoal-50">
-                    <td className="py-3.5 pr-4 text-sm font-medium text-charcoal-700">{row.feature}</td>
-                    <td className="px-4 py-3.5 text-center"><Cell value={row.starter} /></td>
-                    <td className="px-4 py-3.5 text-center"><Cell value={row.growth} /></td>
-                    <td className="px-4 py-3.5 text-center"><Cell value={row.enterprise} /></td>
+              <tbody className="divide-y divide-charcoal-100">
+                {comparison.map((row) => (
+                  <tr key={row.feature} className="hover:bg-charcoal-50/50">
+                    <td className="px-6 py-4 text-left text-sm text-charcoal-800">{row.feature}</td>
+                    <td className="px-6 py-4 text-center"><Cell value={row.starter} /></td>
+                    <td className="px-6 py-4 text-center"><Cell value={row.growth} /></td>
+                    <td className="px-6 py-4 text-center"><Cell value={row.enterprise} /></td>
                   </tr>
                 ))}
               </tbody>
@@ -275,21 +260,23 @@ export default function PricingPage({ _darkMode = false }: { _darkMode?: boolean
       </section>
 
       {/* FAQ */}
-      <section className="section-padding bg-charcoal-50">
-        <div className="container-custom max-w-3xl">
-          <SectionHeading
-            badge="Pricing FAQ"
-            badgeVariant="cyan"
-            title="Questions about pricing"
-            description="Everything you need to know about plans, billing, and trials."
-          />
-          <div className="mt-10">
-            <FAQAccordion items={FAQS} />
+      <section className="section-padding">
+        <div className="container-custom">
+          <SectionHeading badge="Pricing FAQ" title="Questions about pricing" />
+          <div className="mt-12">
+            <FAQAccordion items={faqs} />
           </div>
         </div>
       </section>
 
-      <CTABanner />
+      <CTABanner
+        title="Still not sure which plan fits?"
+        description="Talk to our team and we'll help you choose the right plan for your community."
+        primaryLabel="Talk to sales"
+        primaryTo="/contact"
+        secondaryLabel="Book a demo"
+        secondaryTo="/request-demo"
+      />
     </>
-  )
+  );
 }

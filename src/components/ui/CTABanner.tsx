@@ -1,20 +1,19 @@
-import type { ReactNode } from 'react'
-import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 
 interface CTABannerProps {
-  title?: string
-  description?: ReactNode
-  primaryLabel?: string
-  primaryTo?: string
-  secondaryLabel?: string
-  secondaryTo?: string
+  title?: string;
+  description?: string;
+  primaryLabel?: string;
+  primaryTo?: string;
+  secondaryLabel?: string;
+  secondaryTo?: string;
 }
 
 export default function CTABanner({
-  title = 'Ready to modernize your community?',
-  description = 'Join 500+ communities already running on AiraNexus. Book a free demo and see the platform in action.',
+  title = 'Ready to transform your community?',
+  description = 'Join 500+ communities across India running smarter on AiraNexus. Book a free demo today.',
   primaryLabel = 'Book a Demo',
   primaryTo = '/request-demo',
   secondaryLabel = 'View Pricing',
@@ -26,32 +25,25 @@ export default function CTABanner({
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="relative overflow-hidden rounded-3xl bg-brand-gradient px-6 py-14 text-center shadow-teal-xl sm:px-12 lg:py-20"
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="relative overflow-hidden rounded-4xl bg-brand-gradient px-6 py-14 sm:px-12 sm:py-16 lg:px-16"
         >
-          <div className="blob -left-10 -top-10 h-48 w-48 bg-white/15" aria-hidden="true" />
-          <div className="blob -bottom-12 -right-12 h-56 w-56 bg-cyan-300/20" aria-hidden="true" />
-
-          <div className="relative">
-            <h2 className="mx-auto max-w-2xl text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-[2.75rem] md:leading-[1.1] text-balance">
+          <div className="blob -left-16 -top-16 h-64 w-64 bg-primary-300/30" aria-hidden="true" />
+          <div className="blob -right-12 -bottom-12 h-72 w-72 bg-lime-400/20" aria-hidden="true" />
+          <div className="relative mx-auto max-w-3xl text-center">
+            <h2 className="text-display-md font-display font-bold tracking-tight text-white text-balance">
               {title}
             </h2>
-            <p className="mx-auto mt-4 max-w-xl text-base text-white/90 sm:text-lg text-pretty">
+            <p className="mt-4 text-base leading-relaxed text-white/85 text-pretty">
               {description}
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Link
-                to={primaryTo}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-primary-700 shadow-soft transition-all hover:bg-primary-50 hover:shadow-card active:scale-[0.98]"
-              >
+              <Link to={primaryTo} className="btn-outline-white group">
                 {primaryLabel}
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
               </Link>
-              <Link
-                to={secondaryTo}
-                className="btn-outline-white"
-              >
+              <Link to={secondaryTo} className="btn-outline-white">
                 {secondaryLabel}
               </Link>
             </div>
@@ -59,5 +51,5 @@ export default function CTABanner({
         </motion.div>
       </div>
     </section>
-  )
+  );
 }

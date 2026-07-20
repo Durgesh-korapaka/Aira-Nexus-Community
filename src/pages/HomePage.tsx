@@ -1,195 +1,207 @@
-import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
   ArrowRight,
-  BarChart3,
-  Building2,
-  CheckCircle2,
-  ClipboardList,
-  CreditCard,
-  FileText,
-  LayoutDashboard,
-  MessageSquare,
-  Quote,
-  Smartphone,
-  Star,
+  Receipt,
   Users,
-  Wallet,
-} from 'lucide-react'
-import SEO from '../components/SEO'
-import SectionHeading from '../components/ui/SectionHeading'
-import FeatureCard from '../components/ui/FeatureCard'
-import StatCard from '../components/ui/StatCard'
-import CTABanner from '../components/ui/CTABanner'
+  ShieldCheck,
+  CalendarDays,
+  Wrench,
+  Megaphone,
+  CreditCard,
+  Bell,
+  BarChart3,
+  CheckCircle2,
+  Star,
+  LayoutDashboard,
+  TrendingUp,
+} from 'lucide-react';
+import SEO from '../components/SEO';
+import SectionHeading from '../components/ui/SectionHeading';
+import FeatureCard from '../components/ui/FeatureCard';
+import StatCard from '../components/ui/StatCard';
+import CTABanner from '../components/ui/CTABanner';
 
-const STATS = [
+const stats = [
   { value: '500+', label: 'Communities' },
   { value: '50K+', label: 'Residents' },
   { value: '40%', label: 'Better Collections' },
   { value: '99.9%', label: 'Uptime' },
-]
+];
 
-const FEATURES = [
-  { icon: CreditCard, title: 'Automated Billing', description: 'Generate invoices, send reminders, and collect maintenance dues online with auto-reconciliation.' },
-  { icon: ClipboardList, title: 'Complaint Tracking', description: 'Log, assign, and resolve resident complaints with full audit trails and SLA tracking.' },
-  { icon: Users, title: 'Visitor Management', description: 'Pre-approve guests, generate QR passes, and watch gate activity in real time.' },
-  { icon: Building2, title: 'Resident Directory', description: 'A secure, searchable directory of residents, owners, tenants, and staff.' },
-  { icon: BarChart3, title: 'Financial Reports', description: 'Real-time dashboards for collections, expenses, and balances across all wings.' },
-  { icon: Smartphone, title: 'Mobile App', description: 'Native iOS and Android apps for residents, managers, and security staff.' },
-]
+const features = [
+  { icon: Receipt, title: 'Maintenance Billing', description: 'Automated invoice generation, reminders, and online payments via UPI, cards, and net banking.' },
+  { icon: Users, title: 'Visitor Management', description: 'Digital gate pass, staff verification, and real-time visitor tracking with QR check-ins.' },
+  { icon: ShieldCheck, title: 'Security & Access', description: 'Role-based access control, audit logs, and secure data encryption for every community.' },
+  { icon: CalendarDays, title: 'Amenity Booking', description: 'Reserve clubhouses, pools, and sports courts with conflict-free scheduling.' },
+  { icon: Wrench, title: 'Helpdesk & Complaints', description: 'Track resident complaints, assign vendors, and resolve issues with SLA timers.' },
+  { icon: Megaphone, title: 'Communications', description: 'Broadcast notices, polls, and emergency alerts via SMS, email, and in-app push.' },
+];
 
-const STEPS = [
-  { icon: MessageSquare, title: 'Talk to us', description: 'Book a demo and share your community’s needs with our product team.' },
-  { icon: FileText, title: 'Get set up', description: 'We import your residents, units, and dues — most communities go live in a week.' },
-  { icon: LayoutDashboard, title: 'Go live', description: 'Residents download the app, committees get dashboards, security gets a gate console.' },
-  { icon: CheckCircle2, title: 'Grow with us', description: 'Add modules, polls, vendors, and amenities as your community evolves.' },
-]
+const steps = [
+  { icon: CreditCard, title: 'Onboard your community', description: 'Import residents, flats, and dues in minutes with our guided setup wizard.' },
+  { icon: Bell, title: 'Automate billing & notices', description: 'Schedule recurring maintenance invoices, reminders, and community announcements.' },
+  { icon: BarChart3, title: 'Engage residents', description: 'Residents pay, book amenities, and raise tickets from the mobile app.' },
+  { icon: TrendingUp, title: 'Track & optimize', description: 'Monitor collections, vendor performance, and resident satisfaction in real time.' },
+];
 
-const TESTIMONIALS = [
+const testimonials = [
   {
-    quote: 'AiraNexus cut our maintenance collection time from weeks to days. The WhatsApp reminders alone paid for the platform.',
+    quote: 'AiraNexus cut our collection time from 45 days to under 10. The automated reminders alone paid for the platform.',
     name: 'Priya Sharma',
-    role: 'Treasurer, Lakeview Residency',
+    role: 'Secretary, Greenfield Residency',
+    avatar: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=2',
   },
   {
-    quote: 'Our residents finally have one app for everything — visitors, complaints, dues, and notices. Support is genuinely responsive.',
-    name: 'Rahul Mehta',
-    role: 'Secretary, Palm Grove Apartments',
+    quote: 'Visitor management is night and day compared to our old paper register. Security guards love the QR check-in.',
+    name: 'Rajesh Kumar',
+    role: 'Facility Manager, Palm Grove Apartments',
+    avatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=2',
   },
   {
-    quote: 'The financial dashboards are the best I’ve seen in any society tool. Committee meetings are 30 minutes shorter.',
-    name: 'Anjali Nair',
-    role: 'Manager, Greenfield Estates',
+    quote: 'The dashboard gives our committee complete visibility. We finally make data-driven decisions for the society.',
+    name: 'Anita Desai',
+    role: 'Treasurer, Lakeview Heights',
+    avatar: 'https://images.pexels.com/photos/7640/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=2',
   },
-]
+];
 
 export default function HomePage() {
   return (
     <>
       <SEO
         title="AiraNexus — Society & Apartment Management Software"
-        description="AI-powered community management platform for apartments, gated communities, and residential complexes. Automate billing, complaints, visitors, and communications."
-        path="/"
+        description="The all-in-one platform for Indian residential communities. Manage billing, maintenance, visitors, amenities, and residents with ease."
+        canonical="https://airanexus.com/"
       />
 
       {/* Hero */}
-      <section className="relative overflow-hidden bg-hero-gradient pt-28 lg:pt-36">
-        <div className="blob -right-20 top-10 h-72 w-72 bg-primary-200/30" aria-hidden="true" />
-        <div className="blob -left-20 top-32 h-80 w-80 bg-cyan-200/20" aria-hidden="true" />
-
-        <div className="container-custom relative">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
-            className="mx-auto max-w-3xl text-center"
-          >
-            <span className="badge-primary">
-              <span className="h-1.5 w-1.5 rounded-full bg-primary-500" aria-hidden="true" />
-              AI-Powered Platform
-            </span>
-            <h1 className="mt-5 text-4xl font-bold tracking-tight text-charcoal-900 sm:text-5xl md:text-6xl md:leading-[1.05] text-balance">
-              Community management, <span className="text-gradient">reimagined.</span>
-            </h1>
-            <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-charcoal-600 text-pretty">
-              AiraNexus brings billing, complaints, visitors, and resident communication into one
-              beautiful platform — so your committee can spend less time on spreadsheets and more
-              time on the community.
-            </p>
-            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Link to="/request-demo" className="btn-primary px-6 py-3.5 text-base">
-                Book a Demo
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+      <section className="relative overflow-hidden bg-hero-gradient pb-20 pt-28 sm:pt-32 lg:pb-28 lg:pt-40">
+        <div className="container-custom">
+          <div className="mx-auto max-w-3xl text-center">
+            <motion.span
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="badge-primary"
+            >
+              <Star className="h-3 w-3" aria-hidden="true" />
+              Trusted by 500+ communities
+            </motion.span>
+            <motion.h1
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.05 }}
+              className="mt-6 text-display-lg font-display font-extrabold tracking-tight text-charcoal-900 text-balance"
+            >
+              Run your society on{' '}
+              <span className="text-gradient">autopilot</span>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-charcoal-600 text-pretty"
+            >
+              AiraNexus brings billing, maintenance, visitors, amenities, and resident
+              communication into one beautiful platform built for Indian residential communities.
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"
+            >
+              <Link to="/request-demo" className="btn-primary group">
+                Book a Free Demo
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
               </Link>
-              <Link to="/features" className="btn-ghost px-5 py-3.5 text-base">
+              <Link to="/features" className="btn-ghost">
                 Explore Features
               </Link>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
 
           {/* Product mockup */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.15, ease: 'easeOut' }}
-            className="relative mx-auto mt-16 max-w-5xl"
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="mx-auto mt-16 max-w-5xl"
           >
-            <div className="overflow-hidden rounded-2xl border border-charcoal-100 bg-white shadow-elevated">
+            <div className="overflow-hidden rounded-4xl border border-charcoal-200/60 bg-white shadow-elevated">
               {/* Browser chrome */}
               <div className="flex items-center gap-2 border-b border-charcoal-100 bg-charcoal-50 px-4 py-3">
                 <div className="flex gap-1.5">
-                  <span className="h-3 w-3 rounded-full bg-red-400" aria-hidden="true" />
-                  <span className="h-3 w-3 rounded-full bg-yellow-400" aria-hidden="true" />
-                  <span className="h-3 w-3 rounded-full bg-green-400" aria-hidden="true" />
+                  <span className="h-3 w-3 rounded-full bg-red-400" />
+                  <span className="h-3 w-3 rounded-full bg-amber-400" />
+                  <span className="h-3 w-3 rounded-full bg-greenish-400" />
                 </div>
-                <div className="mx-auto hidden w-full max-w-xs rounded-md bg-white px-3 py-1 text-center text-xs text-charcoal-400 sm:block">
-                  app.airanexus.com/dashboard
+                <div className="mx-auto flex-1 max-w-xs">
+                  <div className="mx-auto flex items-center justify-center gap-1.5 rounded-full bg-white px-3 py-1 text-2xs text-charcoal-400 shadow-soft">
+                    <ShieldCheck className="h-3 w-3 text-greenish-500" aria-hidden="true" />
+                    app.airanexus.com
+                  </div>
                 </div>
               </div>
-
-              {/* Dashboard body */}
-              <div className="grid grid-cols-12">
-                {/* Sidebar */}
-                <aside className="col-span-3 hidden border-r border-charcoal-100 bg-charcoal-50/60 p-4 md:block">
-                  <div className="flex items-center gap-2">
-                    <div className="h-7 w-7 rounded-lg bg-brand-gradient" aria-hidden="true" />
-                    <span className="text-sm font-semibold text-charcoal-900">AiraNexus</span>
-                  </div>
-                  <ul className="mt-5 space-y-1 text-xs text-charcoal-500">
-                    {['Dashboard', 'Billing', 'Complaints', 'Visitors', 'Residents', 'Reports'].map((item, i) => (
-                      <li
-                        key={item}
-                        className={`rounded-md px-2.5 py-2 ${i === 0 ? 'bg-primary-50 font-medium text-primary-700' : ''}`}
-                      >
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </aside>
-
-                {/* Main */}
-                <div className="col-span-12 p-5 md:col-span-9 md:p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-xs text-charcoal-400">Welcome back, Priya</p>
-                      <h3 className="text-lg font-semibold text-charcoal-900">Community Overview</h3>
-                    </div>
-                    <div className="hidden gap-2 sm:flex">
-                      <span className="badge-primary">Live</span>
-                    </div>
-                  </div>
-
-                  <div className="mt-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
-                    {[
-                      { label: 'Collected', value: '₹4.2L', icon: Wallet, tone: 'text-green-600' },
-                      { label: 'Pending', value: '₹86K', icon: CreditCard, tone: 'text-amber-600' },
-                      { label: 'Open tickets', value: '12', icon: ClipboardList, tone: 'text-primary-600' },
-                      { label: 'Visitors today', value: '38', icon: Users, tone: 'text-cyan-600' },
-                    ].map((s) => (
-                      <div key={s.label} className="rounded-xl border border-charcoal-100 bg-white p-3">
-                        <div className="flex items-center justify-between">
-                          <span className="text-2xs font-medium uppercase tracking-wide text-charcoal-400">{s.label}</span>
-                          <s.icon className={`h-4 w-4 ${s.tone}`} aria-hidden="true" />
+              {/* Dashboard */}
+              <div className="grid gap-4 bg-gradient-to-br from-primary-50/50 to-white p-4 sm:grid-cols-3 sm:p-6">
+                <div className="sm:col-span-2">
+                  <div className="rounded-2xl border border-charcoal-100 bg-white p-5 shadow-soft">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="icon-circle-sm">
+                          <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
                         </div>
-                        <p className="mt-1 text-xl font-bold text-charcoal-900">{s.value}</p>
+                        <span className="font-display text-sm font-semibold text-charcoal-900">
+                          Collection Overview
+                        </span>
                       </div>
-                    ))}
+                      <span className="badge-lime">+40%</span>
+                    </div>
+                    <div className="mt-4 flex items-end gap-2">
+                      {[40, 65, 50, 80, 60, 90, 75].map((h, i) => (
+                        <div
+                          key={i}
+                          className="flex-1 rounded-t bg-gradient-to-t from-primary-500 to-primary-300"
+                          style={{ height: `${h}px` }}
+                        />
+                      ))}
+                    </div>
                   </div>
-
-                  <div className="mt-5 space-y-2">
-                    {[
-                      { t: 'Maintenance — Tower A', s: 'Paid', tone: 'text-green-600' },
-                      { t: 'Visitor pass — Amazon delivery', s: 'Approved', tone: 'text-primary-600' },
-                      { t: 'Complaint — Lift 2 service', s: 'In progress', tone: 'text-amber-600' },
-                    ].map((row) => (
-                      <div
-                        key={row.t}
-                        className="flex items-center justify-between rounded-lg border border-charcoal-100 bg-white px-3 py-2.5 text-xs"
-                      >
-                        <span className="text-charcoal-700">{row.t}</span>
-                        <span className={`font-medium ${row.tone}`}>{row.s}</span>
-                      </div>
-                    ))}
+                  <div className="mt-4 grid grid-cols-2 gap-4">
+                    <div className="rounded-2xl border border-charcoal-100 bg-white p-4 shadow-soft">
+                      <p className="text-2xs text-charcoal-500">Collected this month</p>
+                      <p className="mt-1 font-display text-xl font-bold text-charcoal-900">₹18.4L</p>
+                    </div>
+                    <div className="rounded-2xl border border-charcoal-100 bg-white p-4 shadow-soft">
+                      <p className="text-2xs text-charcoal-500">Pending dues</p>
+                      <p className="mt-1 font-display text-xl font-bold text-charcoal-900">₹2.1L</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <div className="rounded-2xl border border-charcoal-100 bg-white p-4 shadow-soft">
+                    <p className="text-2xs font-semibold text-charcoal-500">Recent activity</p>
+                    <ul className="mt-3 space-y-2.5">
+                      {['Priya paid ₹4,500', 'New visitor at Gate 2', 'Complaint #482 resolved'].map((t) => (
+                        <li key={t} className="flex items-center gap-2 text-2xs text-charcoal-700">
+                          <CheckCircle2 className="h-3.5 w-3.5 text-greenish-500" aria-hidden="true" />
+                          {t}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="rounded-2xl border border-charcoal-100 bg-white p-4 shadow-soft">
+                    <p className="text-2xs font-semibold text-charcoal-500">Amenity bookings</p>
+                    <div className="mt-3 space-y-2">
+                      {['Clubhouse', 'Swimming Pool', 'Tennis Court'].map((a) => (
+                        <div key={a} className="flex items-center justify-between text-2xs">
+                          <span className="text-charcoal-700">{a}</span>
+                          <span className="badge-primary">Booked</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -199,64 +211,61 @@ export default function HomePage() {
       </section>
 
       {/* Stats bar */}
-      <section className="border-y border-charcoal-100 bg-white py-12">
-        <div className="container-custom grid grid-cols-2 gap-8 lg:grid-cols-4">
-          {STATS.map((s, i) => (
-            <StatCard key={s.label} value={s.value} label={s.label} delay={i * 0.05} />
-          ))}
+      <section className="border-y border-charcoal-100 bg-white">
+        <div className="container-custom py-12">
+          <div className="grid grid-cols-2 gap-8 lg:grid-cols-4">
+            {stats.map((s, i) => (
+              <StatCard key={s.label} value={s.value} label={s.label} delay={i * 0.08} />
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Features */}
-      <section className="section-padding bg-white">
+      <section className="section-padding">
         <div className="container-custom">
           <SectionHeading
             badge="Features"
-            badgeVariant="primary"
-            title={<>Everything your community needs, <span className="text-gradient">in one place</span></>}
-            description="From billing to visitor passes, AiraNexus replaces the patchwork of spreadsheets, WhatsApp groups, and legacy software."
+            title="Everything your community needs"
+            description="AiraNexus replaces five different tools with one unified platform your committee and residents will actually love using."
           />
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {FEATURES.map((f, i) => (
-              <FeatureCard key={f.title} icon={f.icon} title={f.title} description={f.description} delay={i * 0.06} />
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {features.map((f, i) => (
+              <FeatureCard key={f.title} {...f} delay={i * 0.06} />
             ))}
-          </div>
-          <div className="mt-10 text-center">
-            <Link to="/features" className="btn-link text-base">
-              See all features
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
           </div>
         </div>
       </section>
 
       {/* How it works */}
-      <section className="section-padding bg-charcoal-50">
+      <section className="bg-charcoal-50 section-padding">
         <div className="container-custom">
           <SectionHeading
             badge="How it works"
             badgeVariant="cyan"
-            title="Live in a week, not a quarter"
-            description="Most communities are fully onboarded within seven days. Here's how."
+            title="Up and running in four steps"
+            description="No lengthy implementations. No expensive consultants. Just a guided setup that gets your community live in days, not months."
           />
-          <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-            {STEPS.map((step, i) => (
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {steps.map((step, i) => (
               <motion.div
                 key={step.title}
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.5, delay: i * 0.08, ease: 'easeOut' }}
-                className="relative"
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className="relative rounded-3xl border border-charcoal-100 bg-white p-6 shadow-card"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-primary-600 shadow-card">
-                  <step.icon className="h-6 w-6" aria-hidden="true" />
-                </div>
-                <span className="mt-4 block text-2xs font-semibold uppercase tracking-wider text-primary-600">
-                  Step {i + 1}
+                <span className="absolute right-5 top-5 font-display text-3xl font-extrabold text-primary-100">
+                  {i + 1}
                 </span>
-                <h3 className="mt-1 text-lg font-semibold text-charcoal-900">{step.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-charcoal-600 text-pretty">{step.description}</p>
+                <div className="icon-circle-lg">
+                  <step.icon className="h-7 w-7" aria-hidden="true" />
+                </div>
+                <h3 className="mt-5 font-display text-base font-semibold text-charcoal-900">
+                  {step.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-charcoal-600">{step.description}</p>
               </motion.div>
             ))}
           </div>
@@ -264,36 +273,46 @@ export default function HomePage() {
       </section>
 
       {/* Testimonials */}
-      <section className="section-padding bg-white">
+      <section className="section-padding">
         <div className="container-custom">
           <SectionHeading
-            badge="Loved by communities"
+            badge="Testimonials"
             badgeVariant="lime"
-            title="Trusted by committees across India"
-            description="Real results from real communities using AiraNexus today."
+            title="Loved by committees and residents"
+            description="Hear from the management committees who switched to AiraNexus and never looked back."
           />
-          <div className="mt-14 grid gap-6 lg:grid-cols-3">
-            {TESTIMONIALS.map((t, i) => (
+          <div className="mt-12 grid gap-6 lg:grid-cols-3">
+            {testimonials.map((t, i) => (
               <motion.figure
                 key={t.name}
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.5, delay: i * 0.08, ease: 'easeOut' }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
                 className="card-hover flex flex-col"
               >
-                <Quote className="h-7 w-7 text-primary-300" aria-hidden="true" />
-                <div className="mt-3 flex gap-0.5" aria-label="5 out of 5 stars">
+                <div className="flex gap-0.5 text-amber-400">
                   {Array.from({ length: 5 }).map((_, s) => (
-                    <Star key={s} className="h-4 w-4 fill-amber-400 text-amber-400" aria-hidden="true" />
+                    <Star key={s} className="h-4 w-4 fill-current" aria-hidden="true" />
                   ))}
                 </div>
-                <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-charcoal-700 text-pretty">
-                  "{t.quote}"
+                <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-charcoal-700">
+                  &ldquo;{t.quote}&rdquo;
                 </blockquote>
-                <figcaption className="mt-5 border-t border-charcoal-100 pt-4">
-                  <p className="text-sm font-semibold text-charcoal-900">{t.name}</p>
-                  <p className="text-xs text-charcoal-500">{t.role}</p>
+                <figcaption className="mt-6 flex items-center gap-3">
+                  <img
+                    src={t.avatar}
+                    alt={t.name}
+                    loading="lazy"
+                    decoding="async"
+                    width={40}
+                    height={40}
+                    className="h-10 w-10 rounded-full object-cover"
+                  />
+                  <div>
+                    <p className="font-display text-sm font-semibold text-charcoal-900">{t.name}</p>
+                    <p className="text-2xs text-charcoal-500">{t.role}</p>
+                  </div>
                 </figcaption>
               </motion.figure>
             ))}
@@ -303,5 +322,5 @@ export default function HomePage() {
 
       <CTABanner />
     </>
-  )
+  );
 }
